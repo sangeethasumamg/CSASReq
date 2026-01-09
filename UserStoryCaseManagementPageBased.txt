@@ -1,0 +1,1195 @@
+Tab 1
+
+
+User story 1(written by Sangeetha)1. Main screen /View Case Details:ShahanasAs acase workerI wantTo view detailed case and party information on the Case Management pageSo thatI can manage and track the progress of child support cases accurately and take appropriate action as neededAcceptance Criteria1. When a user search with a case number on the search bar in the top left navigation , then the user should be taken to a screen that displays detailed information related to a selected case. Application number should not fetch those details.
+
+2. The system should display case-specific information on the top center panel including:
+
+¦ Case Number
+
+¦ Case Type and SubType
+
+¦ Assistance Status
+
+¦ Intergovernmental Status
+
+¦ Case Status
+
+¦ Family Violence / Domestic Violence indicators
+
+¦ Protective Orders
+
+¦ Good Cause status
+
+¦ Arrears Only indicator
+
+       3. The system should display two columns showing details of both:
+              CP (Custodial Party) including:
+CP Name, CP Member ID, MDM ID, IRN, SSN, Deceased status, and Case Association
+NCP (Non-Custodial Party) including:
+NCP Name, NCP Member ID, MDM ID, IRN, SSN, Incarceration status,Diceased status and Case Association
+
+      4. The top-right section should show:
+                 Current Date and Time
+                 User ID of the person currently logged in
+
+       5.  The system should display the left-hand menu containing options like:
+
+¦ Case Information
+
+¦ Member Information
+
+
+¦ Federal Case Registry 
+¦ ADP unmatched searches
+¦ Division of vital records
+¦ File upload
+¦ Supervisory information
+¦ Billing suppression
+¦ Disbursement hold
+6.   Under the case information section on the bottom right ,A Print button should be available to allow the user to generate a hard copy or PDF of the case details.
+A Redirect to CSADoGen App button should be provided for transitioning to the Child Support Automated Document Generation application for further documentation tasks.
+
+     7.  The Case Details section should display the following editable fields:
+
+Field NameField TypeExample Values / OptionsMandatoryNCP UnknownRadio Button (Yes/No)Yes, No? YesCase TypeDropdownIV-D,NoSub TypeDropdownFederal foster care,Medicaid only,Never assistance,Never assistance-Locate only,Spousal/Alimony Only,State Foster care,Temporary cash assistance,NoCase StatusDropdownActive, NoAssistance StatusDropdownNot Applicable,Former recipientNoIntergovernmental StatusDropdownMaryland,Interstate initiating NoApplication Fee StatusDropdownPaid, Exempt,NoIV-D Service RequiredDropdownChild Support Only, Paternity and SupportNoApplication ModeDropdownOnline, In Person, walk-inNoCase JurisdictionDropdownHoward County, Baltimore city,etc.NoCase Registration DateDate Pickermm/dd/yyyyNoApplication Completion DateDate Pickermm/dd/yyyyNoCase Status DateDate Pickermm/dd/yyyyNoCase Worker NameText Field(Free Text)NoFamily ViolenceRadio Button (Yes/No)Yes, No? YesDomestic ViolenceRadio Button (Yes/No)Yes, No? YesProtective OrderRadio Button (Yes/No)Yes, No? YesGood CauseRadio Button (Yes/No)Yes, No? YesReferral typeTextEg:IV-ANoReferral dateText,datemm/dd/yyyyNoReferral IDText,numbereg:56789No
+ 
+
+
+
+7. The intergovernmental section should display
+
+Field NameField TypeExample Values / OptionsMandatoryIntergovernmental statusDropdownInterstate initiating,NoInitiating StateDrop downMarylandInitiating FIPS codeText fieldEg:23456NoInitiating case numberText fieldEg:456789789NoResponding stateDropdownPennsylvania,Responding FIPS codeText fieldNoResponding case numberText fieldNo8. The case function section should be in table format with case function,start date,and end date as column heading with edit button option.
+9. The Scheduler section must display the following  in a table format :
+
+? Appointment Date 
+? Appointment Time
+
+? Appointment Type
+
+? CP Appointment Status
+
+? NCP Appointment Status
+
+10. The Establishment - Court Order section should include:
+
+? Court Order Number
+
+? Court Order Type
+
+? Obligation Type
+
+? Court Order Date
+
+? Effective Date
+
+? Entered Date
+
+? Court Order Status
+
+11. The Enforcement section must include the following sub-sections in  a table format:
+
+? Income Withholding Order Notice:
+
+? Court Order Number
+
+? Employer
+
+? Notice Type
+
+? Sent Date
+
+? Received Date
+
+? National Medical Support Notice:
+
+? Court Order Number
+
+? Employer
+
+? Sent Date
+
+? Status
+
+12. The Financial section must present following fields:
+
+
+Field NameField TypeExample Values / Input FormatMandatoryReceipt Collected DateDate Pickermm/dd/yyyyNoReceipt AmountNumeric Fielde.g., 250.00NoApplied AmountNumeric Fielde.g., 200.00NoDistributed DateDate Pickermm/dd/yyyyNoPayment StatusText fieldNoDisbursement MethodText fieldNoBank Reconciliation StatusText fieldNoDisbursed DateDate Pickermm/dd/yyyyNoDisbursed AmountText Fielde.g., 150.00NoMonthly Grant AmountText Fielde.g., 300.00NoAU NumberText FieldAlphanumeric (e.g., AU12345)NoCase Identifier IDText FieldAlphanumeric (e.g., CID45678)NoProgram IDText FieldAlphanumeric (e.g., PID78910)NoTotal URPANumeric Fielde.g., 1000.00NoURPA Update DateDate Pickermm/dd/yyyyNoSource Text fieldNo
+13. The Good Cause section should include the following fields and functionalities:
+
+FieldTypeValuesMandatory FieldIndicatorRadio Button (Yes/No)NoStatusDropdown(e.g., Pending, Approved, Denied).NoReasonDropdown(e.g., Domestic Violence, Safety Concern).NoStatus DateDate Pickermm/dd/yyNoIV-D CooperationDropdownNoIV-D Coop DateDate Pickermm/dd/yyyyNoAssignment of RightsRadio Button (Yes/No)No14. IV-D Coop history section should include the following in a table format: 
+a.  IV-D cooperation status 
+b. Updated date
+15. Alert IV-A  Agency section should have following data fields:
+
+FieldTypeValuesMandatory FieldNCP living with CPRadio Button (Yes/No)NoNCP living with CP updated dateDate pickermm/dd/yyyyCP receiving supportRadio Button (Yes/No)No
+17. There should be a cancel and update button at the bottom right corner of the page.      
+18. When the user clicks the cancel button,the system would retain old values and discard any new  values the user is trying to enter.[1]
+19. When the user clicks the update button,the system validates and then updates all the values to a database.   
+20. Responsive Design:
+All sections should be clearly organized and visible without overlapping.
+
+
+
+
+User story 2(by Sangeetha)2. View/Modify CP :CP demographics-FarhanAs acase workerI wantTo Edit/Modify  case and party information on the Case Management pageSo thatI can manage and track the progress of child support cases accurately and take appropriate action as neededAcceptance criteria1. When a user search with a case number on the search bar in the top left navigation , then the user should be taken to a screen that displays detailed information related to a selected case. Application number should not fetch those details.
+2.   Upon selecting CP demographics from View/Modify CP  in the left navigation,the system should display case-specific information on the top center panel including:
+
+? Case Number
+
+? Case Type and SubType
+
+? Assistance Status
+
+? Intergovernmental Status
+
+? Case Status
+
+? Family Violence / Domestic Violence indicators
+
+? Protective Orders
+
+? Good Cause status
+
+? Arrears Only indicator
+
+       2. The system should display two columns showing details of both:
+              CP (Custodial Party) including:
+CP Name, CP Member ID, MDM ID, IRN, SSN, Deceased status, and Case Association
+NCP (Non-Custodial Party) including:
+NCP Name, NCP Member ID, MDM ID, IRN, SSN, Incarceration status,Diceased status and Case Association
+
+      3. The top-right section should show:
+                 Current Date and Time
+                 User ID of the person currently logged in
+       4.  The system should display the left-hand menu containing options like:
+
+? Case Information
+
+? Member Information
+
+? View/Modify CP
+
+¦ CP Demographics
+
+¦ CP Employer Info
+
+? View/Modify NCP
+
+? View/Modify Child
+
+? View/Modify Member Insurance
+
+? Federal Case Registry 
+? ADP unmatched searches
+? Division of vital records
+? File upload
+? Supervisory information
+? Billing suppression
+? Disbursement hold
+5.  The system should display detailed CP (Custodial Party) information section, including:
+CP Member ID, Name, SSN/ITIN (masked), Date of Birth, Gender, Race, and MDM ID  titled Custodial Party Data.
+6. Custodial Party SSN History should be accessible via a collapsible section with cancel,edit and save button.
+
+7. Below the CP data panel, the system should display editable CP personal information, including all the data fields as below:
+
+Field NameField TypeExample Values / Input FormatMandatoryRelationship to ChildDropdownMother,NoFamily Violence IndicatorRadio ButtonYes / NoNoProtective Order IndicatorRadio ButtonYes / NoNoDomestic Violence IndicatorRadio ButtonYes / NoNoCityText Fielde.g., Baltimore, AnnapolisNoNicknameText Fielde.g., "Liz", "MJ"NoPregnancyRadio ButtonYes / NoNoSuffixDropdownJr., Sr., II, IIINoDeceased Radio ButtonYes / NoNoDate of deathDate Pickermm/dd/yyyNoUser Modified IDTexte.g., khya.funk@maryland.govNoDate ModifiedTextmm/dd/yyyyNo
+8. The system should display Temporary Cash Assistance (TCA) information under the Assistance Information section, including:
+
+
+Field NameField TypeExample Values / Input FormatMandatoryCash Assistance StateDropdownMaryland, Virginia, etc.NoCash Assistance CountyDropdownHoward, Montgomery, Baltimore, etc.NoLast TCA Check DateDate Pickermm/dd/yyyyNoTCA/TANF Applicant StatusRadio ButtonYes / No? YesCurrent TCA/TANF RecipientRadio ButtonYes / No? YesFormer TCA/TANF RecipientRadio ButtonYes / No? YesCash Assistance Start DateDate Pickermm/dd/yyyyNoCash Assistance End DateDate Pickermm/dd/yyyyNoGrant AmountNumeric Fielde.g., 350.00No
+9. The system should display Medical Assistance information in a dedicated section, including all the fields as below:
+                    
+Field NameField TypeExample Values / Input FormatMandatoryMedical Assistance StateDropdownMaryland, Virginia, etc.NoMedical Assistance CountyDropdownHoward, Montgomery, Baltimore, etc.NoMA ApplicantRadio Button and question tool tipYes / No? YesCurrent MA RecipientRadio ButtonYes / No? YesFormer MA RecipientRadio ButtonYes / No? Yes10. The Communication section must include all the data fields as below:
+
+Field NameField TypeExample Values / Input FormatMandatoryNotification TypeDropdownPaper, PaperlessNoText Notification PreferenceRadio ButtonYes / No? YesEmail Notification PreferenceRadio ButtonYes / No? YesHome PhoneText / Phone Numbere.g., (123) 456-7890NoBusiness PhoneText / Phone Numbere.g., (321) 654-0987NoCell PhoneText / Phone Numbere.g., (987) 654-3210NoEmailText / Emaile.g., example@email.comNo
+11. The Custodial Party Alternative Name section should capture:
+
+? First Name(Text)
+? Middle Name(Text)
+
+? Last Name(Text)
+
+? Suffix(Dropdown)
+12.     CP mailing address section should have following data fields as follows:
+
+Field NameField TypeExample Values / Input FormatMandatoryBad addressRadio buttonYes/NoNoSourceDrop downCustodial party,NoInternational address?Radio buttonYes/NoNoAddress manually verified?Radio buttonYes/NoNoAddress validatedRadio button,Question tool tipYes/NoNoAddress line 1TextNoAddress line 2TextNoCityTextNoStateDropdownNoCountyDropdownNoZip codeTextNoCountryDropdownNoUpdated dateDate pickermm/dd/yyyy13. CP residential address should have following data fields:
+
+Field NameField TypeExample Values / Input FormatMandatoryResidential address same as mailing addressCheck boxNoSourceDrop downCustodial party,NoInternational address?Radio buttonYes/NoNoAddress manually verified?Radio buttonYes/NoNoAddress validatedRadio button,Question tool tipYes/NoNoAddress line 1TextNoAddress line 2TextNoCityTextNoStateDropdownNoCountyDropdownNoZip codeTextNoCountryDropdownNoUpdated dateDate Pickermm/dd/yyyy14. Service address section should have following data fields:
+
+Field NameField TypeExample Values / Input FormatMandatoryService address same as mailing addressCheck boxNoSourceDrop downCustodial party,International address?Radio buttonYes/NoNoAddress manually verified?Radio buttonYes/NoNoAddress validatedQuestion tool tipNoNoAddress line 1TextNoAddress line 2TextNoCityTextNoStateDropdownNoCountyDropdownNoZip codeTextNoCountryDropdownNoCommentsText box with 300 charactersNoUpdated dateDate Pickermm/dd/yyyyNo
+
+15.  Custodial party nearest relative information section should capture  data fields as follows
+   
+Field NameField TypeExample Values / Input FormatMandatoryLast nameTextEg:NoFirst nameTextNoMiddle nameTextNoSuffixDropdownNoRelationship to CPDropdownOther,NoPhone numberTextNoSourceDropdownNoInternational address?Radio buttonYes/NoNoAddress validatedRadio button,Question tool tipYes/NoNoAddress line 1TextNoAddress line 2TextNoCityTextNoStateDropdownNoCountyDropdownNoZip codeTextNoCountryDropdownNo16. Custodial party attorney information section should have following data fields as follows:
+
+Field NameField TypeExample Values / Input FormatMandatoryLast nameTextEg:NoFirst nameTextNoMiddle nameTextNoPhoneTextNoSuffixDropdownNoSourceDropdownNoInternational address?Radio buttonYes/NoNoAddress manually verified?Radio buttonYes/NoNoAddress validatedRadio button,Question tool tipYes/NoNoAddress line 1TextNoAddress line 2TextNoCityTextNoStateDropdownNoCountyDropdownNoZip codeTextNoCountryDropdownNo17. Bottom right side page of CP demographics  should have cancel and update button
+18. Once you click the cancel button, the system retains old values and discards any changes the user is trying to make.
+19. Once you click update button,
+?   The system validates all the values in the page.
+? A message pop up box pops up with the following question:Do you want to convert the address to suggested format?
+? Message pop up box should have submit and cancel button
+20.  Once you click the submit button on message pop up box," CP information successfully updated " message displays on bottom centre of page.
+21.   If the user does not have access to a specific section (View/Modify CP), Then the system should display a message:
+ "You do not have access to this page! Please reach out System Administrator!"
+22. Security and Access Control:
+Only authorized users should be able to edit fields.
+
+
+
+User story 3(Written by Praveen)3. CP_Employer:As acase workerI wantTo view detailed case information and employment information on the CP employer Information page of the case management moduleSo thatI can manage and track the case information and employment information in detail and take appropriate action as neededAcceptance Criteria1. When a user clicks on the view/modify CP CP Demographics from the left pane, the accordion expands, then the user clicks on CP employer Information then user should be taken to the CP employer Information page.
+
+
+2. The system should display case-specific information on the top center panel including in two columns:
+
+
+? Case Number
+? Case Type
+? Case SubType
+? Assistance Status
+? Intergovernmental Status
+? Case Status
+? Arrears only
+? Family Violence  
+? Domestic Violence indicators
+? Protective Orders
+? Good Cause status
+
+
+       3. The system should display two columns showing details of both:
+               CP (Custodial Party) including:
+·   CP Name,
+·    CP Member ID
+·    MDM ID
+·     IRN
+·     SSN
+·     Deceased status
+·     Case Association
+NCP (Non-Custodial Party) including:
+·         NCP Name
+·          NCP Member ID
+·          NCP MDM ID
+·          NCP IRN
+·          NCP SSN/ITIN
+·         NCP Incarceration status
+·         NCP Deceased status
+·         NCP Case Association
+
+
+      4. The next section below shows: Employer History
+·    It has data stored under the heading name, Type, Start Date,   End date, Phone No, Email, Updated System/User Edit.
+·         It should have pagination with arrows
+·         Add employer button
+
+
+       5. The next section below shows: Employer Information
+    The section should display the following editable fields:
+ 
+Field NameField TypeExample Values / OptionsMandatorySelf employedCheck BoxTick / UntickNoVerification IndicatorRadio Button (Yes/No)Yes/NoNoEmployer NameText FieldEg:John, StephenNoEmployer TypeDropdownNoEmployer PhoneText FieldEg:9807654321NOEmailText fieldEg:trsddf@gmail.com NOFaxText FieldEg:8976558768NOFEINText Field,Toggle view iconEg:2836423NoSEINText Field,Toggle view iconEg:6378462NoEmployer Sponsored Insurance availabilityRadio Button
+ (YES/NO)Yes / NONoOccupationText Fieldmm/dd/yyyyNoSourceDrop downNoInternational AddressRadio buttonmm/dd/yyyyNoAddress ValidatedText Field(Free Text)NoAddress Line 1Text FieldEg:32423. Jeev avenNoAddress Line 2Text FieldEg:West park blvdNoCityText FieldEg:ComalNoStateDropdownCaliforniaNoCountyDropdownBuxar NoZip CodeText Field75254NoCountryDropdownUSANoStart DateDate Pickermm/dd/yyyyNoEnd DateDate Pickermm/dd/yyyyNoUpdated dateDate Pickermm/dd/yyyyNoIncomeText FieldIncome in $MandatoryFrequencyDropdown
+ HourlyNo
+
+Modified dateDate Pickermm/dd/yyyyNo6. The next section below shows: Income Information
+?     The section should display the following editable field. If there are entries with income information it should be displayed under these headings: Income Type, Income Source, Income frequency, Income Amount
+? At the bottom right there should be two buttons: 'cancel','update'. 
+7. When user clicks update button,it validates all the values in the system and updates the data base accordingly
+8.  When the user clicks cancel button,it retains the old value and discard any changes user is trying to make
+
+ 
+
+
+
+
+
+
+
+
+User story 4(written by Sangeetha)4.Child information:SreelekshmiAs acase workerI wantTo view and modify  child information on the Case Management pageSo thatI can manage and track the progress of child support cases accurately and take appropriate action as neededAcceptance Criteria1. When the user clicks on "Member Information", the system should display the View/Modify CP, View/Modify NCP, and View/Modify Child options in the left navigation menu.
+2. Upon clicking 'View/Modify Child', the system shall display the 'Child Information' option within the left-hand navigation menu.
+3. The system should display case-specific information on the top center panel including:
+
+¦ Case Number
+
+¦ Case Type and SubType
+
+¦ Assistance Status
+
+¦ Intergovernmental Status
+
+¦ Case Status
+¦ Arrears only  indicator
+
+¦ Family Violence / Domestic Violence indicators
+
+¦ Protective Orders
+
+¦ Good Cause status
+
+       4.   The system should display two columns showing details of both:
+              CP (Custodial Party) including:
+CP Name, CP Member ID, MDM ID, IRN, SSN/ITIN, Deceased status, and Case Association
+NCP (Non-Custodial Party) including:
+NCP Name, NCP Member ID, MDM ID, IRN, SSN/ITIN, Incarceration status, Deceased status and Case Association
+
+      5. The top-right section should show:
+                 Current Date and Time
+                 User ID of the person currently logged in
+
+6.  The system should display the left-hand menu containing options like:
+
+¦ Case Information
+
+¦ Member Information
+
+? View/Modify CP
+
+? View/Modify NCP
+
+? View/Modify Child
+? Child information
+
+? View/Modify Member Insurance
+
+¦ Federal Case Registry 
+¦ Division of vital records(DVR)
+¦ ADP unmatched searches
+¦ File upload
+¦ Supervisory information
+¦ Billing suppression
+¦ Disbursement hold
+7. In the Child data section, system shall display the following fields in a table format:
+
+a. Member ID
+
+b. Full Name
+
+c. SSN/ITIN
+d. Date of Birth
+
+e. Gender
+
+f. Race
+
+g. MDM ID
+
+h. IRN
+
+8. Given the user has appropriate access rights,
+ When viewing the profile,
+ Then the cancel, Edit, Save, and Delete buttons shall be visible and enabled.
+
+9. Given the user does not have edit permissions,
+ When the profile loads,
+ Then the Edit, Save, and Delete buttons shall be greyed out or hidden.[2]
+
+10. Given the child has a record of SSN changes,
+ When the user clicks on the "SSN History" section,
+ Then a historical log of SSN changes should expand and display previous SSNs (masked), with timestamps and change source.[3]
+11. Child data also should have following data fields for the user to enter:
+
+Field NameField TypeExample Values / OptionsMandatoryRelationship to CPDropdownDaughter / Natural Child, Adopted, etc.NoState ConceivedDropdownMaryland, Virginia, etc.NoBirth CountryDropdownUnited States of America, NoBirth StateDropdownMaryland, etc.NoBirth CityDropdown/TextBaltimore CityNoSuffixDropdownJr., Sr., II, etc.NoEmancipation DateDate Pickermm/dd/yyyyNoEmancipation Notice Date Sent to CPDate Pickermm/dd/yyyy NoEmancipation Notice Date Sent to NCPDate Pickermm/dd/yyyy NoDeceased IndicatorRadio Button (Yes/No)Yes, No? YesFamily ViolenceRadio Button (Yes/No)Yes, NoNoProtective OrderRadio Button (Yes/No)Yes, No NoDomestic ViolenceRadio Button (Yes/No)Yes, NoNoParticipation StatusDropdownParticipating, NoParticipation  start DateDate Pickermm/dd/yyyyNoOut of Home IndicatorRadio Button (Yes/No)Yes, NoNoOut of Home DateDate Pickermm/dd/yyyyNoSourceDropdown NoSSI IndicatorRadio Button (Yes/No)Yes, NoNoSchool Enrollment Form VerifiedCheckboxChecked / UncheckedNoParentage informationParentage EstablishedDropdownEstablished Through An Affidavit, Court Order NoEstablished DateDate Pickermm/dd/yyyyNoEstablishment CountryDropdownUnited States of AmericaNoEstablishment StateDropdownMarylandNoEstablishment CountyDropdownBaltimore CityNoAffidavit Available?Radio Button (Yes/No)Yes, NoNoAffidavit NumberNumberEg:201243456NoAffidavit DateDate Pickermm/dd/yyyy NoAffidavit Rescinded?Radio Button (Yes/No)Yes, NoNoAffidavit Undeclared?Radio Button (Yes/No)Yes, NoNoRelationship between mother and fatherNever MarriedDropdownNever married,No12. There should be an add child button to add another child ,cancel button to cancel all the information entered and retain old values,DVR button, and save button to update the modified information at the bottom right corner of the page.
+
+
+
+ 
+
+
+
+User story 5
+ (written by Praveen) (Reviewed by Sangeetha)5. NCP_ Income AssetsAs acase workerI wantTo verify and manage the NCP Income and Assets data within case management moduleSo thatI can ensure accurate tracking of NCP's financial and assets information to take the necessary action for case processingAcceptance Criteria13. When the user navigates to the Member Information page, the left navigation accordion automatically expands.Upon clicking View/Modify NCP, additional navigation options appear within the expanded left menu.The user can then click on NCP Income and Assets to view the financial details associated with the Non-Custodial Parent (NCP).
+14. The system should display case-specific information in the top center panel organized into two columns:
+
+
+? Case Number
+? Case Type
+? Case SubType
+? Assistance Status
+? Intergovernmental Status
+? Case Status
+? Arrears only
+? Family Violence 
+? Domestic Violence indicators
+? Protective Orders
+? Good Cause status
+       
+
+15. The system should display two columns showing details of both CP and NCP:
+               CP (Custodial Party) including:
+·         CP Name,
+·          CP Member ID
+·         MDM ID
+·         IRN
+·          SSN
+·         Deceased status
+·          Case Association
+NCP (Non-Custodial Party) including:
+·         NCP Name
+·          NCP Member ID
+·          NCP MDM ID
+·          NCP IRN
+·          NCP SSN/ITIN
+·         NCP Incarceration status
+·         NCP Deceased status
+                          ·         Case Association
+16.    The top right section in the blue label should show:
+a.        Current Date and Time (Displayed in MM/DD/YYYY, HH:MM     AM/PM format) and updated as per local server's time
+b.        User ID of the person logged in as read only field
+17.           The system should display the left-hand menus with the following options:
+·         Case Information
+·         Member Information accordion - expanded
+ a) View/Modify CP
+ b) View/Modify NCP
+ c) NCP Demographics
+ d) NCP Employer Information
+ e) NCP Income and Assets
+ f) NCP Relative
+ g) NCP Address
+ h) NCP incarceration suspension summary
+ i) Add NCP
+ j) View/Modify Child
+ k) View/Modify member insurance
+·         Federal Case registry
+·         Divisions of vital Records (DVR)
+·         AOP Unmatched search
+·         File Upload
+·         Supervisory Functions
+·         Billing Suppression
+·         Disbursement hold 
+18.  The next section below shows: Income Information.It should have an 'Add Income Info' button.  Table in the income information section should display information under the column heading: Income type, Income Source, Income Frequency, Income Amount.
+19.     The next section below shows: Union Information
+                 The section should display the following editable fields:
+Field NameField TypeExample Values / OptionsMandatoryIs non-custodial part a union memberRadio Button (Yes/No)Yes/NoNo20. The next section below shows: Non-Custodial Party Assets
+·         It should have 'Add Asset' button - The button should allow users to add new asset information for the non-custodial party.
+·         Upon clicking, a modal or new form should appear for data entry
+·         The information should be displayed if there are any entries under the heading: Asset type, property, Ownership, View Details, Delete
+21.    Pagination: The system should support pagination to display assets in manageable chunks. Pagination should include arrows to navigate between pages (e.g., previous/next) and show the current page number.
+22.   There should be two action buttons
+ a) Cancel - allow users to discard any changes and return to the previous screen without saving.
+ b) Update button - allow users to save any changes made to the existing asset information.
+
+User story 6
+ (written by Praveen)6.NCP_ RelativeAs acase workerI wantTo verify and manage the NCP relative data within the case management moduleSo thatI can ensure accurate tracking and to manage NCP relative information for effective case processingAcceptance Criteria23. When a user clicks on the NCP relative page under view/modify NCP in member information , then the system should navigate to the NCP relative page and highlight the section in the left-hand menu for ease of use.
+24. The system should display case-specific information on the top center panel organized into two columns:
+
+
+i. Case Number
+ii. Case Type
+iii. Case SubType
+iv. Assistance Status
+v. Intergovernmental Status
+vi. Case Status
+vii. Arrears only
+viii. Family Violence 
+ix. Domestic Violence indicators
+x. Protective Orders
+xi. Good Cause status
+
+
+25.     The system should display two columns showing details of both CP and NCP:
+
+               CP (Custodial Party) including:
+·         CP Name,
+·          CP Member ID
+·         MDM ID
+·         IRN
+·          SSN
+·         Deceased status
+·          Case Association
+NCP (Non-Custodial Party) including:
+·         NCP Name
+·          NCP Member ID
+·          NCP MDM ID
+·          NCP IRN
+·          NCP SSN/ITIN
+·         NCP Incarceration status
+·         NCP Deceased status
+·         Case Association
+ 
+26.  The top right section in the blue label should show:
+i. ·         Current Date and Time (Displayed in MM/DD/YYYY, HH:MM AM/PM format) and updated as per local server's time
+ii. ·         User ID of the person logged in as read only field
+ 
+27. The system should display the left-hand menus with the following options:
+·         Case Information
+·         Member Information accordion - expanded
+ a) View/Modify CP
+ b) View/Modify NCP
+ c) NCP Demographics
+ d) NCP Employer Information
+ e) NCP Income and Assets
+ f) NCP Relative
+ g) NCP Address
+ h) NCP incarceration suspension summary
+ i) Add NCP
+ j) View/Modify Child
+ k) View/Modify member insurance
+·         Federal Case registry
+·         Divisions of vital Records (DVR)
+·         AOP Unmatched search
+·         File Upload
+·         Supervisory Functions
+·         Billing Suppression
+·         Disbursement hold 
+ 
+28.  The next section below shows: Non-Custodial party data.   It should display information under the heading: Member Id, Name, ssn/Itin DOB, Gender, race, mdm id. 
+  It should have NCP ssn history tab        
+ It should contain 3 buttons: cancel, edit, save.
+29.     The next section below shows: NCP Address History
+·         The section should display the entries under the following heading: s.no, Address Verified, Type, Address Line 1, City, state, county, Country, updated date, edit.
+        It should have 'Add New Address' button upon CTA should open a panel to save new address details
+·         Pagination: The system should support pagination to display assets in manageable chunks. Pagination should include arrows to navigate between pages (e.g., previous/next) and show the current page number.
+· 
+ 
+30. The next section below shows: Non-Custodial Party Address 1
+This section should display the following editable fields:
+Field NameField TypeExample Values / OptionsMandatoryIndicate the type of address checkboxResidential, mail, service, otherNosourceText fielddebNoInternational AddressRadio Button (Yes/No)Yes/NoNoAddress manually verified?Radio Button (Yes/No)Yes/NoNoSequence number Dropdown1NoAddress line 1Text field123125NoAddress Line 2Text FieldJefNoCityText fieldBuxarNoStateDropdownCaliforniaNoCountyDropdownComalNoZip codeText field12325NoCountryDropdownUSANoDate at addressDate pickermm/dd/yyyyNoCorrect address indicatorRadio Button (Yes/No)Yes/NoNoDate VerifiedDate Pickermm/dd/yyyyNoEnd dateDate Pickermm/dd/yyyyNoDoes NCP belong to any of the following tribe?Radio Button (Yes/No)
+ Yes/NoNoName of tribesDropdownTribe nameNo 
+31. ·         There should be three buttons:
+ a) Previous,
+ b) Cancel,
+ c) Next
+·         These buttons should allow users to navigate through the pages, cancel changes, or proceed to the next step, respectively.
+
+User story 8
+ (written by Praveen)7. NCP_ Incarceration summaryAs acase workerI wantTo verify and manage the NCP incarceration details within the case management moduleSo thatI can accurately track the incarceration statuses and suspensions of arrears accrual for the appropriate case handlingAcceptance Criteria? 1. When a user searches with a case number on the search bar from the top left, displays the case management home page.User selects NCP incarceration page under member information,  then the user should be taken to a screen that displays detailed information related to a selected case.
+? 2.The system should display case-specific information on the top center panel organized into two columns:
+
+
+? Case Number
+? Case Type
+? Case SubType
+? Assistance Status
+? Intergovernmental Status
+? Case Status
+? Arrears only
+? Family Violence 
+? Domestic Violence indicators
+? Protective Orders
+? Good Cause
+
+
+       3. The system should display two columns showing details of both CP and NCP:
+
+               CP (Custodial Party) including:
+·         CP Name,
+·          CP Member ID
+·         MDM ID
+·         IRN
+·          SSN
+·         Deceased status
+·          Case Association
+NCP (Non-Custodial Party) including:
+·         NCP Name
+·          NCP Member ID
+·          NCP MDM ID
+·          NCP IRN
+·          NCP SSN/ITIN
+·         NCP Incarceration status
+·         NCP Deceased status
+·         Case Association
+
+
+      4. The next section below shows: Case Information
+·         The section should display the following editable fields:
+
+
+Field NameField TypeExample Values / OptionsMandatoryCase Status  Text fieldpendingNoCase TypeText fielddebNoCase Sub-typeText field[SG1] anyNoFunctionText fieldftNoExclude auto suspensionText fieldvalueNoExclude auto suspension dateDate pickermm/dd/yyyyNo 
+5.The top right section in the blue label should show:
+·         Current Date and Time (Displayed in MM/DD/YYYY, HH:MM AM/PM format) and updated as per local server's time
+·         User ID of the person logged in as read only field
+
+
+6.      The system should display the left-hand menus with the following options:
+·         Case Information
+·         Member Information accordion - expanded
+ a) View/Modify CP
+ b) View/Modify NCP
+ c) NCP Demographics
+ d) NCP Employer Information
+ e) NCP Income and Assets
+ f) NCP Relative
+ g) NCP Address
+ h) NCP incarceration suspension summary
+ i) Add NCP
+ j) View/Modify Child
+ k) View/Modify member insurance
+·         Federal Case registry
+·         Divisions of vital Records (DVR)
+·         AOP Unmatched search
+·         File Upload
+·         Supervisory Functions
+·         Billing Suppression
+·         Disbursement hold 
+       7. The next section below shows: NCP Active Incarceration Information
+Field NameField TypeExample Values / OptionsMandatoryPrisoner Id  Text fieldpendingNoAdmission dateText fieldmm/dd/yyyyNoOriginal Projected Release date Text fieldmm/dd/yyyyNoLast updated dateText fieldmm/dd/yyyyNoCp notice sent dateText fieldmm/dd/yyyyNoInstitution name Text fieldText value in alphabetsNo 
+       8. The next section below shows: suspension of accrual of Arrears Investigation/appeal information
+ 
+Field NameField TypeExample Values / OptionsMandatoryInvestigation reason DropdownreasonNoInvestigation dateText fieldmm/dd/yyyyNoInvestigation dispositionDropdownNoInvestigation disposition dateText fieldmm/dd/yyyyNoAppeal File dateText fieldmm/dd/yyyyNoAppeal DispositionDropdownJefNoAppeal Disposition dateText fieldmm/dd/yyyyNo 
+       9. The next section below shows: incarceration history
+·         System should show the entry if it is available in following heading:
+ source, verified? admission date, release date, updated date, updated by
+·        9.1 Pagination: The system should support pagination to display assets in manageable chunks. Pagination should include arrows to navigate between pages (e.g., previous/next) and show the current page number
+·      9.2  There should be two buttons:
+ a) Add or edit incarceration details: Allow users to either add new incarceration details or edit existing ones.
+ b) Cancel: Allow users to discard any changes and return to the case management home page without saving any changes user is trying to make.
+ 
+
+
+
+
+
+User story 9
+ (written by Praveen)8.View/Modify Member insuranceAs acase workerI wantTo View and modify member insurance within the case management moduleSo thatI can track and update insurance Information for the members to ensure correct case processingAcceptance Criteria? 1.when user clicks view /modify member insurance under member information left navigation ,system navigates to member insurance page
+
+
+? 2. The system should display case-specific information on the top center panel organized into two columns:
+
+
+? Case Number
+? Case Type
+? Case SubType
+? Assistance Status
+? Intergovernmental Status
+? Case Status
+? Arrears only
+? Domestic Violence indicators
+? Family Violence 
+? Protective Orders
+? Good Cause
+
+
+       3. The system should display two columns showing details of both CP and NCP:
+
+               CP (Custodial Party) including:
+·         CP Name,
+·          CP Member ID
+·         MDM ID
+·         IRN
+·          SSN
+·         Deceased status
+·          Case Association
+NCP (Non-Custodial Party) including:
+·         NCP Name
+·          NCP Member ID
+·          NCP MDM ID
+·          NCP IRN
+·          NCP SSN/ITIN
+·         NCP Incarceration status
+·         NCP Deceased status
+·         Case Association
+ 
+4.The top right section in the blue label should show:
+·         Current Date and Time (Displayed in MM/DD/YYYY, HH:MM AM/PM format) and updated as per local server's time
+·         User ID of the person logged in as read only field
+5. The system should display the left-hand menus with the following options:
+·         Case Information
+·         Member Information accordion - expanded
+ a) View/Modify CP
+ b) View/Modify NCP
+ c) View/Modify Child 
+ d) Child Information
+ e) View/Modify Member Insurance
+ f) Federal Case registry
+ g) Divisions of vital Records (DVR)
+ h) AOP Unmatched search
+ i) File Upload
+ j) Supervisory Functions
+ k) Billing Suppression
+ l) Disbursement hold 
+6. The next section below shows: member insurance information
+·         It should display a heading below:
+ a) 'Add new Insurance' : on CTA opens a new widget to add values
+ b) 'Print' button: On CTA prints the page
+·    7.     Below the button contains heading member id, name, ssn, dob, gender, provider name, policy number
+·         At the end system should have
+ a) Previous button: on CTA moves to Child information page
+ b) Next button on CTA moves to the Federal case registry
+
+
+User story 10
+ (written by Praveen)9.  NCP demographicsAs acase workerI wantTo verify the NCP demographics page within the case management moduleSo thatI can ensure accurate tracking of NCP details for case processingAcceptance Criteria? 1.When a user searches with a case number on the search bar from the top left, displays the case information within the case management module, selects the NCP demographics, then the user should be taken to the NCP demographics page.
+? 2.The system should display case-specific information on the top center panel including in two columns:
+
+
+? Case Number
+? Case Type
+? Case SubType
+? Assistance Status
+? Intergovernmental Status
+? Case Status
+? Arrears only
+? Domestic Violence indicators
+? Family Violence 
+? Protective Orders
+? Good Cause
+
+
+       3. The system should display two columns showing details of both:
+               CP (Custodial Party) including:
+·         CP Name,
+·          CP Member ID
+·         MDM ID
+·         IRN
+·          SSN
+·         Deceased status
+·          Case Association
+NCP (Non-Custodial Party) including:
+·         NCP Name
+·          NCP Member ID
+·          NCP MDM ID
+·          NCP IRN
+·          NCP SSN/ITIN
+·         NCP Incarceration status
+·         NCP Deceased status
+·         Case Association
+
+
+      4. The next section below shows: Noncustodial party data
+·         It should display a heading member id, name, SSN/ITIN, DOB, Gender, Race, MDM ID with entries if available
+·         Below that a tab with heading NCP ssn history
+·         System should show three action buttons
+  a) Cancel
+  b) Edit
+  c) save 
+
+
+5. Noncustodial party personal data should display the following editable fields:
+
+
+Field NameField TypeExample Values / OptionsMandatoryRelationship to child  DropdownFather,NoFamily violence Radio Button (Yes/No)Yes/NoNoProtective order Radio Button (Yes/No)Yes/NoNoDomestic violence Radio Button (Yes/No)Yes/NoNoSource DropdownotherNoApprox. ageText Field25NoDeceasedRadio Button (Yes/No)Yes/NoNoBirth cityText FieldBaltimoreNoBirth stateDropdownMarylandNosuffixDropdownMr.NoaliasText FieldText valueNoBad AddressRadio Button (Yes/No)
+ Yes/NoNoEye ColorDropdownBlack, Brown, GreenNoHair ColorDropdownBrown, Black, WhiteNoHeight (ft)Text Field5NoHeight (in)Text Field2'NoWeight(lbs)Text Field85NoIdentification marksText FieldTest field with valuesNoDriver's license NumberText Field123354NoDriver's license stateDropdownMarylandNoLicense Plate numberText Field12345NoLicense plate stateDropdownMarylandNoMarital statusDropdownUnknownNoEducational levelDropdownUnknownNoCitizenship statusDropdownUSANoCell phoneText Field863258756NoHome PhoneText Field98765456321NoBusiness PhoneText Field98765432321NoEmailText Fieldtrd@gmail.comNoNotification typeRadio button
+ (Paper/Paperless)Paper/PaperlessNoEmail NotificationRadio Button (Yes/No)
+ Yes/NoNoText NotificationRadio Button (Yes/No)
+ Yes/NoNo 
+6.The next section below shows: Noncustodial party military information:
+
+
+
+Field NameField TypeExample Values / OptionsMandatoryMarital Status	DropdownUnknownNoMilitary branch DropdownUnknownNoMilitary Service number Text field123145NoMilitary Entry Date Date pickermm/dd/yyyyNoMilitary discharge dateDate pickermm/dd/yyyyNo
+
+
+7.The next section below shows: Noncustodial party attorney Information:
+
+
+Field NameField TypeExample Values / OptionsMandatoryFirst name	Text fieldRobertNoMiddle name  Text fieldWilliamNoLast name  Text fieldGenieNoPhone Text field8789532123NoSource DropdownotherNoInternational AddressRadio Button (Yes/No)Yes/NoNoAddress validatedNoNoNoAddress line 1Text Field214, jeff aveNoAddress line 2Text FieldMarylandNoCityText FieldBaltimoreNostateDropdownMarylandNoCountyDropdownYes/NoNoZip codeText Field87858NoCountryDropdownUSANo8.The next section below shows: Noncustodial party employment referral  program information 
+Field NameField TypeExample Values / OptionsMandatoryReferral date 	Text fieldDateNoReferral type  Text fieldMailNoReferral country Text fieldUSANoProgram typeText fieldAny text valueNoEnrollment dateText fieldDate valueNoCompletion DateText fieldDate value in textNoNot completedText fieldAny text valueNo 
+·   9.      Finally, there should be a cancel button - Allow the user to discard any unsaved changes and return to the case management main page without saving any modifications made[4].
+32. Update button saves all the changes entered by the user
+
+
+User story 10
+ (written by Praveen)10. NCP_Employer InformationAs acase workerI wantTo view the employer information within the case management moduleSo thatI can accurately manage and update Employer information and ensure proper case processing and trackingAcceptance Criteria1. When a user clicks on member information member information from left navigation accordion opens up showing view /modify NCP.Clicking view/Modify NCP reveals NCP employer link on left navigation.Once the user clicks the  link,system navigates to NCP employer information page.
+
+
+? 1.1The system should display case-specific information on the top center panel organized into two columns:
+
+
+? Case Number
+? Case Type
+? Case SubType
+? Assistance Status
+? Intergovernmental Status
+? Case Status
+? Arrears only
+? Domestic Violence
+? Family Violence 
+? Protective Orders
+? Good Cause status
+
+
+       2. The system should display two columns showing the following information for both CP (Custodial Party) and NCP (Non-Custodial Party):
+               CP (Custodial Party) including:
+§  CP Name,
+§   CP Member ID
+§  MDM ID
+§  IRN
+§   SSN
+§  Deceased status
+§   Case Association
+NCP (Non-Custodial Party) including:
+§  NCP Name
+§   NCP Member ID
+§   NCP MDM ID
+§   NCP IRN
+§   NCP SSN/ITIN
+§  NCP Incarceration status
+§  NCP Deceased status
+§  NCP Case Association
+3. The next section below shows: Non-Custodial Party Employer
+·         It has data stored under the Member ID, Name, SSN/ITIN, DOB, Gender, Race, MDM ID
+·         It should also have the NCP SSN History tab
+·         It should have 3 buttons Cancel, Edit, Save.
+
+
+4.      The top right section in the blue label should show:
+·         Current Date and Time (Displayed in MM/DD/YYYY, HH:MM AM/PM format) and updated as per local server's time
+·         User ID of the person logged in as read only field
+
+
+5.      The system should display the left-hand menus with the following options:
+·         Case Information
+·         Member Information accordion - expanded
+ i) View/Modify CP
+ ii) View/Modify NCP
+ a) NCP Demographics
+ b) NCP Employer Information
+ c) NCP Income and Assets
+ d) NCP Relative
+ e) NCP Address
+ f) NCP incarceration suspension summary
+ g) Add NCP
+ iii) View/Modify Child
+ iV) View/Modify member insurance
+·         Federal Case registry
+·         Divisions of vital Records (DVR)
+·         AOP Unmatched search
+·         File Upload
+·         Supervisory Functions
+·         Billing Suppression
+·         Disbursement hold
+
+
+
+       6. The next section in the center shows: Employer History
+·       6.1  The section should display the table values based on the entries under these headings: Name, Type, Start Date, End Date, Phone number, Email, Updated, System/User & Edit
+·      6.2   Pagination: The system should support pagination to display assets in manageable chunks. Pagination should include arrows to navigate between pages (e.g., previous/next) and show the current page number
+·    6.3     Action Button:
+ 'Add Employer' Upon CTA opens a widget to store employer details. 
+
+
+7.      Employer Information section should display the following editable fields:
+
+
+Field NameField TypeExample Values / OptionsMandatorySelf EmployedCheckboxCheck/UncheckNoVerification IndicatorRadio Button (Yes/No)Yes/NoNoEmployee SearchButtonButtonNoEmployer Name  Text FieldJefferyNoEmployer TypeDropdownFulltime, ContractNoEmployer PhoneText Field2512344566NoEmailText Fieldcameron@gmail.comNoFaxText FieldCameronNoFEINText Field (With masked character)******NoSEINText Field (With masked character)******NoEmployer sponsored Insurance available  Radio Button (Yes/No)Yes/NoNoOccupationText FieldDoctor, LawyerNoSourceDropdownMailNoInternational Address  Radio Button (Yes/No)Yes/NoNoAddress ValidatedText Field (required)?NoAddress line 1Text Field214 Southwest aveNoAddress line 2Text FieldHarry Hines BlvdNoCityText FieldBaltimoreNoStateText FieldMarylandNoCountyDropdownBuxarNoZip Code  Text Field12354NoCountryDropdownUSANoStart DateDate Pickermm/dd/yyyyNoEnd DateDate Pickermm/dd/yyyyNoUpdated DateDate Pickermm/dd/yyyyNoIncomeText Field in $$ 10000NoFrequencyDropdownMonthly, WeeklyNoEmployer Wage withholding
+
+ If you would like to terminate the EWN please go to the employer outreach section under IWO and send the IWO Termination notice.Text Field
+ Radio Button (Yes/No)7854564854NoModified DateDate Pickermm/dd/yyyyNo
+     
+8.      At the left bottom, it should contain 3 buttons:
+ a)Cancel - On CTA resets the entered data and move to case management main page.
+ b)Print - On CTA opens the window to print the document
+ c) Update - ON CTA update the fields once all the mandatory fields are correctly filled 
+  
+
+
+
+
+User story 11
+ (written by Praveen)11. Federal Case HistoryAs acase workerI wantTo view the federal case history transaction statusSo thatI can accurately manage and update the Federal case registry transaction status ensure proper case processing and trackingAcceptance Criteria1. When a user searches with a case number on the search bar from the top left, displays the case management main page,  when user selects  the Federal Case registry from the left pane, then the system should navigate the user to the Federal case registry page
+
+
+2.   The page should have case number search functionality on the top left of page.
+
+3.   The system should display case-specific information on the top center panel organized into three columns:
+
+
+? Case Number
+? Linked Case 
+? CP Name,
+?  CP Member ID
+?  NCP Name
+? NCP Member ID
+
+
+
+4.  The system should display the left-hand menus with the following options:
+·         Case Information
+·         Member Information accordion - expanded
+·         Federal Case registry
+·         Divisions of Vital Records (DVR)
+·         AOP Unmatched search
+·         File Upload
+·         Supervisory Functions
+·         Billing Suppression
+·         Disbursement hold
+
+
+       4. The next section in the center shows: Federal Case Registry Transaction status: 
+·         The section should display three buttons:
+ a) FCR Query
+ b) NDNH Query
+ c) FPLS Request[P1] 
+
+
+·      The section should display a table with the  following fields as column  headings:
+  Type, Action, locate info, Member type, Member ID, Date Transmitted, Date Acknowledged, Acknowledgement code, Batch, Transaction number
+·      Pagination: The system should support pagination to display. Pagination should include arrows to navigate between pages (e.g., previous/next) and show the current page number
+
+    
+
+
+
+
+User story 13
+ (written by Praveen)12. Disbursement holdAs acase workerI wantTo view the landing page of the disbursement holdSo thatI can manage the disbursement hold for proper case processing and tracking[P1] Acceptance Criteria1. When a user searches with a case number on the search bar from the top left, displays the case information within the case management  module, selects  the disbursement Hold from the left pane, then the system takes the user to the landing page of disbursement hold page  
+
+2. Type of disbursement field should display: 
+Field NameField TypeExample Values / OptionsMandatoryType of Disbursement Hold DropdownCase level, member level, receipt levelYes 
+3. Search button to displayed next to the dropdown
+
+
+4.      The system should display the left-hand menus with the following options:
+·         Case Information
+·         Member Information accordion
+·         Federal Case registry
+·         Divisions of vital Records (DVR)
+·         AOP Unmatched search
+·         File Upload
+·         Supervisory Functions
+·         Billing Suppression
+·         Disbursement hold
+
+    
+
+
+
+User story 13
+ (written by Praveen)13. Close Suspend Re-openAs acase workerI wantTo view the close, suspend re-open page within the case management moduleSo thatI can view the case close, suspend and reopen page information and ensure proper case processing and trackingAcceptance Criteria1. When a user clicks on the Case Information on the left side of the page, then the system should navigate the user to the close, suspend and Re-open page and highlight the Case Information accordion, expanded in the left accordion for ease of user interaction
+
+
+2. The system should display case-specific information on the top center panel organized into two columns:
+
+
+i. Case Number
+ii. Case Type
+iii. Case SubType
+iv. Assistance Status
+v. Intergovernmental Status
+vi. Case Status
+vii. Arrears only
+viii. Domestic Violence
+ix. Family Violence 
+x. Protective Orders
+xi. Good Cause status
+
+
+3.     . The system should display two columns showing the following information for both CP (Custodial Party) and NCP (Non-Custodial Party):
+               CP (Custodial Party) including:
+§  CP Name,
+§   CP Member ID
+§  MDM ID
+§  IRN
+§   SSN
+§  Deceased status
+§   Case Association
+NCP (Non-Custodial Party) including:
+§  NCP Name
+§   NCP Member ID
+§   NCP MDM ID
+§   NCP IRN
+§   NCP SSN/ITIN
+§  NCP Incarceration status
+§  NCP Deceased status
+§  Case Association
+4. The next section below shows: Non-Custodial Party Details:
+Field NameField TypeExample Values / OptionsMandatoryIncarcerated   Radio button (Yes/No)Yes, NoNoDeceasedRadio button (Yes/No)Yes, NoNoDeceased DateDate Pickermm/dd/yyyyNo5.  The top right section in the blue label should show:
+·         Current Date and Time (Displayed in MM/DD/YYYY, HH:MM AM/PM format) and updated as per local server's time
+·         User ID of the person logged in as read only field
+
+
+6.   The system should display the left-hand menus with the following options:
+·         Case Information
+·         Member Information accordion
+·         Federal Case registry
+·         Divisions of vital Records (DVR)
+·         AOP Unmatched search
+·         File Upload
+·         Supervisory Functions
+·         Billing Suppression
+·         Disbursement hold
+
+
+7.       The next section in the center shows: Account Information:
+·         This should have the following headings with entries, if there are any:
+ Account type, Account Status, Payment/Frequency, Account Balance, Last Payment Amount, last payment date
+·         Pagination: The system should support pagination to display assets in manageable chunks. Pagination should include arrows to navigate between pages (e.g., previous/next) and show the current page number
+
+
+8. The next section in the center shows: Unprocessed payments, with headings and entries if there are any: Receipt number, Collection date, Payment source, Unprocessed reason, Unprocessed amount, Last payment date
+·         Pagination: The system should support pagination to display assets in manageable chunks. Pagination should include arrows to navigate between pages (e.g., previous/next) and show the current page number
+
+
+9. .      The next section in the center shows: Undistributed Payments
+·         The section should display the following headings and entries if there are any: Receipt Number, Payment Amount, Payment Type, Payment source, Collection Date
+·         Pagination: The system should support pagination to display assets in manageable chunks. Pagination should include arrows to navigate between pages (e.g., previous/next) and show the current page number
+ 
+10.       The next section in the center shows: Close, Suspend, Re-Open
+·         The section should display the following field entries:
+Field NameField TypeExample Values / OptionsMandatoryPlease select an action Radio buttonCase Closure, Case SuspensionNo 
+   
+11. .      At the left bottom, it should contain a 'Submit' button.When a user clicks on the submit button,the system validates all values and updates it in the database. 
+ 
+ 
+
+
+
+
+User story 14 (by Sangeetha)14. AOP unmatched searchAs acase workerI want Search for unmatched AOP records using options like Mother, Father, Child, or Affidavit Number,So thatI can manage and track the progress of child support cases accurately and take appropriate action as neededAcceptance Criteria1. When a user searches with a case number on the search bar in the top left navigation , then the user should be taken to a screen that displays detailed information related to a selected case. Application number should not fetch those details.
+2. When the user selects AOP unmatched search from left navigation, it would navigate to the AOP unmatched search page of that case.
+3. The system should display the left-hand menu containing options like:
+
+¦ Case Information
+
+¦ Member Information
+
+¦ Federal Case Registry 
+¦ AOP unmatched searches
+¦ Division of vital records
+¦ File upload
+¦ Supervisory information
+¦ Billing suppression
+¦ Disbursement hold
+4. AOP unmatched search page titled the same has following data fields:
+
+Field NameField TypeExample Values / Input FormatMandatorySearch optionsRadio buttonMother ,Father,Child,Affidavit numberNoAffidavit numberText,NumbersNo
+5. A text field is provided to input the Affidavit Number when that search option is selected.
+6. A Search button triggers the search based on the selected criteria and input.
+7. When a user clicks the search button,it validates the option and values the user selected and displays the result based on that.
+8. A Clear button resets the input field and any displayed results.
+9. A results table or display section appears below the search to show matching unmatched AOP records.
+
+
+
+User story 15 (by Sangeetha)15.Billing SuppressionAs acase workerI want I want to view and manage billing suppression details for a child support caseSo thatI can ensure billing is paused during valid periods and resumed appropriately.
+Acceptance criteria1. When a user searches with a case number on the search bar in the top left navigation , then the user should be taken to a screen that displays detailed information related to a selected case. Application number should not fetch those details.
+2. When user selects billing suppression from left navigation, it would navigate to billing suppression page of that case
+
+3. The system should display case-specific information on the top center panel including:
+
+¦ Case Number
+
+¦ Case Type and SubType
+
+¦ Assistance Status
+
+¦ Intergovernmental Status
+
+¦ Case Status
+¦ Arrears only indicator
+
+¦ Family Violence / Domestic Violence indicators
+
+¦ Protective Orders
+
+¦ Good Cause status
+
+       4. The system should display two columns showing details of both:
+              CP (Custodial Party) including:
+CP Name, CP Member ID, MDM ID, IRN, SSN, Deceased status, and Case Association
+NCP (Non-Custodial Party) including:
+NCP Name, NCP Member ID, MDM ID, IRN, SSN/ITIN, Incarceration status, Deceased status and Case Association
+
+      5. The top-right section should show:
+                 Current Date and Time
+                 User ID of the person currently logged in
+
+       6.  The system should display the left-hand menu containing options like:
+
+¦ Case Information
+
+¦ Member Information
+
+¦ Federal Case Registry 
+¦ AOP unmatched searches
+¦ Division of vital records
+¦ File upload
+¦ Supervisory information
+¦ Billing suppression
+¦ Disbursement hold
+7.  Billing suppression left navigation should be highlighted as the user selected that .
+8. Financial information sections displays the following information pulled from database  in the page,followed by data fields as shown in the table:
+Obligation type
+SOA Amount/Frequency
+Complaint status
+Court order number
+Court order status
+Court order effective date
+
+Field NameField TypeExample Values / Input FormatMandatoryBilling suppressionDropdownInactive,NoReasonDropdownNot Applicable,NoOther NCP's case billing suppressionRadio buttonYes/NoNoLast update dateDate pickermm/dd/yyyyNo9. The system shall display a list of billing suppression entries for a case in a table format  with the following  columns:
+? CO Number
+
+? Billing Suppression Start Date
+
+? Billing Suppression End Date
+
+? Billing Suppression Reason
+
+? Updated By
+
+? Updated Date
+10. The system shall allow users to control the number of items shown per page
+
+11. Navigation options should be present to go through multiple records.
+12. The user shall have the option to Submit new suppression data or Close the window without making changes.
+13. Once the user click submit button, system verifies the values entered by user on the page and update the database.
+14. Once user clicks the close button,[5]
+
+
+
+
+User story 16 (by Sangeetha)16.Division of vital records-AswathyAs acase workerI want I want to search for Custodial or Non-Custodial Parent records using Division of Vital Records data fieldsSo that I can accurately match individuals and retrieve official documents for child support case verification.
+Acceptance criteria1. When a user searches with a case number on the search bar in the top left navigation , then the user should be taken to a screen that displays detailed information related to a selected case. Application number should not fetch those details.
+2. When the user selects DVR from left navigation, it will navigate to the DVR  page of that case.
+3. The system should display the left-hand menu containing options like:
+
+¦ Case Information
+
+¦ Member Information
+
+¦ Federal Case Registry 
+¦ ADP unmatched searches
+¦ Division of vital records
+¦ File upload
+¦ Supervisory information
+¦ Billing suppression
+¦ Disbursement hold
+4. Division of vital records titled on the same name has following data fields
+
+Field NameField TypeExample Values / Input FormatMandatoryCP Search/NCP searchRadio ButtonCP Search/NCP searchNoFirstnameTextNoMiddle nameTextNoLast nameTextNoSSN/ITINNumber,toggle view iconNoDOBDate pickerNoAffidavit numberTextNo5. It has a Search,Previous and Clear button on the bottom right page.
+6. When the user clicks on the search button,it validates all the values the user entered and displays the result in the DVR search result section based on user input criteria.
+7. When the user clicks the clear button,it resets all the input fields on the current search and resets the search results table and display a fresh page 
+8. When user clicks on 'Previous button', system should navigate the user to billing suppression page
+
+
+User story 17 (by Sangeetha)17.File upload-SreelekshmiAs acase workerI wantI want to search for a member and upload supporting documents
+So that  I can submit required files for their case efficiently.
+
+Acceptance criteria1. When a user searches with a case number on the search bar in the top left navigation , then the user should be taken to a screen that displays detailed information related to a selected case. 
+2. When the user selects 'File upload' from left navigation, it will navigate to the File upload page of that case.
+3. The system should display the left-hand menu containing options like:
+
+¦ Case Information
+
+¦ Member Information
+
+¦ Federal Case Registry 
+¦ ADP unmatched searches
+¦ Division of vital records
+¦ File upload
+¦ Supervisory information
+¦ Billing suppression
+¦ Disbursement hold
+4. Just below the file upload title, the system should display the following text message "Documents supporting members, member applications, or member cases can be uploaded by selecting 'Choose File'. Files can also be scanned by selecting "Scan".Please be aware that files must be no larger than 25MB each with all combined files not exceeding 250MB. Acceptable formats include: Word, PDF and Image Files (jpg/ png/ gif/ bmp)."
+5. User can search files based on either one of the following the user chooses from the page.
+a.   SSN,ITIN,MDM ID,Application number,Case number,Member ID
+6. If user selects SSN, data field displays Enter SSN Field and search button.
+7. When the user clicks the search button,system validates the SSN value and pull out case related information   such as application number and case number.
+8. The File Upload section titled File Upload contains the following data fields under SSN selection :
+
+Field NameField TypeExample Values / Input FormatMandatoryEnter SSNText,Numbers? YesApplication numberText,NumbersNoCase numberDropdownNoMember IDTextNoJurisdictionDropdownNoSSNText,Numbers,toggle view iconNoITINNumbers,toggle view iconNoFirst nameTextNoLast nameTextNoDOBDate pickerNoMDM IDTextNoIRNText,NumbersNo
+9.  Following data fields will be there below the SSN/ITIN/MDM ID/Application number/Case number/Member ID  search section:
+
+Field NameField TypeExample Values / Input FormatMandatorySelect categoryDrop downSelect document typeDropdownChoose file Clickable buttonScanClickable buttonFinish Clickable button
+a. When the user clicks the choose file,he should be able to select the file from the system.
+b. When user clicks scan.use should be able to scan the file
+c. When user clicks finish, the user should be able to see uploaded files listed on the system.
+
+
+PagesAction buttons on bottom of pageMiddle of pageRemarksMain screenCancel,UpdatePrint, Redirect to CSADocGenAppCP DemographicsCancel,UpdateCancel,Edit ,SaveCP employerCancel,UpdateAdd employer,Employer searchChildAddchild,Cancel,DVR ,SaveCancel,Edit,Save,DeleteMember insurancePrevious,NextAdd new insurance,PrintNCP demographicsCancel,UpdateCancel,Edit,SaveNCP Employer informationCancel,Print,UpdateCancel,Edit ,Save,Add Employer,Employer searchNCP incarcerationAdd/Edit incarceration details,CancelNCP income assetsCancel,UpdateAdd income information,Add assetNCP RelativePrevious, Cancel,NextAdd New address,Cancel,Edit,SaveClose_suspend-ReopenSubmit FCRFCR Query,NDNH Query,FPLS RequestDisbursement hold-Landing pageSearchAOP unmatched searchSearch, ClearBilling suppressionSubmit,CloseDVRSearch, Previous,ClearFile uploadSearch
+updated based on Aneesh clarification.
+Aneesh should verify
+Aneesh need to verify
+clarification on option to save the user details
+Need to ask Aneesh
+
+

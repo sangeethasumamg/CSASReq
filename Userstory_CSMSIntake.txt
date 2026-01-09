@@ -1,0 +1,471 @@
+
+1.User Story:Menu items (Abhishek)As aintake workerI wantTo see menu items on the dashboardSo thatI can have access to various modulesAcceptance Criteria1. The dashboard displays a list of menu items that correspond to different modules, generated dynamically from the database.
+2. The top navigation bar should include the following options in a clearly visible and accessible layout:
+a. Hamburger Icon: To expand or collapse the side navigation menu.
+b. Search Case Number Field: A text field for entering a case number.
+c. Go Button: Executes the case number search when clicked.
+d. Clear Button: Resets the case number search field.
+e. Advanced Search (ADV Search)
+f. Document Generation
+g. SSP: Link to Self-Service Portal 
+h. DVR: Link to Digital Video Recording.
+i. File Management: Provides access to file management features.
+j. Reports: Link to reporting tools and features.
+k. Alerts: Displays alerts and notifications related to cases or system updates.
+l. Prompts: Shows prompts or tips for navigating and using the system.
+m. Contact Support: Option to contact support for assistance.
+n. Profile name: Name of person who logged in.
+3. The secondary top navigation should include quick access to the following modules:
+a. Dashboard
+b. Case Registration
+c. Case Management
+d. Locate
+e. Intergovernmental
+f. Establishment
+g. Enforcement
+h. Financial Management
+4.    The side navigation should provide access to options such as:
+a. Entire Case Load
+b. Intake Search
+c. Intake
+d. Referral Cases
+e. Intergovernmental Cases
+f. Establishment Cases
+g. Enforcement Cases
+h. Financial Management Cases
+i. Case Management
+j. File Upload
+k. Mail Processing
+l. Notices
+5. Each module is accessible through a clickable menu item on the dashboard.
+6. Modules are organized logically and visibly, allowing for easy navigation.
+7. The menu items and modules load without delay upon accessing the dashboard. 
+8. Access permissions ensure that I only see the modules relevant to my role, with visibility controlled based on database permissions.(For a later point of time)
+9. Menu items are updated in real time as per database changes, ensuring that newly added or removed modules are reflected without requiring a page reload.
+
+
+
+
+
+
+
+
+
+2.User story:Setup GitHub with Secure Code Management (Rohan &Krishnan unni)As ateam leadI wantTo have a structured GitHub repository setup for our organizationSo thatall team members can efficiently manage, access, and maintain the project's source code.Acceptance Criteria1.  A GitHub organization account is created for the project. It should be Private and secure.
+2.  Individual GitHub accounts are set up for all team members.
+3. A branching strategy is developed and documented to support consistent code development, independent code committing by the developers, testing, and merging.
+4.  The complete source code maintenance process, including branching, merging, and version control practices, is fully documented and accessible to all team members.
+5. Separate code repositories for the web and API components are created to organize the codebase effectively.
+ 
+
+
+
+
+
+
+3.User Story:Database maintenance (Rohan&Krishanunni)As adatabase administratorI wantto create a database for CSMS with multiple schemas,So thatwe can organize and manage data more effectively within the CSMS system, ensuring separation and clarity across different data categories.Acceptance Criteria1. A new database is created successfully within the organization's database management system.
+2. Multiple schemas are set up within DB to categorize data.
+3. Naming conventions for schemas are documented to maintain clarity and consistency.
+
+
+
+
+
+
+4.User story:UI Design (Ishwarya)As aTeam leaderI wantto have multiple UI design optionsSo thatTeam can select the best designAcceptance Criteria1. Create three different designs based on the following criteria
+a. Improvement of existing design./Temporary design( Eg., horizontal space to be maximized, Change the left navigation layout, Left navigation Intake tab to read 'intake search')
+
+b. More responsive design-Consumers' portal
+c. Workers portal[1]
+
+d. Rich look and feel.
+
+
+
+
+
+5.User story:Locate module(Jasmi)As aIntake workerI wantto have locate moduleSo thatI can locate NCP/CPAcceptance Criteria1. There should be a locate module tab in the second top navigation.
+2. Clicking on the "Locate Module" reveals  "Cases" and "Required Action" sub-tabs.
+3. When user clicks on cases, following should be there on page
+a.  Case number
+b.  First name(CP/NCP)
+c.  Last name(CP/NCP)
+d.  Clickable Search button
+e.  Clickable clear button
+f.   Pagination
+       4.     When user clicks on search button,
+a. System validates all values
+b. A list of cases matching the specific case number or person names (CP/NCP) is displayed.
+4. When a user clicks on NCP/CP, the following sections are displayed. The information on these pages is retrieved from the database and presented to the user. The fields for the pages are detailed in Table (Ref: Table 1.1)    
+         	Locate summary
+         	Demographics
+         	Address
+         	Employer
+         	Contact.
+
+5. When user clicks the Locate Summary in the NCP/CP accordion:
+              System display following expandable/collapsible sections:
+i. Case Information
+ii. Address Information
+iii. NCP/CP Employer Information
+iv. Change History.[2][3]
+      b.  The sections must support pagination for navigating multiple records.
+ Refer to Table 1.1 in the provided document for specific field-level details for each section.
+6. Demographics Section:
+        	When the user clicks "Demographics" in the NCP/CP accordion:
+a.      Display following expandable/collapsible sections:
+¦ Case Information
+¦ NCP/CP Demographics from Sources
+¦ SSN from Sources
+¦ Add New
+¦ Change History.
+b.            The "NCP/CP Demographics from Sources" section must have pagination.
+c.  Add the following buttons in NCP/CP demographics from sources:
+1. Reset:Reset the current selection
+2. Update
+3. Enterprise Search
+4. Next.
+d. Include an "Add New" clickable button in the Add New section.
+                           e. Provide pagination in the Change History section.
+7.    Address Section:
+         	When the user clicks "Address" under the NCP/CP accordion:
+a. Display expandable/collapsible sections:
+¦ Case Information
+¦ Address Information
+¦ Address from Sources
+¦ Add New
+¦ Change History.
+b. Add the following functionality:
+1. Pagination for the "Address from Sources" section.
+2. Reset and Save buttons in the "Address from Sources" section.
+c. Include an "Add New Address" clickable button in the Add New section.
+d. Provide pagination in the Change History section.
+8.  Employer Section:
+        	When the user clicks "Employer" under the NCP/CP accordion:
+a. Display expandable/collapsible sections:
+¦ Case Information
+¦ NCP/CP Employer Information
+¦ Employer from Sources
+¦ Add New
+¦ Change History.
+b. Add the following functionality:
+Reset and Add Employer buttons in the "Employer from Sources" section.
+An "Add Employer" clickable button, Previous, and Next buttons in the Add New section.
+c. Provide pagination in the Change History section.
+9.    Contact Section:
+        	When the user clicks "Contact" under the NCP/CP accordion:
+1. Display expandable/collapsible sections:
+¦ Case Information
+¦ NCP Contact Information
+¦ Add New
+¦ Change History.
+2. Add the following buttons in respective sections:
+3. Save and Clear buttons in the Add New section.
+4. Provide pagination in the Change History section.
+10.  The 'Previous' button in Locate Summary, Demographics, Address, Employer, and Contact navigates from one screen to another.[4]
+11. When the user clicks "File Upload," the file upload page displays.Searching options should be possible either through Case Number or Application Number.
+12. When user enters case number in the enter case number fields, 
+? The user is able to search that particular case number details.
+? The system pulls information from the following fields from the database.
+? Case Number
+? Application Number
+? Member ID
+? Jurisdiction
+? SSN
+? ITIN
+? First Name
+? Last Name
+? Date of Birth
+? MDM ID
+? IRN
+13. User is able to  upload file/Scan file  after choosing category,document type and document subtype.   
+14. Files must be less than 25 MB each, with a total combined size not exceeding 250 MB, and must be in one of the following formats: PDF, Word documents (.doc, .docx), or image files (.jpg, .png, .gif, .bmp).[5]
+15. The system should have pagination for navigating multiple records in the page. 
+      
+ 
+.      Table  1.1:
+                                                                                 
+Field nameSearchCase numberFirst nameLast nameCase informationCase numberCase typeCase statusCase sub-typeCase sub-type statusDomestic violence indicatorFamily violence indicatorProtective order indicatorGood cause indicatorCP nameCP member IDCP MDM IDCP SSN/ITINCP deceased indicatorcase associationNCP nameNCP member IDNCP MDM IDNCP SSN/ITINNCP deceased indicatorNCP incarceration indicatorcase associationNCP/CP Address informationAddress typeAddressInternational addressStatusSourceDateNCP/CP Employer informationEmployer nameAddressStatusSourceStart dateDateChange historySourceTypeUpdatedSystem/UserView details
+
+
+
+DemographicsCase numberCase typeCase statusCase sub-typeAssistance statusCase statusArrears onlyDomestic violence indicatorFamily violence indicatorProtective order indicatorGood cause indicatorCP nameCP member IDCP MDM IDCP SSN/ITINCP deceased indicatorcase associationNCP nameNCP member IDNCP MDM IDNCP SSN/ITINNCP deceased indicatorNCP incarceration indicatorcase associationNCP demographics from sourceSelect radio buttonSourceReceived dateFirst nameMiddle nameLast nameDOBStatusReset buttonUpdate buttonEnterprise search buttonNext buttonNCP SSN from SourcesSelect radio buttonSourceReceived dateSSNAdditional SSNSSN statusPrevious buttonReset buttonEnterprise search buttonUpdate buttonNext buttonAdd newAdd new buttonChange historySourceFirst nameMiddle nameLast nameSSNDOBUpdatedSystem/UserPaginationPrevious button
+
+
+
+6.User story:Infrastructure:CI/CD Pipeline(Krishnanunni)As aTeam leaderI wantto create CI/CD pipelineSo thatensure faster and more reliable delivery of software updates.Acceptance Criteria1. Identify tools for CI/CD
+2. Continuous integration
+3. Continuous deployment
+
+
+
+
+
+7.User story:Intake Search (Deepa)As aIntake Worker (2.jpeg)I wantto search for applications using specific fields and filters,So thatI can quickly find and view the relevant application details with ease.Acceptance Criteria1. When user clicks on the "intake search" option, the following fields should appear on the page:
+a. Application Number
+b. Application Name
+c. Application Status
+d. Start Date
+e. End Date      
+2. The Application Status field should be a dropdown, allowing user to select from predefined status options  such as follows:
+a. (PM would give values)  
+   
+
+3. System should have following data types for each field as listed in Table (Ref:Table1.2)
+4. The page should have a Search button to initiate the search and a Clear button to reset all fields.
+5. On click of search button
+a. System should validate all the values
+b. The system should pull and display corresponding application details based on the application number/application name which the user gives. 
+6. The latest application should appear first when fetching the results. All applications should be fetched from the database and displayed accordingly.
+7. Pagination should be implemented on the page to allow users to navigate through multiple results if the list of applications is long.
+
+
+Table 1.2
+Field name Field valuevaluesApplication NumberNumeric (e.g., digits only)Application NameText (e.g., letters )Application StatusText (e.g., letters )Start DateDate ( formatted as MM-DD-YYYY),Calendar pickerEnd DateDate ( formatted as MM-DD-YYYY),Calendar pickerItems per pageNumeric,Dropdown
+
+
+8.User story: CP and NCP application(Farhan)As aIntake workerI wantTo access custodial party paper application pageSo thatI can fill the form.Acceptance Criteria1. Once a user fills the CP application on the paper application custodial party page, personal information, employer information, custodial party income information, benefit information, CP attorney information, CP asset information,
+a. System should validate those values
+b. all the information should be pushed to the corresponding data tables.
+c. Personal information of CP should be stored in Person table
+d. Employer information should be stored in the Person_Employer table.
+e. Asset information should be stored in the Asset table.
+f. Attorney information should be stored in the attorney table.
+g. All income information should be stored in table Person_Income.
+h. Mapping role of a person to CP, NCP and Child must happen in the Person_Role_Link table
+i. All the tables should be under portal schema.
+
+2. Personal information, employer information, custodial party income information, benefit information, CP attorney information, CP asset information should have following field as shown in table (Ref: Table 1.3)
+3. There should be a clickable add button in the custodial party income information section , confirm button on the benefit information section and add asset button on custodial party asset information section.
+4. The system should have a clickable clear button and next button at the bottom of the custodial party page.
+5. One user clicks on the next button, NCP application screen displays on the same page.
+6. NCP information should have the following fields as shown in table(Ref: Table 1.4)
+7. There should be an add button for the NCP income and expense information section.
+8. The system should have a clickable back button and next button at the bottom of the non custodial party page.
+9. Once user clicks next button on NCP application screen,
+a. The system validates all values.
+b. all the information should be pushed to the corresponding data tables.
+c. Personal information of NCP should be stored in Person table
+d. Employer information should be stored in the Person_Employer table.
+e. Asset information should be stored in the Asset table.
+f. Attorney information should be stored in the attorney table.
+g. Military information for NCP  should be stored in Military_Information table
+h. All income information should be stored in table Person_Income.
+i. Mapping role of a person to CP, NCP and Child must happen in the Person_Role_Link table
+j. All the tables should be under portal schema
+k. System would take user to next screen named 'support'
+
+
+
+
+
+
+
+Table 1.3:Custodial Party information
+
+
+Field name Field valuePersonal informationFirst nameText (e.g., letters )Middle nameText (e.g., letters )Last nameText (e.g., letters )SuffixDrop down,Text (e.g., predefined labels such as Jr,Sr, Ms, Mr, Mrs, Dr)Maiden nameText (e.g., letters )NicknameText (e.g., letters ) DOBDate (e.g., formatted as MM-DD-YYYY),Calendar pickerSSN/ITINNumeric and special characters (Eg format ###-##-####)GenderDrop down,Text (e.g., predefined status labels)RaceDrop down,Text (e.g., predefined status labels)Relationship to childDrop down,Text (Predefined status labels :Aunt,Brother,Cousin,Father,foster parent/state ...Etc)CP alternative nameFirst nameText (e.g., letters )Middle nameText (e.g., letters )Last nameText (e.g., letters )Applicant mailing addressSourceDrop down,Text (e.g., predefined status labels)International addressRadio buttonAddress validatedTooltipAddress line1Letters,numbers(alphanumeric characters only)Address line 2Letters,numbers(alphanumeric characters only)CityText (e.g., letters )State Drop down,Text (e.g., predefined status labels)CountyDrop down,Text (e.g., predefined status labels)Zip codeNumericCountryDrop down,Text (e.g., predefined status labels)Applicant Residential AddressOption to check that it is the same as the mailing address?SourceDrop down,Text (e.g., predefined status labels)International addressRadio buttonAddress validatedTooltipAddress line1Letters,numbers(alphanumeric characters only)Address line 2Letters,numbers(alphanumeric characters only)CityText (e.g., letters )State Drop down, Text (e.g., predefined status labels)CountyDrop down, Text (e.g., predefined status labels)Zip codeNumericCountryDrop down, Text (e.g., predefined status labels)HomephoneNumericBusiness phoneNumericCellphoneNumericEmailLetters, numbers(alphanumeric characters only)Applicant nearest relative informationRelation to applicantDrop down, Text (e.g., predefined status labels)First nameText (e.g., letters )Last nameText (e.g., letters )PhoneNumericRelative AddressSource Drop down, Text (e.g., predefined status labels)International addressRadio buttonAddress validatedTooltipAddress line 1Letters, numbers (alphanumeric characters only)Address line 2Letters, numbers (alphanumeric characters only)City Text (e.g., letters)State Drop down,Text (e.g., predefined status labels)CountyDrop down,Text (e.g., predefined status labels)Zip codeNumericCountryDrop down,Text (e.g., predefined status labels)Family violenceRadio button7)Employer informationIs the custodial party employed?Radio buttonCustodial Party Income InformationIncome typeDrop down,Text (e.g., predefined status labels)Income frequencyDrop down,Text (e.g., predefined status labels)Income amountNumericBenefit informationCurrent TCA recipient?Radio buttonFormer TCA recipient?Radio buttonTCA Applicant?Radio buttonCurrent MA recipient?Radio buttonFormer MA Recipient?Radio buttonMA applicant?Radio buttonApplicant financial statementFinancial statement provided?Radio buttonService feeDrop down,Text (Predefined status labels:Paid/Not paid)Custodial party Attorney informationFirst nameText (e.g., letters )Middle nameText (e.g., letters )Last nameText (e.g., letters )PhoneNumeric and special characters(Eg:(530)413-322SourceDrop down,Text (e.g., predefined status labels)International addressRadio buttonAddress validatedTooltipAddress line1Letters,numbers(alphanumeric characters only)Address line2Letters,numbers(alphanumeric characters only)CityText (e.g., letters )StateDrop down,Text (e.g., predefined status labels)CountyDrop down,Text (e.g., predefined status labels)Zip codeNumericCountryDrop down,Text (e.g., predefined status labels)Custodial party asset informationAdd assetButton
+
+
+
+
+
+
+
+Table 1.4 :Non custodial party information
+Field name Field valueNon custodial party informationFirst nameText (e.g., letters )Middle nameText (e.g., letters )Last nameText (e.g., letters )SuffixDrop down,Text (e.g., predefined labels such as Jr,Sr)Relationship to childDrop down,Text (e.g., predefined labels such as Jr,Sr)Nick nameText (e.g., letters )Maiden nameText (e.g., letters )Approx ageNumericSourceDrop down,Text (e.g., predefined labels such as Jr,Sr)International AddressRadio buttonAddress validatedTool tipAddress line 1Letters,numbers(alphanumeric characters only)Address line 2Letters,numbers(alphanumeric characters only)CityText (e.g., letters )StateDrop down,Text (e.g., predefined status labels)CountyDrop down,Text (e.g., predefined status labels)Zip codeNumeric and special charactersCountryDrop down,Text (e.g., predefined status labels)Citizenship statusDrop down,Text (e.g., predefined status labels)Marital statusDrop down,Text (e.g., predefined status labels)EmailLetters,numbers(alphanumeric characters only)Home phoneNumeric and special charactersBusiness phoneNumeric and special charactersCell phoneNumeric and special charactersRaceDrop down,Text (e.g., predefined status labels)GenderDrop down,Text (e.g., predefined status labels)SSN/ITINNumeric and special charactersDOBDate,Calendar pickerEye colourDrop down,Text (e.g., predefined status labels)Height(ft)Drop down (e.g., predefined numbersHeight(in)Drop down (e.g., predefined numbersIdentification markText (e.g., letters )Hair colorDrop down,Text (e.g., predefined status labels)WeightNumericDrivers license numberNumericPlace of birth cityText (e.g., letters )Place of birth stateDrop down,Text (e.g., predefined status labels)Member of a union/localRadio buttonNon custodial party alternative nameFirst nameText (e.g., letters )Middle nameText (e.g., letters )Last nameText (e.g., letters )SuffixDrop down,Text (e.g., predefined labels such as Jr,Sr)Non custodial party military informationHas the NCP ever served in military?Radio buttonNon custodial party incarceration informationHas the NCP ever been in jail?Radio buttonNon custodial party nearest relationshipFirst nameText (e.g., letters )Middle nameText (e.g., letters )Last nameText (e.g., letters )Relationship to NCPDrop down,Text (e.g., predefined status labels)PhoneNumeric and special charactersSourceDrop down,Text (e.g., predefined status labels)International addressRadio buttonAddress validatedTooltipAddress line 1Letters,numbers(alphanumeric characters only)Address line 2Letters,numbers(alphanumeric characters only)City Text (e.g., letters )State Drop down,Text (e.g., predefined status labels)CountyDrop down,Text (e.g., predefined status labels)Zip codeNumeric and special charactersCountryDrop down,Text (e.g., predefined status labels)Non custodial party MotherFirst nameText (e.g., letters )Middle nameText (e.g., letters )Last nameText (e.g., letters )PhoneNumeric and special charactersSourceDrop down,Text (e.g., predefined status labels)International addressRadio buttonAddress validatedTool tipAddress line 1Letters,numbers(alphanumeric characters only)Address line 2Letters,numbers(alphanumeric characters only)City Text (e.g., letters )State Drop down,Text (e.g., predefined status labels)CountyDrop down,Text (e.g., predefined status labels)Zip codeNumericCountryDrop down,Text (e.g., predefined status labels)NCP fatherFirst nameText (e.g., letters )Middle nameText (e.g., letters )Last nameText (e.g., letters )PhoneNumeric and special charactersSourceDrop down,Text (e.g., predefined status labels)International addressRadio buttonAddress validatedTool tipAddress line 1Letters,numbers(alphanumeric characters only)Address line 2Letters,numbers(alphanumeric characters only)City Text (e.g., letters )State Drop down,Text (e.g., predefined status labels)CountyDrop down,Text (e.g., predefined status labels)Zip codeNumeric and special charactersCountryDrop down,Text (e.g., predefined status labels)NCP employer informationIs the NCP employed?Radio buttonNCP income and expense informationNCP has license or permit to work?Radio buttonTypeText(e.g:,LettersNCP have other child support cases?Radio buttonStateDrop down,Text (e.g., predefined status labels)Income typeDrop down,Text (e.g., predefined status labels)Income FrequencyDrop down,Text (e.g., predefined status labels)Income amountNumericNCP Attorney information[6]    First nameText (e.g., letters )Middle nameText (e.g., letters )Last nameText (e.g., letters )PhoneNumeric and special characters(Eg:(530)413-322SourceDrop down,Text (e.g., predefined status labels)International addressRadio button(Values:Yes/No)Address validatedTooltipAddress line1Letters,numbers(alphanumeric characters only)Address line2Letters,numbers(alphanumeric characters only)CityText (e.g., letters ) and spaceStateDrop down,Text (e.g., predefined status labels)CountyDrop down,Text (e.g., predefined status labels)Zip codeNumericCountryDrop down,Text (e.g., predefined status labels)NCP Asset informationAdd assetClickable button
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+9.User story:Intake (Shahanas)As aIntake Worker (3.jpeg)I wantto search for applications using specific fields and filters,So thatI can quickly find and view the relevant application details with ease.Acceptance Criteria1. When the user clicks on the "intake " option, the paper application IV-D page should open.
+2. Paper application field drop down and application name field should be present on the paper application IV-D page.
+3. The application name field should only contain alphabets/spaces.
+4. Paper application drop down should have the following set of predefined values.
+a. Walk-in
+b. Mail
+c. Electronic  [7]      
+5. By clicking the next button, 
+a. The system should validate all the fields.
+b. The system must save all the values in the database.
+c. The system should generate a 9 digit application number.
+6. Application numbers must be sequential.
+7. Intake screen and application number should be stored in Intake_Application table.
+
+
+
+
+10.User story:Support and insurance screen(Sreelekshmi)
+As aIntake workerI wantTo access the child information and insurance sectionsSo thatI can fill the form.Acceptance Criteria1. On the support section screen, drop down for the relationship between CP and NCP should be there. And following predefined status should be there
+                   a.Unknown
+                   b.Never married
+                   c.Seperated
+                   d.Currently married
+                   e.Divorced    [8]             
+2. When the user selects 'separated' in the relationship dropdown, following fields reveals:(Data types are detailed in table [Ref: table 1.5])
+            Date Married
+            Date separated
+            Country separated
+                          State separated
+                          County separated
+                          Divorce proceedings by attorney/by court action pending
+                          Is child support included in this action?
+
+3. When the user selects 'currently married' in the relationship dropdown,following fields and data types would be visible as shown in table(Ref :Table1.6
+4. When the user selects 'divorced' in the relationship dropdown,following fields and data types would be visible as shown in the table(Ref:Table 1.7)
+5. On the child information section, there should be a clickable 'Add Child' button
+6. Upon clicking the 'Add Child' button, the following fields must appear (with data types as referenced in Table 1.8):
+         First name(Mandatory)
+         Middle name
+         Last name(Mandatory)
+         Suffix
+         Race(Mandatory)
+         Relationship to applicant(Mandatory)
+         Conception occurred state
+         Gender(Mandatory)
+         Birth state
+         Gender
+         Birth county
+         Birth city
+        SSN
+        DOB(Mandatory)
+        Was the mother married to father at the time of birth ?    (Yes/No - Radio Button)
+         Is there an order for child support for this child? (Yes/No - Radio Button)
+        Does the NCP pay the support? (Yes/No - Radio Button)
+        To whom does NCP party pay the support?(Radio Button with values: To You, To a Child Support Agency, Other)
+        Clickable save button
+7. Once user clicks on the save button
+a. The system validates all values.        
+b. Information is displayed in the table  and displayed below the 'Add Child' button.
+First name
+Last name
+SSN/ITIN
+Race
+DOB
+Gender
+8. There should be flexibility for deleting and updating child information.
+9. Fields in the support screen should have the following data types as shown in table.(Ref: Table 1.8)
+10. On clicking the 'Update' button:
+a. System should validate all values
+
+11. On the member insurance section, there should be an 'add insurance' clickable button.
+12. All health insurance details must be stored in the Person_Health_Insurance table.
+13. There should be a back and next button on the paper application custodial party page for navigations.
+14. On clicking next,
+a. Child information is stored in the person table.
+b. Parent relationships are stored in the Parent_Relationship table.
+c. Navigate to insurance screen.
+
+15. On the File Upload feature/screen in the service request section, there should be following checkboxes along with question tooltip:[9]
+              Full service,Locate only,Paternity only,Medical support only,Child support only,child and spousal support only
+16. On the file upload section,there should be mandatory drop down for select category and select document type.
+17. There should also be a choose file clickable button and scan button in the section.
+18. File upload will be a dummy section currently.
+19. Success screen should display"Your application has been submitted successfully,assigned to khya.funk@maryland.gov"
+20. There should also be a navigate to home page clickable button		.
+
+
+Table 1.5
+ 
+Field nameField valuesDate marriedDate pickerDate separatedCalendar Picker(e.g., formatted as MM-DD-YYYY)Country separatedDrop down,Text (e.g., predefined status labels)State separatedDrop down,Text (e.g., predefined status labels)County separatedDrop down,Text (e.g., predefined status labels)Divorce proceedings by attorney/by court action pending?Radio buttonIs child support included in this action?Radio buttonTable 1.6
+ 
+Field nameField valuesDate marriedDate picker(e.g., formatted as MM-DD-YYYY)Country marriedDrop down,Text (e.g., predefined status labels)State marriedDrop down,Text (e.g., predefined status labels)County marriedDrop down,Text (e.g., predefined status labels) 
+Table 1.7
+ 
+Field nameField valuesDate marriedDate picker(e.g., formatted as MM-DD-YYYY)Date divorcedDate picker(e.g., formatted as MM-DD-YYYY)Country divorcedDrop down,Text (e.g., predefined status labels)State divorcedDrop down,Text (e.g., predefined status labels)County divorcedDrop down,Text (e.g., predefined status labels)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Table 1.8:
+Field nameField valuesRelationshipDrop down, Text (e.g., predefined labels)First NameText (e.g., letters)Middle nameText (e.g., letters)Last NameText (e.g., letters)SuffixDrop down, Text (e.g., predefined labels such as Jr,Sr)RaceDrop down, Text (e.g., predefined labels for race categories)Relationship to applicantDrop down, Text (e.g., predefined labelsConception occurred stateDrop down, Text (e.g., predefined labelsGenderDrop down, Text (e.g., predefined labels such as Male, Female, Other)Birth stateDrop down, Text (e.g., predefined labelsBirth countyDrop down, Text (e.g., predefined labelsBirth cityText including spaceSSNNumeric and special characters, visibility toggleDate of BirthCalendar picker(e.g., formatted as MM-DD-YYYY)Was the mother married to the father at the time of birth ?
+  Radio button ( Values: Yes,/No) Is there an order for child support for this child?
+       Radio button  ( Values: Yes ,No) Does the NCP pay the support?
+      Radio button (Values: Yes ,No)To whom does NCP party pay the support?
+    
+
+Radio button (Values: To you,To a child support agency,Other)
+
+
+
+
+11.User story:Application in progress (Farhan)As aIntake Worker (2.jpeg)I wantlog off from the applicationSo thatI can resume the application wherever I left off.Acceptance Criteria1. When the user saves a CP/NCP application in the middle of the process and logs off from the system, the application state should be preserved.
+2. The system should display a "Resume" Application link near the "In Progress" application status on the Intake Search page.
+3. When the user clicks on the "Resume" Application link, they should be directed to the Applicant Information page with all their previously saved data pre-populated.
+
+Added new requirement-Expected to be completed by Dec15
+Locate module updated with the new screenshot provided.
+NCP/CP change added
+Previous button
+File size updated
+NCP attorney and asset fields are added
+Pls add this in new data mapping
+Added 'relationship' dropdown status, Points 2,3,4 corresponding to that.
+File upload section added.
+
+

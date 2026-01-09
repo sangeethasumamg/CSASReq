@@ -1,0 +1,286 @@
+	
+User story 11.Home page :ShahanasAs acase workerI wantTo be able to access home pageSo thatI can access application created by intake workerAcceptance Criteria1. When the user clicks case registration, system should have a search panel  located at the top right corner, directly below the second top navigation.The search panel should allow users to filter by:
+Case Number
+Days Left
+Start Date
+A "Clear" button should be provided in the search panel to reset all search criteria and return to the default view.
+2. When a user click on search, the corresponding case gets listed out.
+3. The left navigation panel has following items:
+?      Case registration home
+           Create work item
+           Process IV-D application
+           Process referral
+?     File upload
+?     File management
+?     Supervisory functions
+?     Non IV-D
+?     Referral new application
+?     Search
+4. On the case registration page , the system should display a table with rows of case data.Each row should start with a clickable  chevron icon, indicating the type of case (intake or referral).The chevron icon in each row should be color-coded:
+Yellow circle with letter I inside for Intake cases.
+Red circle with letter R inside for referral cases.
+5. For Intake cases, the row should contain the following information:
+Work Item ID
+Application No
+Application Type
+Date Received
+       For Referral cases, the row should contain the following information:
+Work Item ID
+Referral No
+Referral Type
+Request Type
+Date Received
+6. Each row should include a Modify Action dropdown on the right-hand side.
+       The dropdown should contain the following options:
+View Summary
+Register Cases
+Return Application
+View Document
+No Action Required
+Resolved
+Check for Case Composition
+Link Case
+7. On the view summary selection, a summary box pops up. It shows application number,type ,service fee paid,submitted date.
+8. The middle section of the summary box has three questions displayed :are you a current TCA applicant or applying for child support services to be eligible to apply for TCA?Are you a current or former TCA recipient?Are you a current MA recipient?
+9. The members information section on summary box  has CP,NCP and child information sections on the click of those sections.Each section displays Full name, SSN/ITIN,Race,DOB,Gender
+10. On the right side of the case data ,  the system should display the type of case.
+11. Pagination should be able to be implemented to display records.Users should be able to navigate through multiple pages of records efficiently using arrow buttons.
+12. Once you select the 'Register cases'  option in the modify actions drop down, the system should display the member clearance page of the paper application from left navigation.
+
+
+
+User story 22.Member clearance :FarhanAs acase workerI wantTo be able to access member clearanceSo thatI can edit the application created by intake workerAcceptance criteria1. System should display the CP screen,followed by NCP and children screen in a progressive  stepper format..The screen should be divided into three sections within a stepper/wizard format:
+2. CP stepper: Displays the primary details of the Custodial Party such as MDM ID,Member ID, Name,DOB,SSN/ITIN,Gender, Race and Match/Criteria are retrieved from the database.
+3. CP SSN History: Shows a historical record of the Custodial Party's Social Security Numbers.
+CP SSN history table has following columns:Member ID,Name,SSN, SSN Type, Verification Status, SSN verification source
+CP SSN history section should have an edit,cancel and save button.
+4. Enterprise Search Matches: Lists relevant search results from the enterprise system based on the MDM ID.
+Enterprise search match table has following columns:MDM ID,First name,Middle name,Last name,DOB,SSN/ITIN,Gender ,Race,CIS ID,Participation
+If there is no matching MDM ID case, enterprise search match should display"No matching records found"
+5. Pagination should be implemented to display records in enterprise search matches.Users should be able to navigate through multiple pages of records efficiently using arrow buttons.
+6. The CP screen should include a clearly labeled "Generate MDM ID" button.
+
+7.  On click of Generate MDM ID button on CP screen,
+? System Generate MDM ID for CP
+? System shall navigate to the NCP screen under the "Member Clearance" section in the Paper Application left navigation .
+8. The NCP stepper should include the following three sections. 
+NCP: Displays the primary details of the Non Custodial Party retrieved from the database.
+9. NCP SSN History: Shows a historical record of the  Non custodial Party's Social Security Numbers.
+Users should be able to edit,save and cancel the information in the SSN History section.
+10. Enterprise Search Matches: Lists relevant search results from the enterprise system based on the MDM ID.
+11. Pagination should be implemented to display records in enterprise search matches.Users should be able to navigate through multiple pages of records efficiently using arrow buttons.
+12. The NCP screen should include a clearly labeled "Generate MDM ID" button.
+
+13. On click of Generate MDM ID button on NCP screen,
+? System Generate MDM ID for NCP
+? System shall navigate to the Children screen .
+14. The child stepper should include the following three sections. 
+Child: Displays the primary details of the child retrieved from the database.
+Child SSN History: Shows a historical record of the  child's Social Security Numbers.
+
+Enterprise Search Matches: Lists relevant search results from the enterprise system based on the MDM ID.
+15. Users should be able to edit,save and cancel the information in the SSN History section.
+16. Pagination should be implemented to display records in enterprise search matches.Users should be able to navigate through multiple pages of records efficiently using arrow buttons.
+17. The child  screen should include a very clearly labeled "Generate MDM ID" button.
+
+18. On click of Generate MDM ID button on Children screen,
+? System Generate MDM ID for Child
+? System shall navigate to the "Member Status" page under Paper Application in the left navigation, retrieving information of  CP, NCP, and child.
+
+
+
+
+User story 33.Member status,FarhanAs acase workerI wantTo be able to access member statusSo thatI can edit the application created by intake workerAcceptance criteria1. When the user clicks next on the member clearance page ,the system would take it to the member status page and the left navigation would show member clearance as completed with a tick mark.
+2. The system will have the following data fields in CP, NCP and child.
+
+Field nameField typeValues/ExamplesMandatoryMDM IDText,NumberNoMember IDText,NumberNoMember typeDropdownNoSSN/ITINNumber,Toggle view iconNoFirst nameTextNoLast nameTextNoDOBDate pickermm/dd/yyyyNoGenderDropdownNoRaceDropdownNoFamily violenceRadio buttonYes/NoNoProtective orderDropdownNoDomestic ViolenceDropdownNo
+3. System should display a "Previous" and "Next" button on the page.
+4. On clicking the previous button,system should navigate to the member clearance page.
+5. On click of Next button on Member Status page:
+? System should validate all the values in the fields.
+? System shall navigate to the CP Demographics page under Paper Application in the left navigation.
+
+
+User story 44.CP demographics,FarhanAs acase workerI wantTo be able to access CP demographicsSo thatI can edit the application created by intake workerAcceptance criteria6.  On  the page titled CP demographics, top section shows a table with following columns:MDM ID,Member ID,Name, SSN/ITIN,DOB,Gender, Race
+7. CP personal information has following data fields
+
+Field nameField typeValues/ExamplesMandatoryCountyDropdown? YesNicknameTextNoPregnancyRadio buttonYes/NoNoMaiden nameTextNoSuffixDropdownNoRelationship to childDropdownMother? Yes8. Temporary cash assistance has following data fields:
+
+Field nameTypeValuesMandatoryCash assistance stateDrop downNoCash assistance countyDrop downNoDate of last TCA checkCalendar No
+TCA applicantMandatory,Radio buttonYes/No? YesCurrent TCA recipientMandatory,Radio button,Question tool tipYes/No? YesFormer TCA RecipientMandatory,Radio ButtonsYes/No? Yes9.  Medical assistance section has following data fields
+
+FieldTypeValuesMandatoryMedical assistance stateDrop downNoMedical assistance countyDrop downNo
+MA applicantMandatory,Radio buttonYes/No? YesCurrent MA recipientMandatory,Radio button,Question tool tipYes/No? YesFormer MA RecipientMandatory,Radio ButtonsYes/No? Yes
+   5.Communication section has following data fields
+
+FieldTypeValuesMandatoryNotification typeMandatory,Radio buttonPaper/Paperless? YesText notificationMandatory,Radio buttonYes/No? YesEmail notificationMandatory,Radio buttonYes/No? YesHome phoneTextNoBusiness phoneTextNoCell phoneTextNoEmailTextNo       6.  CP alternative name section has following data fields:
+                 
+Field nameField typeValues/ExamplesMandatoryFirst nameTextNoMiddle nameTextNoLast nameTextNoSuffixDropdownNo     7. Mailing address section has following data fields:
+         
+Field nameField typeValues/ExamplesMandatorySourceDropdownCP,NoInternational addressRadio buttonYes/NoNoAddress manually verifiedRadio buttonYes/NoNoAddress validatedRadio button,Question tool tipYes/NoNoAddress line1AlphanumericNoAddress line 2AlphanumericNoCityTextNoStateDropdownNoCountyDropdownNoZip codeText,NumbersCountryDropdownNo   8. Residential address section has following data fields
+          
+Field nameField typeValues/ExamplesMandatoryResidential address same as mailing addressCheck boxNoSourceDropdownCP,NoInternational addressRadio buttonYes/NoNoAddress manually verifiedRadio buttonYes/NoNoAddress validatedRadio button,Question tool tipYes/NoNoAddress line1AlphanumericNoAddress line 2AlphanumericNoCityTextNoStateDropdownNoCountyDropdownNoZip codeText,NumbersCountryDropdownNo    9. Custodial party attorney section has following fields:
+
+
+
+Field nameField typeValues/ExamplesMandatoryFirst nameTextNoMiddle nameTextNoLast nameTextNoPhoneTextNoSourceDropdownNoInternational addressRadio buttonYes/NoNoAddress validatedRadio button,Question tool tipYes/NoNoAddress line1AlphanumericNoAddress line 2AlphanumericNoCityTextNoStateDropdownNoCountyDropdownNoZip codeText,NumbersCountryDropdownUSA,No
+    10.CP Nearest relative section has following data fields:
+   
+Field nameField TypeValues/ExamplesMandatoryFirst nameTextNoMiddle nameTextNoLast nameTextNoRelationship to CPDropdownPhoneTextNoSourceDropdownNoInternational AddressRadio buttonYes/NoNoAddress validatedRadio button,Question tool tipYes/NoNoAddress line1AlphanumericNoAddress line 2AlphanumericNoCityTextNoStateDropdownNoCountyDropdownNoZip codeText,NumbersNoCountryDropdownUSA,No
+11. The bottom of the page has a Previous and Next button.
+12. On clicking previous button, system navigates back to member status page.
+13. On click of Next button on CP Demographics page:
+System validates all the values in CP demographics pages
+System shall navigate to the "CP Income and Assets" page, displaying sections for:
+CP Income and Assets
+CP Assets and Income Information 
+
+
+User story 55.CP income and assets,FarhanAs acase workerI wantTo be able to access CP demographicsSo thatI can edit the application created by intake workerAcceptance criteria1. CP Income and Assets page, displays sections for:
+              CP Income and Assets
+CP Income Information 
+CP Assets
+2. CP income and assets table has following columns:MDM ID,Member ID,Name, SSN/ITIN,DOB,Gender,Race
+3. Income information table has following columns:Income type, income source,income frequency and income amount
+4. CP assets section displays "No asset information is present" if  there are no assets for the CP.
+5. There should be a previous and next button in the bottom right corner of the page.
+6. On click of the previous button,the system navigates back to the CP demographics page.
+7. On click of Next button on CP Income & Assets page,
+? The system validates the values in the CP income and assets page.
+? The system shall navigate to the "NCP Demographics" page.
+
+User story 66.NCP demographics: ShahanasAs acase workerI wantTo be able to access NCP demographics and addressSo thatI can edit the application created by intake workerAcceptance criteria1. The left navigation of NCP Demographics displays a checkmark on all pages preceding the NCP Demographics page, indicating their completion status.
+2. The NCP demographics page displays a top section of  Non custodial Party data  table with MDM ID,Member ID,Name, SSN/ITIN, DOB,Gender  and Race by retrieving it from the database.
+3. NCP personal data section has following data fields
+FieldTypeValuesMandatoryRelationship to childDropdownFather,NoMaiden nameTextNoSuffixDropdownNoAgeTextNoBirth cityTextNoBirth stateDropdownNoIdentification marksTextNoMarital statusDropdownNoDeceasedRadio buttonYes/NoNoEyesDropdownNoHairDropdownNoHeightDropdownFeet(ft)NoHeightDropdownInch(In)NoWeightTextlbsNoDrivers' license numberText,NumberNoDrivers license stateDropdownNoCitizenship statusDropdownNoWill the NCP willing to submit to the jurisdiction state and can be served in Maryland?Radio buttonYes/NoNoNotification typeRadio buttonPaper/PaperlessNoText notificationRadio buttonYes/NoNoEmail notificationRadio buttonYes/NoNoCell phoneTextNoHome phoneTextNoBusiness phoneTextNoEmailTextNo
+4. NCP alternative  name section has following data fields
+
+FieldTypeValuesMandatoryFirst nameTextNoMiddle nameTextNoLast nameTextNoSuffixDropdownNo
+5. NCP military information section has following data fields:
+
+FieldTypeValuesMandatoryMilitary statusDropdownNoMilitary branchDropdownNoMilitary service numberText ,NumberNoMilitary entry dateDate pickermm/dd/yyyyNoMilitary discharge dateDate pickermm/dd/yyyyNo
+6. NCP attorney information section has following data fields:
+
+Field nameTypeValuesMandatoryFirst nameTextNoMiddle nameTextNoLast nameTextNoPhoneText,NumberNoSourceDropdownNoInternational Address?Radio buttonYes/NoNoAddress validatedRadio button,Question tool tipYes/NoNoAddress line1AlphanumericNoAddress line 2AlphanumericNoCityTextNoStateDropdownNoCountyDropdownNoZip codeText,NumbersCountryDropdownUSA,No
+7. The NCP demographics page will have the previous and next button in the bottom right corner of the page.
+8. On click of the previous button ,the system shall navigate to 	CP income and assets page.
+9. On click of Next button on NCP Demographics page,System verifies all the values user enters and it shall navigate to the "NCP Address" page.
+
+
+
+
+User story 77.NCP address:ShahanasAs aCase workerI wantTo be able to access NCP  addressSo thatI can edit the application created by intake workerAcceptance criteria1. On the NCP address page, NCP address information section displays the following information after retrieving that from the database.
+MDM ID, Member ID, Name, SSN/ITIN, DOB, Gender, Race.
+2. NCP residential address section has following data fields
+
+Field nameTypeValuesMandatorySourceDropdownNoInternational Address?Radio buttonYes/NoNoAddress manually verifiedRadio buttonYes/NoNoAddress validatedRadio button,Question tool tipYes/NoNoAddress line1AlphanumericNoAddress line 2AlphanumericNoCityTextNoStateDropdownNoCountyDropdownNoZip codeText,NumbersNoCountryDropdownUSA,NoDoes the NCP belong to any of the following tribeRadio buttonYes/NoNoName of tribeDropdownNo
+3. NCP mailing address section should have following data fields:
+
+Field nameTypeValuesMandatoryResidential address same as mailing addressCheckboxNoSourceDropdownNoInternational Address?Radio buttonYes/NoNoAddress manually verifiedRadio buttonYes/NoNoAddress validatedRadio button,Question tool tipYes/NoNoAddress line1AlphanumericNoAddress line 2AlphanumericNoCityTextNoStateDropdownNoCountyDropdownNoZip codeText,NumbersNoCountryDropdownUSA,No
+4. NCP incarceration information section should have following data fields:
+
+Field nameTypeValuesMandatoryCurrentlyRadio buttonYes/NoNoPreviouslyRadio buttonYes/NoNoWork releaseRadio buttonYes/NoNoVerification indicatorRadio buttonYes/NoNoPrisoner ID numberText,NumberNoInstitution typeDropdownNoInstitution nameTextNoAdmission dateDate pickermm/dd/yyyyNoProjected release dateDate pickermm/dd/yyyyNoRelease dateDate pickermm/dd/yyyyNoSourceDropdownNoInternational Address?Radio buttonYes/NoNoAddress validatedRadio button,Question tool tipYes/NoNoAddress line1AlphanumericNoAddress line 2AlphanumericNoCityTextNoStateDropdownNoCountyDropdownNoZip codeText,NumbersNoCountryDropdownUSA,No
+5. There is the previous and next button on the bottom right corner of the page.
+6. On clicking the previous button,the system navigates to the NCP demographics page.
+7. On click of Next button on NCP Address page,
+System validate the values in the page
+System shall navigate to NCP relative page
+
+User story 88.NCP Relative:RamanunniAs acase workerI wantTo be able to access NCP relative informationSo thatI can edit the application created by intake worker8. NCP relative page should have NCP relative data section with MDM ID,Member ID,Name, SSN/ITIN,DOB,Gender, Race.
+9. NCP nearest relationship section has following data fields:
+
+Field nameTypeValuesMandatoryFirst nameTextNoMiddle nameTextNoLast nameTextNoRelationship to NCPDropdownNoPhoneText,NumberNoSourceDropdownNoInternational Address?Radio buttonYes/NoNoAddress validatedRadio button,Question tool tipYes/NoNoAddress line1AlphanumericNoAddress line 2AlphanumericNoCityTextNoStateDropdownNoCountyDropdownNoZip codeText,NumbersCountryDropdownUSA,No
+10. NCP's mother section has following data fields:
+
+Field nameTypeValuesMandatoryFirst nameTextNoMiddle nameTextNoLast nameTextNoPhoneText,NumberNoSourceDropdownNoInternational Address?Radio buttonYes/NoNoAddress validatedRadio button,Question tool tipYes/NoNoAddress line1AlphanumericNoAddress line 2AlphanumericNoCityTextNoStateDropdownNoCountyDropdownNoZip codeText,NumbersCountryDropdownUSA,No
+11. NCP's father section has following data fields:
+          
+Field nameTypeValuesMandatoryFirst nameTextNoMiddle nameTextNoLast nameTextNoPhoneText,NumberNoSourceDropdownNoInternational Address?Radio buttonYes/NoNoAddress validatedRadio button,Question tool tipYes/NoNoAddress line1AlphanumericNoAddress line 2AlphanumericNoCityTextNoStateDropdownNoCountyDropdownNoZip codeText,NumbersCountryDropdownUSA,No12. There should be a previous and next button on the page.
+13. On clicking previous button,system shall navigate back to NCP address page.
+14. On click of next,
+? System validates the values on the page
+? The system navigates to the NCP income and assets page.
+User story 99.NCP income and assets :Srilaxmi
+As acase workerI wantTo be able to access NCP income and assets So thatI can edit the application created by intake workerAcceptance criteria15. On NCP income and assets page, system should have following sections:NCP employer, Income information,Union information,Education information and NCP assets .Page is titled NCP employer.
+16. NCP income and asset top section should have a table containing MDM ID,Member ID,Name,SSN/ITIN,DOB, Gender and Race.
+17. Income information section has table with income type,income source, income frequency and income amount columns
+18. Union information section should have following data fields:
+Union information
+
+FieldTypeValuesMandatoryIs NCP a union member?Radio buttonYes/NoNo19. Education information section should have following data fields:
+
+FieldTypeValuesMandatoryHas the NCP completed high school /EquivalentRadio buttonYes/NoNoDoes the NCP have license,certificate,registration, or permit that is necessary to practice or work in a particular business,occupation or professionRadio buttonYes/No/OtherNo20. There should be NCP asset section below that. and it displays the message "No asset information is present" if there is no asset
+21. There is a previous and next button at the bottom right corner of page.
+22. On clicking the previous button, the system shall navigate back to NCP relative page.
+23. On the click of next button,system validates all values in the page and navigates to child page.
+
+
+
+
+User story 1010.Child:Sreelekshmi
+As acase workerI wantTo be able to access  child information So thatI can edit the application created by intake workerAcceptance criteria1. On the page titled child data,top section has the following data fields:
+
+Field nameTypeValuesMandatoryChild member IDText,NumberNoFirst nameTextNoMiddle nameTextNoLast nameTextNoSuffixDropdownNoSSNText,Numbers,Toggle view iconNoDOBDate pickermm/dd/yyyyNoEmancipation dateDate pickermm/dd/yyyyNoGenderDropdownFemale,NoRaceDropdownWhite,NoState conceivedDropdownNoCity of birthTextNoCountry of birthDropdownUSA,NoState of birthDropdownNoCounty of birthDropdownNoOut of home indicatorRadio buttonYes/NoNoOut of home dateDate Pickermm/dd/yyyyNoRelationship to CPDropdownDaughter/Natural child,NoDoes the child reside in Maryland due to directives of the defendant?Radio buttonYes/NoNo2. Parentage information section and relationship between mother and father section have following data fields:Parentage information sectionParentage statusDropdownRequires establishment,No3.Relationship between mother and fatherDropdownNever married,No
+4. There is DVR button on the page. When a user clicks on a DVR,it navigates to the DVR page.
+5. System should also have the previous and next button on the page.
+6. On clicking the previous button, the system navigates to NCP income and assets page.
+7. On click of next, the system validates the values in the field and navigates to the member insurance page.
+
+
+
+User story 1111.Member insurance:Srilaxmi
+As acase workerI wantTo be able to access  member insurance information So thatI can edit the application created by intake workerAcceptance criteria1. Page titled Member insurance information has a table with following column:Member ID, name,SSN,DOB,Gender,Provider name, Policy number,view
+2. There should be a previous and next button on the member insurance page.
+3. On clicking previous button,system shall navigate to child page.
+4. On clicking the next button,the system navigates to the case status page.
+
+
+
+User story 1212.Case status:Sreelekshmi
+As acase workerI wantTo be able to access  case status information So thatI can edit the application created by intake workerAcceptance criteria1. User should be able to navigate to the case status page after clicking next on case registration pages  and all other pages before that on case registration has  a tick mark in left navigation indicating a completion status.
+2. The system should show the application number on the top right section of the case status page .
+3. The case status page should have a case information section and good cause section 
+4. Case information section should have following data fields:
+
+Field nameTypeValuesMandatoryCase typeDropdownIV-D,NoCase subtypeDropdownNever Assistance,NoCase type dateDate pickermm/dd/yyyyNoAssistance statusDropdownNot applicable,NoIntergovernmental statusDropdownMaryland,? YesCase status dateDate pickermm/dd/yyyyNoApplication fee statusDropdownPaid,NoApplication completion dateDate pickermm/dd/yyyyNoCase JurisdictionDropdownHoward county,? YesFamily violence indicatorRadio buttonYes/NoNoIntent to closeDropdownNoIntent to close dateDate pickermm/dd/yyyyNoAutomated closing eligibility dateDate pickermm/dd/yyyyNoService requiredDropdown? Yes
+5. Good cause section has following data fields:
+
+Field nameTypeValuesMandatoryGood cause indicatorRadio buttonYes/NoNoStatusDropdownNoStatus dateDate pickermm/dd/yyyyNoReasonDropdownNoIV-D cooperation statusRadio buttonYes/NoNoIV-D cooperation dateDate pickermm/dd/yyyyNoAssignment of rightsRadio buttonYes/NoNo
+6. On selecting a value from Service Requested dropdown on Case Status page:
+System should allow the user to select from the following options:
+? Child Support Only
+? Collection and Disbursement
+? Enforcement of Order
+? Full Service
+? Locate Only
+? Medical Support Only .
+
+7.  Page should have a previous,cancel and done button.
+8. On clicking the previous button,the system shall navigate to the member insurance page.
+9. On clicking the cancel button,system should navigate to case registration home page.
+10. On click of Done button on Case Status page, System shall display a confirmation message box with the message: "Case has been registered with the case ID." System should provide a "Close" button on the confirmation box.
+
+
+
+
+
+User story 1313.Cancel and resume application :
+As acase workerI wantthe ability to cancel an application at any stageSo thatI can pause my work when necessary and resume the application later without losing progress.Acceptance criteria1. A Cancel button should be available on every page from Member Status to Case Status, allowing the user to cancel the application process at any time.
+
+2. Upon cancellation, the application should be saved as a draft and visible on the Case Registration Home Page.
+
+3. The Case Registration Home Page should display a Continue button next to any canceled (draft) application, allowing users to resume and complete the case creation.
+
+
+
+User story 1414..Auto-Deletion of Inactive Cases After 90 Days[1]As acase workerI wantcases with no progress to be automatically deleted after 90 days,So thatI can focus my efforts on active cases without unnecessary clutter.Acceptance criteria1. If no progress or updates are made to an application within 90 calendar days from the last activity date, the case should be automatically deleted from the system.
+
+2. Progress is defined as any change in the application status, updates to case details, or movement to the next workflow step.
+
+3. Before deletion, the system must send a notification to the assigned case worker at least 7 days in advance, warning them about the upcoming deletion.
+
+4. Upon deletion, all associated case information must be removed from the system to maintain data security and compliance.
+
+5. If a case is updated before the 90-day period expires, the 90-day timer should reset from the latest activity date.
+
+Aneesh has to review this.
