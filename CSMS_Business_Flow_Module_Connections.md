@@ -1,4 +1,4 @@
-# CSMS Business Flow and Module Connections
+# Locate Module Business Logic Updated Jan21 New Connections
 
 ## Document Purpose
 This document illustrates how all CSMS modules are interconnected in the business flow, with special focus on the Locate module's role and connections with other modules. Each diagram is followed by a **description** explaining what it shows. Section 6 includes **paragraph-style explanations** of the detailed business logic to complement the flowcharts. Section 8 (Page-by-Page Design Ideas) includes a **Business Logic** subsection for each page, describing the rules, workflows, and data flow that apply to that specific screen.
