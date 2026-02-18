@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parentage Status - Establishment Module</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 14px; color: #333; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; background: #fff; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden; }
+        
+        /* Search Section */
+        .search-bar { padding: 20px; background: #fff; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .search-bar label { font-weight: 500; color: #333; }
+        .search-bar input { padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; width: 200px; font-size: 14px; }
+        .search-bar input:focus { outline: none; border-color: #2563EB; }
+        .btn-search { padding: 8px 16px; background: #2563EB; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-search:hover { background: #1d4ed8; }
+        .btn-clear { padding: 8px 16px; background: #6b7280; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; }
+        .btn-clear:hover { background: #4b5563; }
+        
+        /* Section Header */
+        .section-header { background: #2563EB; color: #fff; padding: 12px 20px; font-weight: 600; font-size: 16px; }
+        
+        /* Content Area */
+        .content { padding: 20px; min-height: 200px; }
+        .no-records { color: #dc2626; padding: 40px 0; text-align: center; font-size: 14px; }
+        .records-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .records-table th { background: #f9fafb; text-align: left; padding: 12px 16px; border-bottom: 2px solid #e5e7eb; font-weight: 600; color: #374151; }
+        .records-table td { padding: 12px 16px; border-bottom: 1px solid #e5e7eb; }
+        .records-table tr:hover { background: #f9fafb; }
+        .status-badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 500; }
+        .status-requires { background: #fef3c7; color: #92400e; }
+        .status-established { background: #d1fae5; color: #065f46; }
+        .status-not-established { background: #fee2e2; color: #991b1b; }
+        .btn-edit { padding: 4px 10px; background: #2563EB; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; }
+        .btn-edit:hover { background: #1d4ed8; }
+        
+        /* Action Buttons */
+        .action-buttons { padding: 20px; border-top: 1px solid #e0e0e0; display: flex; justify-content: flex-end; gap: 12px; }
+        .btn-add { padding: 10px 20px; background: #2563EB; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-add:hover { background: #1d4ed8; }
+        .btn-cancel { padding: 10px 20px; background: #dc2626; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; }
+        .btn-cancel:hover { background: #b91c1c; }
+        
+        /* Pagination */
+        .pagination { padding: 12px 20px; border-top: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #6b7280; }
+        .pagination select { padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px; margin-left: 8px; }
+        .pagination-nav { display: flex; gap: 8px; align-items: center; }
+        .pagination-nav button { padding: 4px 10px; border: 1px solid #ccc; background: #fff; border-radius: 4px; cursor: pointer; font-size: 14px; }
+        .pagination-nav button:hover:not(:disabled) { background: #f3f4f6; }
+        .pagination-nav button:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        /* Modal */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 8px; max-width: 700px; width: 90%; max-height: 90vh; overflow-y: auto; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+        .modal-header { background: #2563EB; color: #fff; padding: 16px 24px; font-weight: 600; font-size: 18px; display: flex; justify-content: space-between; align-items: center; }
+        .modal-close { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 0; line-height: 1; opacity: 0.9; }
+        .modal-close:hover { opacity: 1; }
+        .modal-body { padding: 24px; }
+        .modal-footer { padding: 16px 24px; border-top: 1px solid #e5e7eb; display: flex; justify-content: flex-end; gap: 12px; }
+        .form-row { margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 24px; }
+        .form-group { flex: 1; min-width: 200px; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 500; color: #374151; }
+        .form-group label .required { color: #dc2626; }
+        .form-group input, .form-group select { width: 100%; padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #2563EB; }
+        .form-section { margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid #e5e7eb; }
+        .form-section:last-of-type { border-bottom: none; }
+        .form-section-title { font-weight: 600; color: #374151; margin-bottom: 16px; font-size: 15px; }
+        .radio-group { display: flex; gap: 24px; margin-top: 8px; flex-wrap: wrap; }
+        .radio-group label { display: inline-flex; align-items: center; gap: 8px; font-weight: 400; cursor: pointer; }
+        .radio-group input { width: auto; }
+        .method-panel { display: none; margin-top: 16px; padding: 16px; background: #f9fafb; border-radius: 4px; border: 1px solid #e5e7eb; }
+        .method-panel.active { display: block; }
+        .btn-save { padding: 10px 20px; background: #2563EB; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; }
+        .btn-save:hover { background: #1d4ed8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Search Section -->
+        <div class="search-bar">
+            <label for="caseNumber">Case Number:</label>
+            <input type="text" id="caseNumber" placeholder="Enter case number">
+            <button type="button" class="btn-search">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                Search
+            </button>
+            <button type="button" class="btn-clear">Clear</button>
+        </div>
+
+        <!-- Section Header -->
+        <div class="section-header">Parentage Status</div>
+
+        <!-- Content Area -->
+        <div class="content">
+            <div class="no-records" id="noRecordsMsg">No records found</div>
+            <table class="records-table" id="recordsTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Child Name</th>
+                        <th>Parentage Status</th>
+                        <th>Establishment Method</th>
+                        <th>Status Date</th>
+                        <th>AOP Number</th>
+                        <th>Court Order #</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Sample row (hidden by default, shown when data exists) -->
+                    <tr>
+                        <td>Child Doe</td>
+                        <td><span class="status-badge status-requires">Requires Establishment</span></td>
+                        <td>—</td>
+                        <td>—</td>
+                        <td>—</td>
+                        <td>—</td>
+                        <td><button class="btn-edit">Edit</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <div>
+                Items per page: <select><option>10</option><option selected>20</option><option>50</option></select>
+                <span id="recordCount">0 of 0</span>
+            </div>
+            <div class="pagination-nav">
+                <button type="button" disabled>&lt;</button>
+                <button type="button" disabled>&gt;</button>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button type="button" class="btn-add">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Add Parentage
+            </button>
+            <button type="button" class="btn-cancel">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Add Parentage Modal -->
+    <div class="modal-overlay" id="addParentageModal">
+        <div class="modal">
+            <div class="modal-header">
+                Add Parentage
+                <button type="button" class="modal-close" id="closeParentageModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addParentageForm">
+                    <div class="form-section">
+                        <div class="form-section-title">Parentage Status</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Parentage Status <span class="required">*</span></label>
+                                <select required>
+                                    <option value="">-- Select --</option>
+                                    <option value="requires">Requires Establishment</option>
+                                    <option value="established">Established</option>
+                                    <option value="not-established">Not Established</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Status Date <span class="required">*</span></label>
+                                <input type="date" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <div class="form-section-title">Establishment Method</div>
+                        <div class="radio-group">
+                            <label><input type="radio" name="establishmentMethod" value="aop" checked> Affidavit of Paternity (AOP)</label>
+                            <label><input type="radio" name="establishmentMethod" value="genetic"> Genetic Testing</label>
+                            <label><input type="radio" name="establishmentMethod" value="court"> Court Order</label>
+                        </div>
+                        <div id="aopPanel" class="method-panel active">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>AOP Number <span class="required">*</span></label>
+                                    <input type="text" placeholder="Unique identifier">
+                                </div>
+                                <div class="form-group">
+                                    <label>AOP Date <span class="required">*</span></label>
+                                    <input type="date">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>AOP Status</label>
+                                    <select>
+                                        <option value="active">Active</option>
+                                        <option value="rescinded">Rescinded</option>
+                                        <option value="undeclared">Undeclared</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" id="rescissionDateGroup">
+                                    <label>Rescission Date</label>
+                                    <input type="date">
+                                </div>
+                                <div class="form-group" id="undeclaredDateGroup">
+                                    <label>Undeclared Date</label>
+                                    <input type="date">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Child <span class="required">*</span></label>
+                                    <select><option value="">-- Select Child --</option></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="geneticPanel" class="method-panel">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Test Request Date</label>
+                                    <input type="date">
+                                </div>
+                                <div class="form-group">
+                                    <label>Test Date <span class="required">*</span></label>
+                                    <input type="date">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Test Results <span class="required">*</span></label>
+                                    <select>
+                                        <option value="">-- Select --</option>
+                                        <option value="positive">Positive</option>
+                                        <option value="negative">Negative</option>
+                                        <option value="inconclusive">Inconclusive</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Test Status</label>
+                                    <input type="text" placeholder="e.g., Completed, Pending">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Lab Name / Information</label>
+                                    <input type="text" placeholder="Lab name">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Child <span class="required">*</span></label>
+                                    <select><option value="">-- Select Child --</option></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="courtPanel" class="method-panel">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Court Order Number <span class="required">*</span></label>
+                                    <input type="text" placeholder="Court order #">
+                                </div>
+                                <div class="form-group">
+                                    <label>Court Order Date <span class="required">*</span></label>
+                                    <input type="date">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Establishment State <span class="required">*</span></label>
+                                    <select><option value="">-- Select State --</option><option value="MD">Maryland</option></select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Establishment County</label>
+                                    <select><option value="">-- Select County --</option></select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Court Name</label>
+                                    <input type="text" placeholder="Court name">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Establishment Date <span class="required">*</span></label>
+                                    <input type="date">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" id="cancelParentageModal">Cancel</button>
+                <button type="button" class="btn-save" id="saveParentage">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector('.btn-add').addEventListener('click', function() {
+            document.getElementById('addParentageModal').classList.add('active');
+        });
+        function closeParentageModal() {
+            document.getElementById('addParentageModal').classList.remove('active');
+        }
+        document.getElementById('closeParentageModal').addEventListener('click', closeParentageModal);
+        document.getElementById('cancelParentageModal').addEventListener('click', closeParentageModal);
+        document.getElementById('addParentageModal').addEventListener('click', function(e) {
+            if (e.target === this) closeParentageModal();
+        });
+        document.querySelectorAll('input[name="establishmentMethod"]').forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                document.querySelectorAll('.method-panel').forEach(function(p) { p.classList.remove('active'); });
+                var panel = document.getElementById(this.value + 'Panel');
+                if (panel) panel.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

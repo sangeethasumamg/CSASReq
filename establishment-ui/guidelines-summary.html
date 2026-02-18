@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guidelines Summary - Establishment Module</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 14px; color: #333; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; background: #fff; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden; }
+        
+        /* Search Section */
+        .search-bar { padding: 20px; background: #fff; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .search-bar label { font-weight: 500; color: #333; }
+        .search-bar input { padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; width: 200px; font-size: 14px; }
+        .search-bar input:focus { outline: none; border-color: #2563EB; }
+        .btn-search { padding: 8px 16px; background: #2563EB; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-search:hover { background: #1d4ed8; }
+        .btn-clear { padding: 8px 16px; background: #6b7280; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; }
+        .btn-clear:hover { background: #4b5563; }
+        
+        /* Section Header */
+        .section-header { background: #2563EB; color: #fff; padding: 12px 20px; font-weight: 600; font-size: 16px; }
+        
+        /* Summary Cards */
+        .summary-cards { padding: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; border-bottom: 1px solid #e5e7eb; background: #f9fafb; }
+        .summary-card { background: #fff; padding: 16px; border-radius: 4px; border: 1px solid #e5e7eb; }
+        .summary-card .label { font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .summary-card .value { font-size: 18px; font-weight: 600; color: #111827; }
+        .summary-card .value.currency { color: #059669; }
+        
+        /* Content Area */
+        .content { padding: 20px; min-height: 150px; }
+        .no-records { color: #dc2626; padding: 40px 0; text-align: center; font-size: 14px; }
+        .records-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        .records-table th { background: #f9fafb; text-align: left; padding: 12px 16px; border-bottom: 2px solid #e5e7eb; font-weight: 600; color: #374151; }
+        .records-table td { padding: 12px 16px; border-bottom: 1px solid #e5e7eb; }
+        .records-table tr:hover { background: #f9fafb; }
+        .records-table .amount { font-weight: 600; color: #059669; }
+        .btn-view { padding: 4px 10px; background: #2563EB; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; }
+        .btn-view:hover { background: #1d4ed8; }
+        
+        /* Action Buttons */
+        .action-buttons { padding: 20px; border-top: 1px solid #e0e0e0; display: flex; justify-content: flex-end; gap: 12px; }
+        .btn-add { padding: 10px 20px; background: #2563EB; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-add:hover { background: #1d4ed8; }
+        .btn-cancel { padding: 10px 20px; background: #dc2626; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; }
+        .btn-cancel:hover { background: #b91c1c; }
+        
+        /* Pagination */
+        .pagination { padding: 12px 20px; border-top: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #6b7280; }
+        .pagination select { padding: 4px 8px; border: 1px solid #ccc; border-radius: 4px; margin-left: 8px; }
+        .pagination-nav { display: flex; gap: 8px; align-items: center; }
+        .pagination-nav button { padding: 4px 10px; border: 1px solid #ccc; background: #fff; border-radius: 4px; cursor: pointer; font-size: 14px; }
+        .pagination-nav button:hover:not(:disabled) { background: #f3f4f6; }
+        .pagination-nav button:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        /* Modal */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: #fff; border-radius: 8px; max-width: 800px; width: 90%; max-height: 90vh; overflow-y: auto; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+        .modal-header { background: #2563EB; color: #fff; padding: 16px 24px; font-weight: 600; font-size: 18px; display: flex; justify-content: space-between; align-items: center; }
+        .modal-close { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 0; line-height: 1; opacity: 0.9; }
+        .modal-close:hover { opacity: 1; }
+        .modal-body { padding: 24px; }
+        .modal-footer { padding: 16px 24px; border-top: 1px solid #e5e7eb; display: flex; justify-content: flex-end; gap: 12px; }
+        .form-row { margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 24px; }
+        .form-group { flex: 1; min-width: 180px; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 500; color: #374151; }
+        .form-group label .required { color: #dc2626; }
+        .form-group input, .form-group select { width: 100%; padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #2563EB; }
+        .form-section { margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid #e5e7eb; }
+        .form-section:last-of-type { border-bottom: none; }
+        .form-section-title { font-weight: 600; color: #374151; margin-bottom: 16px; font-size: 15px; }
+        .calc-result { background: #ecfdf5; border: 1px solid #10b981; border-radius: 4px; padding: 16px; margin-top: 16px; }
+        .calc-result .label { font-size: 12px; color: #065f46; margin-bottom: 4px; }
+        .calc-result .value { font-size: 20px; font-weight: 700; color: #059669; }
+        .btn-calculate { padding: 10px 20px; background: #059669; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; }
+        .btn-calculate:hover { background: #047857; }
+        .btn-save { padding: 10px 20px; background: #2563EB; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; }
+        .btn-save:hover { background: #1d4ed8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Search Section -->
+        <div class="search-bar">
+            <label for="caseNumber">Case Number:</label>
+            <input type="text" id="caseNumber" placeholder="Enter case number">
+            <button type="button" class="btn-search">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                Search
+            </button>
+            <button type="button" class="btn-clear">Clear</button>
+        </div>
+
+        <!-- Section Header -->
+        <div class="section-header">Guidelines Summary</div>
+
+        <!-- Summary Cards (shown when case has calculations) -->
+        <div class="summary-cards" id="summaryCards" style="display: none;">
+            <div class="summary-card">
+                <div class="label">Total Calculations</div>
+                <div class="value" id="totalCalcs">0</div>
+            </div>
+            <div class="summary-card">
+                <div class="label">Current Order Amount</div>
+                <div class="value currency" id="currentAmount">$0.00</div>
+            </div>
+            <div class="summary-card">
+                <div class="label">Guideline Version</div>
+                <div class="value" id="guidelineVersion">—</div>
+            </div>
+            <div class="summary-card">
+                <div class="label">Last Calculated</div>
+                <div class="value" id="lastCalcDate">—</div>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content">
+            <div class="no-records" id="noRecordsMsg">No records found</div>
+            <table class="records-table" id="recordsTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Calc Date</th>
+                        <th>Guideline Version</th>
+                        <th>Current Support</th>
+                        <th>Medical Support</th>
+                        <th>Frequency</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Sample row (hidden by default) -->
+                    <tr>
+                        <td>01/15/2025</td>
+                        <td>Maryland 2024</td>
+                        <td class="amount">$450.00</td>
+                        <td class="amount">$75.00</td>
+                        <td>Monthly</td>
+                        <td>Active</td>
+                        <td><button class="btn-view">View</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <div>
+                Items per page: <select><option>10</option><option selected>20</option><option>50</option></select>
+                <span id="recordCount">0 of 0</span>
+            </div>
+            <div class="pagination-nav">
+                <button type="button" disabled>&lt;</button>
+                <button type="button" disabled>&gt;</button>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button type="button" class="btn-add" id="btnAddCalc">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Add Calc
+            </button>
+            <button type="button" class="btn-cancel">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Add Calculation Modal -->
+    <div class="modal-overlay" id="addCalcModal">
+        <div class="modal">
+            <div class="modal-header">
+                Child Support Calculation
+                <button type="button" class="modal-close" id="closeCalcModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addCalcForm">
+                    <div class="form-section">
+                        <div class="form-section-title">Guidelines & Case Information</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Guideline Version <span class="required">*</span></label>
+                                <select required>
+                                    <option value="">-- Select --</option>
+                                    <option value="MD2024">Maryland 2024</option>
+                                    <option value="MD2023">Maryland 2023</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Calculation Date <span class="required">*</span></label>
+                                <input type="date" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Number of Children <span class="required">*</span></label>
+                                <input type="number" id="numChildren" min="1" value="1" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <div class="form-section-title">Income Information</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>NCP Gross Monthly Income <span class="required">*</span></label>
+                                <input type="number" id="ncpIncome" step="0.01" min="0" placeholder="0.00" required>
+                            </div>
+                            <div class="form-group">
+                                <label>CP Gross Monthly Income</label>
+                                <input type="number" id="cpIncome" step="0.01" min="0" placeholder="0.00" value="0">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>NCP Other Income (Bonuses, Overtime, etc.)</label>
+                                <input type="number" id="ncpOtherIncome" step="0.01" min="0" placeholder="0.00" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Health Insurance (NCP) - Monthly</label>
+                                <input type="number" step="0.01" min="0" placeholder="0.00" value="0">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <div class="form-section-title">Obligation Details</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Payment Frequency <span class="required">*</span></label>
+                                <select required>
+                                    <option value="">-- Select --</option>
+                                    <option value="weekly">Weekly</option>
+                                    <option value="biweekly">Biweekly</option>
+                                    <option value="monthly" selected>Monthly</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Deviation Reason</label>
+                                <select>
+                                    <option value="">None</option>
+                                    <option value="extraordinary">Extraordinary Medical</option>
+                                    <option value="shared-custody">Shared Custody</option>
+                                    <option value="low-income">Low Income Adjustment</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Deviation Amount (if applicable)</label>
+                                <input type="number" step="0.01" min="0" placeholder="0.00" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Notes</label>
+                                <input type="text" placeholder="Calculation notes or worksheet reference">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <div class="form-row">
+                            <button type="button" class="btn-calculate" id="btnCalculate">Calculate</button>
+                        </div>
+                        <div class="calc-result" id="calcResult" style="display: none;">
+                            <div class="label">Calculated Current Support Amount</div>
+                            <div class="value" id="calcAmount">$0.00</div>
+                            <div class="label" style="margin-top: 12px;">Estimated Medical Support</div>
+                            <div class="value" id="calcMedical">$0.00</div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" id="cancelCalcModal">Cancel</button>
+                <button type="button" class="btn-save" id="saveCalc" disabled>Save Calculation</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('btnAddCalc').addEventListener('click', function() {
+            document.getElementById('addCalcModal').classList.add('active');
+        });
+        function closeCalcModal() {
+            document.getElementById('addCalcModal').classList.remove('active');
+        }
+        document.getElementById('closeCalcModal').addEventListener('click', closeCalcModal);
+        document.getElementById('cancelCalcModal').addEventListener('click', closeCalcModal);
+        document.getElementById('addCalcModal').addEventListener('click', function(e) {
+            if (e.target === this) closeCalcModal();
+        });
+        document.getElementById('btnCalculate').addEventListener('click', function() {
+            var ncpIncome = parseFloat(document.getElementById('ncpIncome').value) || 0;
+            var cpIncome = parseFloat(document.getElementById('cpIncome').value) || 0;
+            var ncpOther = parseFloat(document.getElementById('ncpOtherIncome').value) || 0;
+            var children = parseInt(document.getElementById('numChildren').value) || 1;
+            var totalNCP = ncpIncome + ncpOther;
+            var support = Math.round((totalNCP * 0.25) * 100) / 100;
+            var medical = 75;
+            document.getElementById('calcAmount').textContent = '$' + support.toFixed(2);
+            document.getElementById('calcMedical').textContent = '$' + medical.toFixed(2);
+            document.getElementById('calcResult').style.display = 'block';
+            document.getElementById('saveCalc').disabled = false;
+        });
+    </script>
+</body>
+</html>

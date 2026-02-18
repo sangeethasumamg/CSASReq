@@ -1,0 +1,99 @@
+1. Court Order (Card 2)
+Purpose: Records the basic details of the court order that creates the child support obligation.
+
+Used when: A judge signs a new or modified support order.
+
+What it captures:
+Court Order Type – What kind of order (e.g., Paternity, Support, Modification).
+Court Order Date – When the order was signed.
+
+Court Order Process – Which process produced the order.
+
+Date of Stay – When the order was temporarily stopped (if applicable).
+Reason for Stay – Why the order was stayed.
+Bond – Any bond (amount and date) tied to the case.
+Regenerate missed accounts – Whether to rebuild accounts that were missed.
+Obligation Type – Type of support (Current, Arrears Only, etc.).
+Court Order Entry Date – When the order was entered into the system.
+Controlling Order Jurisdiction – Which state/court controls the order.
+Reason for Judicial Termination – Why the order was ended (if terminated).
+
+2. Support Obligation Information (Card 3)
+Purpose: Captures how the support amount was calculated and arrears details.
+Used when: The court sets ongoing support and/or arrears obligations.
+What it captures:
+Guidelines Template/Amount – Which guidelines were used and the calculated amount.
+Deviation Amount/Date/Reason – Any adjustment from the guideline amount and why.
+Reset Compliance Balance – Whether to reset payment compliance tracking.
+Include Arrears / Arrears Only / Arrears SOA – Whether past‑due support is included and how.
+Arrears Frequency, Effective/Expiration/Balance as of Date – How often arrears are paid and the balance as of a given date.
+
+Future Arrears SOA – Future arrears support obligation amount and its schedule.
+
+Converted Arrears – Arrears that were converted to another type of obligation.
+Comments – Additional notes.
+
+3. Medical Support (Card 4)
+Purpose: Records who must provide health coverage and related medical support.
+Used when: The court orders health insurance or other medical support.
+What it captures:
+Medical Support Order – Type of order (e.g., employer coverage, cash medical).
+Obligated Party – Who must provide coverage (usually NCP).
+Medical Support Order Date – When the order was issued.
+Medical Support Provided – Whether and how coverage is provided.
+Medical Support Provided Date – When coverage began.
+Include Arrears – Whether to include past‑due medical support.
+4. Wage Withholding (Card 5)
+Purpose: Records how support will be collected from the NCP’s paycheck (IWO/EWO).
+Used when: Setting up or changing wage withholding for a support order.
+What it captures:
+Wage Withholding – Whether and how wage withholding applies.
+Wage Withholding Date – When withholding takes effect.
+Employer EWO Exclusion – Whether an employer is excluded from electronic wage withholding.
+Employer Exclusion Date – When that exclusion took effect.
+Employer EWO Exclusion Reason – Why the employer is excluded.
+5. Judgement (Card 6)
+Purpose: Records money judgments (e.g., for arrears or other amounts owed).
+Used when: The court enters a judgment for a specific amount.
+What it captures:
+Judgement Amount – Amount of the judgment.
+Judgement Effective/Expiration Date – When it starts and ends.
+Judgement Satisfied Date – When it was fully paid.
+Future SOA – Future support obligation amount, frequency, and dates.
+Include Arrears – Whether arrears are part of the judgment.
+6. Intergovernmental (Card 7)
+Purpose: Records when the case or order involves another state, county, or country.
+Used when: The case is interstate or international (UIFSA).
+What it captures:
+State – Other state(s) involved.
+County – Other county involved.
+International – Country involved (if applicable).
+Non‑MD Case Number – Case number from the other jurisdiction.
+Non‑MD Court Order – Court order from the other jurisdiction.
+7. Intergovernmental Tax (Card 8)
+Purpose: Records tax‑related handling when another country is involved.
+Used when: Investigating or using foreign tax offsets (e.g., treaty countries).
+What it captures:
+Foreign Tax Offset Investigation Request Date – When the investigation was requested.
+Investigation Disposition – Result (e.g., Approved, Denied).
+Investigation Disposition Date – When that result was set.
+Interest – Any interest related to the tax offset.
+Penalties – Any penalties related to the tax offset.
+8. Review Information (Card 9)
+Purpose: Tracks required and completed reviews of the support order.
+Used when: Scheduling or completing triennial or other reviews of the order.
+What it captures:
+Next Triennial Review Date – When the next three‑year review is due.
+Preliminary Review Requested/Decision Date – When it was requested and decided.
+Preliminary Review Status – Current status of the preliminary review.
+Final Review Date – When the final review was done.
+Final Review Status – Outcome of the final review.
+Last Triennial Review Notice Sent – When the last triennial notice was mailed.
+9. Adjustment (Card 10)
+Purpose: Tracks requests to change the order and the court’s decision.
+Used when: Someone asks for a modification or adjustment.
+What it captures:
+Requesting Party – Who requested the change (CP, NCP, Agency, etc.).
+Request Type – Type of change requested.
+Judicial Disposition – Court’s decision (Granted, Denied, etc.).
+Also related: Hearing Date, Date of Modified Order, Requested Documentation.

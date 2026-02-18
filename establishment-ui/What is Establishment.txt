@@ -1,0 +1,49 @@
+What is Establishment?
+
+Establishment is the part of the system that helps:
+
+Figure out who the dad is (paternity)
+
+Decide how much child support to pay (support order)
+Save that in an official court order
+Simple Story Flow
+
+1. Mom asks for help
+
+
+Mom comes to the child support office.
+
+She says: “I need help getting support from my child’s dad.”
+
+2. The office finds the dad (Locate)
+
+Staff search for the dad (address, employer, etc.).
+
+3. Establishment starts
+
+If we don’t know who the dad is → Paternity (AOP or genetic test).
+
+If we know who the dad is → We move to creating the support order.
+
+4. Court makes the order
+
+The court decides:
+
+How much the dad pays each month
+
+When payments start
+
+Any arrears (past-due support)
+
+This is written down in a court order.
+
+5. Everything is saved in the system
+
+The system stores:
+
+Court order type and dates
+Obligation (how much, how often)
+Arrears
+Medical support
+Wage withholding (employer info)
+Intergovernmental info (if another state is involved)

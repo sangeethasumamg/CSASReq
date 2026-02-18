@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Summons/Warrants - Establishment Module</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 14px; color: #333; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden; }
+        
+        /* Search Section */
+        .search-bar { padding: 20px; background: #fff; border-bottom: 1px solid #e0e0e0; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .search-bar label { font-weight: 500; color: #333; }
+        .search-bar input { padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; width: 200px; font-size: 14px; }
+        .search-bar input:focus { outline: none; border-color: #2563EB; }
+        .btn-search { padding: 8px 16px; background: #2563EB; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-search:hover { background: #1d4ed8; }
+        .btn-clear { padding: 8px 16px; background: #6b7280; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; }
+        .btn-clear:hover { background: #4b5563; }
+        
+        /* Section Header */
+        .section-header { background: #2563EB; color: #fff; padding: 12px 20px; font-weight: 600; font-size: 16px; }
+        
+        /* Form */
+        .form-content { padding: 24px; }
+        .form-row { margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 24px; }
+        .form-group { flex: 1; min-width: 200px; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 500; color: #374151; }
+        .form-group label .required { color: #dc2626; margin-left: 2px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; font-family: inherit; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #2563EB; }
+        .form-group textarea { min-height: 80px; resize: vertical; }
+        .form-group-full { width: 100%; }
+        
+        /* Radio group */
+        .radio-group { display: flex; gap: 24px; margin-top: 8px; }
+        .radio-group label { display: inline-flex; align-items: center; gap: 8px; font-weight: 400; cursor: pointer; }
+        .radio-group input[type="radio"] { width: auto; }
+        
+        /* Action Buttons */
+        .action-buttons { padding: 20px; border-top: 1px solid #e0e0e0; display: flex; justify-content: flex-end; gap: 12px; }
+        .btn-save { padding: 10px 20px; background: #2563EB; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-save:hover { background: #1d4ed8; }
+        .btn-cancel { padding: 10px 20px; background: #dc2626; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; }
+        .btn-cancel:hover { background: #b91c1c; }
+        .btn-reset { padding: 10px 20px; background: #6b7280; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; font-weight: 500; }
+        .btn-reset:hover { background: #4b5563; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Search Section -->
+        <div class="search-bar">
+            <label for="caseNumber">Case Number:</label>
+            <input type="text" id="caseNumber" placeholder="Enter case number">
+            <button type="button" class="btn-search">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                Search
+            </button>
+            <button type="button" class="btn-clear">Clear</button>
+        </div>
+
+        <!-- Section Header -->
+        <div class="section-header">Add Summons / Warrants</div>
+
+        <!-- Form -->
+        <div class="form-content">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Document Type <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="docType" value="summons" checked> Summons</label>
+                        <label><input type="radio" name="docType" value="warrant"> Warrant</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Party <span class="required">*</span></label>
+                    <select>
+                        <option value="">-- Select Party --</option>
+                        <option value="ncp">NCP (Non-Custodial Parent)</option>
+                        <option value="cp">CP (Custodial Parent)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Summons/Warrant Type <span class="required">*</span></label>
+                    <select>
+                        <option value="">-- Select Type --</option>
+                        <option value="paternity">Paternity</option>
+                        <option value="support">Support</option>
+                        <option value="modification">Modification</option>
+                        <option value="show-cause">Show Cause</option>
+                        <option value="body-attachment">Body Attachment</option>
+                        <option value="bench">Bench Warrant</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Status <span class="required">*</span></label>
+                    <select>
+                        <option value="">-- Select Status --</option>
+                        <option value="issued">Issued</option>
+                        <option value="pending">Pending</option>
+                        <option value="served">Served</option>
+                        <option value="returned">Returned</option>
+                        <option value="executed">Executed</option>
+                        <option value="cancelled">Cancelled</option>
+                        <option value="expired">Expired</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Issue Date <span class="required">*</span></label>
+                    <input type="date">
+                </div>
+                <div class="form-group">
+                    <label>Due/Return Date</label>
+                    <input type="date">
+                </div>
+                <div class="form-group">
+                    <label>Service Date</label>
+                    <input type="date">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Court Name <span class="required">*</span></label>
+                    <input type="text" placeholder="Enter court name">
+                </div>
+                <div class="form-group">
+                    <label>Court Location / Address</label>
+                    <input type="text" placeholder="Enter court address">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group form-group-full">
+                    <label>Document Number / Reference</label>
+                    <input type="text" placeholder="Enter document or case number">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group form-group-full">
+                    <label>Notes</label>
+                    <textarea placeholder="Enter any additional notes or comments"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button type="button" class="btn-reset">Reset</button>
+            <button type="button" class="btn-save">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                Save
+            </button>
+            <button type="button" class="btn-cancel">Cancel</button>
+        </div>
+    </div>
+</body>
+</html>
