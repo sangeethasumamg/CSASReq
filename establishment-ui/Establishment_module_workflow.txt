@@ -1,0 +1,888 @@
+
+
+
+
+MARYLAND
+Child Support Management System
+ESTABLISHMENT MODULE
+Business Process Documentation
+
+
+
+Document Version
+v1.0 — Initial Release
+Prepared For
+Maryland CSEA — IV-D Program
+Legal Authority
+FL §12-201 to §12-204 | COMAR 07.07.03 | Title IV-D SSA
+Module Scope
+Post Case Management — Paternity through Enforcement Hand-Off
+
+
+Table of Contents
+
+
+
+1. Executive Summary
+The Establishment Module of the Maryland Child Support Management System (CSMS) manages the complete legal and administrative process of establishing paternity and a child support order. It is triggered immediately after the Case Management module has completed the Custodial Party (CP), Non-Custodial Parent (NCP), and Child profiles.
+The module encompasses eight functional screens, coordinated across three primary roles — IV-D Attorney, Case Worker, and Supervisor — plus automated system calculations. Upon successful completion, the case transfers automatically to the Enforcement Module.
+
+1.1 Module Trigger & Handoff
+TRIGGER: Establishment Module activates when Case Management marks the case as 'Profiles Complete' and routes to the Establishment queue. INPUT: Verified CP profile, NCP profile (located or pending locate), and children profiles. OUTPUT: Active court-ordered child support obligation, IWO issued, case transferred to Enforcement.
+
+
+1.2 Module Objectives
+Establish legal paternity when not already confirmed
+Locate the Non-Custodial Parent if address or employment is unknown
+Collect verified financial information from both parties
+Calculate the child support obligation per Maryland Income Shares Guidelines
+Obtain and record a legal court order
+Issue the Income Withholding Order (IWO) to the NCP employer
+Complete service of process on the NCP
+Obtain supervisor sign-off and transfer the case to Enforcement
+
+1.3 Key Statutory Authority
+Statute / Rule
+Applies To
+FL §5-1001 – §5-1042
+Paternity establishment — genetic testing, AOP, presumption
+FL §12-201 – §12-204
+Child support guidelines — Income Shares Model
+FL §10-120
+Income Withholding Orders (IWO)
+COMAR 07.07.03
+Maryland CSEA administrative rules
+Title IV-D, Social Security Act
+Federal program requirements, FCR reporting
+UIFSA
+Interstate and intergovernmental cases
+CCPA
+IWO consumer credit withholding limits (50%–65%)
+
+
+2. Roles & Responsibilities
+The Establishment Module involves four actor types. Each screen is assigned a primary role responsible for completing and submitting that screen's data.
+
+Role
+Color Code
+Responsibilities in Establishment
+IV-D Attorney
+Purple
+Paternity proceedings, financial data collection, order preparation, service of process
+Case Worker
+Blue
+NCP Locate actions (NDNH, DMV, IRS, SVES), locate result entry
+Supervisor
+Orange
+Case review, quality assurance checklist, sign-off, enforcement transfer
+System (Auto)
+Gray
+Support calculation, FCR/SCR updates, auto-referral to enforcement
+
+
+3. End-to-End Workflow Narrative
+The following describes the complete sequential flow of the Establishment Module. Each phase references a screen, its responsible role, decision points, and the data produced.
+
+PHASE 1 — PATERNITY CHECK   (Screen 1 · IV-D Attorney)
+
+
+Entry Point: The IV-D Attorney receives the case from Case Management. The first task is to determine whether legal paternity has already been established.
+
+Decision: Is Paternity Already Established?
+YES → Skip genetic testing, record the establishment method (prior court order, marriage presumption, or existing AOP) and proceed to Financial Info (Screen 3).
+NO → Proceed with one of the three establishment pathways below.
+
+Pathway A — Voluntary Acknowledgment of Paternity (AOP)
+Both parents sign a Voluntary AOP form at a hospital, LBVS office, or CSEA office. The 60-day rescission window must expire before the AOP is legally binding. Once rescission expires, paternity is established and the case proceeds.
+
+Pathway B — Genetic Testing
+When paternity is contested or an AOP is unavailable, a court orders genetic testing. The attorney coordinates with a certified laboratory (e.g., LabCorp, Quest). Samples are collected from the CP, NCP, and child with verified chain of custody. Maryland's legal threshold is a probability of paternity of 99% or greater. A positive result (>=99%) confirms the NCP as the legal father.
+
+Pathway C — Default Judgment
+If the NCP refuses genetic testing or fails to appear after service of process, the court may enter a default judgment establishing paternity. The attorney documents the refusal and the default basis.
+
+DATA OUTPUT FROM SCREEN 1: Paternity Established flag, Establishment Method, Legal Father Name, Establishment Date, Lab Report Document ID (if DNA), assigned IV-D Attorney.
+
+
+PHASE 2 — LOCATE PARENT   (Screen 2 · Case Worker · CONDITIONAL)
+
+
+This screen is ONLY triggered when the NCP's current address or employment is unknown. If the NCP was located during Case Management, this phase is skipped entirely.
+
+Locate Sources Used (in priority order)
+National Directory of New Hires (NDNH) — employer and wage data from new hire reporting
+Maryland DMV Records — current address from driver's license / vehicle registration
+State Verification and Exchange System (SVES / SSA) — disability / SSI benefits
+IRS Locate — tax return address data (requires IRS data match agreement)
+Maryland State Wage Match — quarterly wage records from MD DLLR
+Department of Corrections (DOC) — incarceration records
+
+Once the NCP is located, the confirmed address and employer are saved, and the workflow returns to Screen 1 (Paternity Check) if not yet complete, or proceeds to Screen 3 (Financial Info) if paternity is already established.
+DATA OUTPUT FROM SCREEN 2: Confirmed NCP Address, Address Source (NDNH/DMV/etc.), Date Confirmed, Confirmed Employer Name, Employer EIN, Locate Status (Located / Not Located).
+
+
+PHASES 3 & 4 — FINANCIAL INFORMATION   (Screens 3 & 4 · IV-D Attorney)
+
+
+Financial information is collected separately for the Custodial Party (Screen 3) and the Non-Custodial Parent (Screen 4). Both screens collect the same categories of data. This information feeds directly into the Maryland Child Support Guidelines calculation in Screen 5.
+
+Data Collected — Income
+Income Category
+Details
+Gross Monthly Wages
+W-2 salary, verified against paystubs or employer verification
+Overtime / Bonuses
+Regular vs. occasional — annualized and divided by 12
+Self-Employment Net
+Business income minus legitimate business expenses
+SS / SSDI Benefits
+Monthly benefit amount from SSA award letter
+Other Income
+Rental, investments, workers' comp, unemployment
+Imputed Income
+Applied when party is voluntarily unemployed/underemployed
+
+
+Data Collected — Allowable Deductions
+Deduction
+Notes
+Federal Income Tax
+Actual withholding per paystub
+MD State Income Tax
+Actual MD withholding
+FICA / Medicare
+6.2% + 1.45% of gross
+Mandatory Retirement
+Government/mandatory plans only — not voluntary 401k
+Health Ins. (Self Only)
+Employee's own premium — not the child's
+Existing CS Orders
+Court-ordered support for other children
+
+
+Child-Related Expenses (CP Screen Only)
+Health Insurance premium paid for the child(ren)
+Work-related child care costs (monthly average)
+Extraordinary medical expenses not covered by insurance
+Special educational expenses (IEP, private school if court-ordered)
+DATA OUTPUT FROM SCREENS 3 & 4: CP Actual Net Monthly Income, NCP Actual Net Monthly Income, Combined Adjusted Income, CP/NCP Income Share percentages, Total child-related expenses.
+
+
+PHASE 5 — SUPPORT OBLIGATION CALCULATION   (Screen 5 · System Auto)
+
+
+The system automatically calculates the child support obligation using the Maryland Income Shares Model (FL §12-201). This model determines both parties' proportional share of the total obligation based on their combined income.
+
+Calculation Formula — Maryland Income Shares
+Step
+Formula / Action
+Example (Case MD-2025-048291)
+1
+CP Net + NCP Net = Combined Adjusted Income
+$2,245 + $3,281 = $5,526
+2
+Look up Basic Obligation in MD Guidelines Table (by combined income + # children)
+$832 (1 child @ $5,526 combined)
+3
+Calculate each party's income share %
+CP = 40.6% / NCP = 59.4%
+4
+NCP Basic Share = Basic Obligation x NCP %
+$832 x 59.4% = $494.21
+5
+Add NCP share of work-related child care
++ $386.35
+6
+Add NCP share of child's health insurance
++ $50.43
+7
+Add NCP share of extraordinary medical
++ $0.00
+8
+TOTAL NCP Monthly Obligation
+$931.00 / month
+
+
+Optional Adjustments
+Parenting Time Adjustment: Applied if NCP has 128 or more overnight visits per year. Reduces NCP obligation proportionally.
+Deviation: Attorney or parties may request a deviation from guidelines. Requires written justification and judicial approval.
+Retroactive Support: System calculates arrears from a specified start date (typically child's date of birth or date of separation).
+DATA OUTPUT FROM SCREEN 5: Proposed Monthly Support Amount ($931.00), Retroactive Arrears Amount ($2,793.00), Medical Support obligation, Parenting time adjustment (if any), Deviation justification (if any).
+
+
+PHASE 6 — ORDER ESTABLISHMENT   (Screen 6 · Attorney + Court)
+
+
+The attorney prepares and submits the child support order to the Circuit Court. Three order types are possible based on the parties' responses.
+
+Order Types
+Order Type
+When Used and Process
+Consent Order
+Both parties agree to the calculated amount. Attorney prepares order; both parties sign; judge approves. Fastest path.
+Default Order
+NCP fails to respond after being served. Court enters order after response deadline (30 days). NCP's failure to respond is documented.
+Contested Order
+NCP disputes the order. Case goes to a formal court hearing before a judge or hearing officer. Can add weeks to the timeline.
+Administrative Order
+CSEA administrative process; used in qualifying IV-D cases. Follows COMAR 07.07.03 administrative hearing procedures.
+
+
+Order Contents Recorded in CSMS
+Court docket/order number, order date, effective date
+Monthly child support amount ($931.00)
+Payment due date and frequency (1st of month, monthly)
+Retroactive/arrears amount and payment schedule
+Health insurance responsibility (CP or NCP) and deadline
+Unreimbursed medical expense split (default 50/50)
+Emancipation conditions
+
+Income Withholding Order (IWO)
+An IWO is mandatory in Maryland under FL §10-120. It is issued to the NCP's employer on the same date the support order is entered. The employer is required to withhold and remit payment to the Maryland State Disbursement Unit (SDU).
+IWO Field
+Value / Description
+IWO Current Support
+$931.00 / month
+IWO Arrears Payment
+$100.00 / month
+Total IWO Withholding
+$1,031.00 / month
+CCPA Withholding Limit
+50%–65% of NCP disposable income (based on family/arrears status)
+Remittance Target
+Maryland State Disbursement Unit (SDU)
+Employer Notification
+Certified mail / electronic to employer within 2 business days
+DATA OUTPUT FROM SCREEN 6: Court Order Number, Order Type, Effective Date, Monthly Obligation ($931), IWO Amount ($1,031), SDU Account Number, Employer EIN.
+
+
+PHASE 7 — SERVICE OF PROCESS   (Screen 7 · IV-D Attorney / Process Server)
+
+
+The NCP must be legally served with the court documents (Summons, Complaint, or Petition). Each service attempt is logged in CSMS. The NCP has 30 days from confirmed service to respond.
+
+Service Methods (in order of preference)
+Personal Service — Sheriff's deputy or licensed process server physically delivers documents to NCP
+Certified Mail — Documents mailed to NCP's confirmed address with return receipt
+Substituted Service — Documents left with a responsible adult at NCP's residence
+Posting — Documents posted at NCP's last known address (requires court approval)
+Publication — Published in a newspaper of general circulation (requires judge's order after failed attempts)
+
+Service Decision Flow
+Attempt 1: Personal service at confirmed address
+Attempt 2: If failed — certified mail or substituted service
+Attempt 3+: Attorney files motion for alternative service (publication/posting)
+If NCP evades service: Attorney documents and court may enter default judgment
+
+NCP Response After Service
+NCP Response
+Next Action
+Answer Filed — Consent
+Attorney prepares consent order; proceed to Case Review
+No Response (Default)
+Default judgment entered after 30-day window; proceed to Case Review
+Contest Filed
+Case scheduled for court hearing; contested order process begins
+DATA OUTPUT FROM SCREEN 7: Service method used, Date served, Process server name, Affidavit of Service document ID, NCP Response type, NCP Response Deadline date, Default Judgment Eligible flag.
+
+
+PHASE 8 — CASE REVIEW & FINALIZATION   (Screen 8 · Supervisor)
+
+
+The Supervisor conducts a final quality review of the entire Establishment process before closing the module and transferring to Enforcement.
+
+Supervisor Checklist Items
+Checklist Item
+Validated By
+Status
+Paternity established and legal father confirmed
+System
+Auto-checked
+NCP located and address confirmed
+System
+Auto-checked
+CP Financial Information complete and verified
+System
+Auto-checked
+NCP Financial Information complete and verified
+System
+Auto-checked
+Support calculation completed per MD Guidelines
+System
+Auto-checked
+Court Order entered with correct order number
+System
+Auto-checked
+IWO issued to NCP employer
+System
+Auto-checked
+Service of Process complete or alt. service ordered
+Supervisor
+Manual review
+Federal Case Registry (FCR) updated
+System
+Auto-checked
+Maryland State Case Registry (SCR) updated
+System
+Auto-checked
+Supervisor sign-off and QA review complete
+Supervisor
+Required
+
+
+DATA OUTPUT FROM SCREEN 8: Establishment Completion Date, Final Case Status (Active — Order Established), Supervisor Sign-Off, Case transferred to Enforcement Module automatically.
+
+
+4. Data Flow — Screen-by-Screen
+The following table documents the exact data inputs and outputs for each screen in the Establishment Module, and the database entities affected.
+
+Scr.
+Screen Name
+Role
+Data Input
+Data Output / DB Entities Updated
+1
+Paternity Check
+IV-D Attorney
+AOP details, DNA lab results, court order ref
+PATERNITY_RECORD: established=Y, method, legal_father_id, est_date
+2
+Locate Parent
+Case Worker
+NDNH response, DMV result, IRS data, employer info
+NCP_PROFILE: address, employer, EIN; LOCATE_LOG: source, date, result
+3
+Financial — CP
+IV-D Attorney
+CP income, deductions, child care, health ins.
+FINANCIAL_INFO_CP: gross, net, deductions, child_expenses
+4
+Financial — NCP
+IV-D Attorney
+NCP income, deductions, existing orders
+FINANCIAL_INFO_NCP: gross, net, deductions, existing_orders
+5
+Calculation
+System Auto
+CP/NCP net incomes, MD Guidelines table, child count
+SUPPORT_CALC: combined_income, ncp_share_pct, basic_obligation, total_obligation, retroactive_amt
+6
+Order Establishment
+Atty + Court
+Order #, type, obligations, IWO fields, employer
+COURT_ORDER: order_no, date, amount, type; IWO_RECORD: employer, withhold_amt, SDU_acct
+7
+Service of Process
+IV-D Attorney
+Attempt date, method, address, server name, result
+SERVICE_LOG: attempt#, method, result, affidavit_id; CASE: ncp_response_type
+8
+Case Review
+Supervisor
+Checklist items, sign-off, case status
+CASE: status=Active_Order_Established, est_complete_date; AUTO TRIGGER: Enforcement referral
+
+
+4.1 Key Data Dependencies
+Screen 5 (Calculation) REQUIRES both Screen 3 and Screen 4 to be COMPLETE before it can execute. The system will block the attorney from submitting Screen 5 until both financial screens are saved and validated.
+
+
+4.2 Federal Reporting Data Flows
+Federal Case Registry (FCR): Updated at order establishment (Screen 6) with case number, order date, and NCP SSN.
+National Directory of New Hires (NDNH): Queried in Screen 2 for locate; also updated when NCP employment changes.
+State Case Registry (SCR): Updated at case finalization (Screen 8) with full order details.
+State Disbursement Unit (SDU): Receives IWO details from Screen 6 and begins accepting payments from employer.
+
+5. Workflow Decision Points
+The following are all decision gates within the Establishment Module that can change the workflow path.
+
+#
+Decision Point
+Condition
+Path A (Yes / True)
+Path B (No / False / Other)
+D1
+Paternity Status
+Is paternity already established?
+Skip DNA/AOP → Financial Info (Scr 3)
+Begin establishment pathway (AOP / DNA / Default)
+D2
+NCP Location
+Is NCP address/employer known?
+Proceed to Paternity / Financial Info
+Trigger Locate Parent (Scr 2) first
+D3
+DNA Test Result
+Probability >= 99%?
+Paternity confirmed → continue
+Negative / Inconclusive → second test or court
+D4
+NCP Refused DNA
+Did NCP refuse genetic testing?
+File for Default Judgment
+Proceed with test
+D5
+Deviation Request
+Is deviation from guidelines requested?
+Attorney documents reason, requires judge approval
+Use guideline-calculated amount directly
+D6
+Order Type
+What type of support order?
+Consent: parties agree, fast track | Default: NCP no-show
+Contested: schedule hearing — adds timeline
+D7
+Parenting Time
+Does NCP have >= 128 overnights/year?
+Apply parenting time adjustment (reduces obligation)
+No adjustment — use full calculated amount
+D8
+Service Success
+Was NCP successfully served?
+30-day response window begins
+Alt. service motion filed; publication or posting
+D9
+NCP Response
+Did NCP respond within 30 days?
+Consent or Contest path
+No response → Default Order entry
+D10
+Supervisor Sign-Off
+Does supervisor approve the checklist?
+Case closed → Enforcement transfer triggered
+Return for correction — caseworker notified
+
+
+6. Process Timeline & SLA Targets
+The following are the standard processing timelines for the Establishment Module, aligned with Title IV-D federal performance requirements.
+
+Activity
+Start Date
+Target Duration
+Federal/State Requirement
+Paternity establishment action
+Case Management complete
+Within 30 days
+IV-D performance measure
+DNA testing completion
+Court order for testing
+21–30 days
+Lab processing time
+Financial info collection
+Paternity established
+Within 20 days
+CSEA policy
+Support order entry
+Financial info complete
+Within 10 days
+CSEA policy
+IWO sent to employer
+Order entered
+Within 2 business days
+FL §10-120
+Service of process — 1st attempt
+Order entered
+Within 5 business days
+CSEA policy
+NCP response window
+Date of confirmed service
+30 calendar days
+Maryland Rules of Procedure
+Total Establishment (consent)
+Case Management complete
+45–60 days
+IV-D benchmark (uncontested)
+Total Establishment (contested)
+Case Management complete
+90–180 days
+Depends on court scheduling
+Enforcement transfer
+Supervisor sign-off
+Automatic / same day
+System auto-trigger
+
+
+7. Screen Field Reference Summary
+Quick reference of the most critical fields on each screen. Fields marked Required (*) must be completed before the screen can be submitted.
+
+Screen 1 — Paternity Check
+Field
+Type
+Required
+Notes
+Paternity Already Established
+Radio
+Yes*
+Drives pathway selection
+Establishment Method
+Dropdown
+Yes*
+AOP, Court Order, DNA, Default, Presumed
+Genetic Testing Required
+Radio
+Conditional
+Required if method = DNA
+Probability of Paternity (%)
+Decimal
+Conditional
+Must be >= 99% to establish
+Test Result
+Dropdown
+Conditional
+Positive / Negative / Inconclusive
+Paternity Established (outcome)
+Dropdown
+Yes*
+Yes / No / Pending / Dismissed
+Establishment Date
+Date
+Conditional
+Required when outcome = Yes
+
+
+Screen 2 — Locate Parent
+Field
+Type
+Required
+Notes
+NDNH Request Sent
+Checkbox
+Yes*
+Primary federal locate source
+NDNH / DMV / SVES Results
+Dropdown
+Yes*
+Pending / Located / Not Found
+Confirmed NCP Address
+Text
+Yes*
+Required before proceeding
+Address Source
+Dropdown
+Yes*
+NDNH, DMV, IRS, SVES, CP Provided
+Confirmed Employer
+Text
+If found
+Name and EIN from NDNH/wage match
+Locate Status
+Dropdown
+Yes*
+Located / Not Located / Escalate
+
+
+Screens 3 & 4 — Financial Info (CP and NCP)
+Field
+Type
+Required
+Notes
+Employment Type
+Dropdown
+Yes*
+W-2 / Self-Employed / Unemployed
+Gross Monthly Salary
+Currency
+Yes*
+Base for calculations
+Federal / State / FICA Taxes
+Currency
+Yes*
+All 4 tax fields required
+Health Insurance (Self)
+Currency
+No
+Employee's own premium only
+Child Care Costs (CP only)
+Currency
+No
+Monthly work-related child care
+Health Ins. for Child (CP only)
+Currency
+No
+Child's premium from CP policy
+
+
+Screen 5 — Support Calculation
+Field
+Type
+Required
+Notes
+MD Guidelines Schedule
+Dropdown
+Yes*
+Year of applicable table
+Parenting Time Adjustment
+Radio
+No
+Triggered if NCP >= 128 nights/yr
+Deviation Requested
+Radio
+No
+Requires justification + judge approval
+Retroactive Support
+Radio
+Yes*
+Yes / No — triggers date/amount fields
+Retroactive Start Date
+Date
+Conditional
+Required if retroactive = Yes
+Medical Support Order
+Dropdown
+Yes*
+Included in Order / Cash Medical / None
+
+
+Screen 6 — Order Establishment
+Field
+Type
+Required
+Notes
+Order Number
+Text
+Yes*
+Circuit Court docket number
+Order Type
+Dropdown
+Yes*
+Consent / Default / Contested / Administrative
+Order Date + Effective Date
+Date
+Yes*
+May differ — effective date drives payments
+Monthly CS Amount
+Currency
+Yes*
+Final ordered amount
+IWO Required
+Radio
+Yes*
+Mandatory in Maryland
+Employer Name + EIN
+Text
+Conditional
+Required if IWO = Yes
+CCPA Withholding Limit
+Dropdown
+Conditional
+50% / 55% / 60% / 65%
+
+
+Screen 7 — Service of Process
+Field
+Type
+Required
+Notes
+Document Type
+Dropdown
+Yes*
+Summons / Petition / Admin Notice
+Service Method
+Dropdown
+Yes*
+Personal / Mail / Substituted / Post / Publication
+Attempt Date
+Date
+Yes*
+Per attempt
+Service Successful
+Radio
+Yes*
+Yes / No
+Affidavit of Service Doc ID
+Text
+Conditional
+Required when served = Yes
+NCP Response Deadline
+Date
+Auto
++30 days from confirmed service
+Service Status (overall)
+Dropdown
+Yes*
+Pending / Served / Failed / Waived
+
+
+Screen 8 — Case Review & Finalize
+Field
+Type
+Required
+Notes
+Final Case Status
+Dropdown
+Yes*
+Active–Order Established / Closed / Transferred
+Closure Reason
+Dropdown
+Conditional
+Required if status = Closed
+Referral to Enforcement
+Checkbox
+Auto
+Auto-checked on supervisor approval
+Supervisor Name
+Lookup
+Yes*
+Sign-off required
+Sign-Off Date
+Date
+Yes*
+Recorded for audit trail
+QA Checklist Passed
+Checkbox
+Yes*
+All items must be verified
+Case Summary Notes
+Text Area
+No
+Narrative for record
+
+
+8. System Integration Points
+The Establishment Module integrates with the following internal CSMS modules and external federal/state systems.
+
+8.1 Internal CSMS Module Integrations
+Connected Module
+Direction
+Data Exchanged
+Case Management
+INBOUND
+CP profile, NCP profile (located/partial), child profiles, case number, county, worker assignment
+Enforcement Module
+OUTBOUND
+Case number, court order details, IWO record, monthly obligation, NCP employer, SDU account, arrears balance
+Modification Module
+OUTBOUND (Optional)
+Triggered if supervisor flags immediate modification need at finalization
+Document Management
+BIDIRECTIONAL
+Lab reports (DNA), AOP scans, affidavits of service, court order PDFs, IWO form PDFs
+
+
+8.2 External System Integrations
+External System
+Screen(s)
+Purpose
+NDNH (Federal)
+Screen 2
+NCP locate — new hire reporting, wage data
+Maryland DMV
+Screen 2
+NCP locate — current address, vehicle, DL
+SVES / SSA
+Screen 2
+NCP locate — SSI, SSDI benefit address
+IRS (Data Match)
+Screen 2
+NCP locate — tax return address
+Genetic Testing Labs
+Screen 1
+DNA sample results and chain of custody
+Federal Case Registry (FCR)
+Screen 6 + 8
+Federal reporting of order establishment
+Maryland State Case Registry (SCR)
+Screen 8
+State case record update
+Maryland SDU
+Screen 6
+Payment disbursement — receives IWO account details
+NCP Employer (IWO)
+Screen 6
+Income withholding — employer receives IWO via mail/EDI
+Maryland Circuit Court
+Screen 6
+Order entry, docket number confirmation
+
+
+9. Worked Example — Case MD-2025-048291
+The following illustrates the complete flow of a real establishment case to demonstrate how data moves through each screen.
+
+Party
+Field
+Value
+CP
+Name
+Maria Johnson
+CP
+Benefits
+TANF Referral — Baltimore City DSS — Support rights assigned to State
+CP
+Net Income
+$2,245.00 / month
+NCP
+Name
+Robert A. Williams
+NCP
+Employer
+ABC Construction LLC — EIN 52-1234567
+NCP
+Net Income
+$3,281.00 / month
+Child
+Name
+Aiden James Williams, DOB 11/05/2022
+
+
+Step
+Screen
+What Happened
+1
+Paternity
+Paternity not established; DNA test ordered 01/20/2025. Samples collected 01/28/2025. LabCorp returned 99.97% probability 02/05/2025. Paternity established 02/10/2025.
+2
+Locate
+NCP address unknown; NDNH request sent 01/16/2025. NCP found at 2200 Kirk Ave, Baltimore. Employer ABC Construction confirmed via NDNH wage match.
+3
+Finance CP
+CP: Gross $3,000, Net $2,245. Child care $650/mo (Sunshine Daycare). Child health ins. $85/mo (BCBS).
+4
+Finance NCP
+NCP: Gross $4,500 (incl. overtime $300), Net $3,281. No existing child support orders.
+5
+Calculation
+Combined income $5,526. Basic obligation $832 (2022 MD table). NCP share 59.4% = $494. + Child care $386 + Ins. $50 = $931/mo. Retroactive 3 months = $2,793.
+6
+Order
+Consent Order entered 03/15/2025, Circuit Court Baltimore City. Monthly $931, effective 03/01/2025. IWO issued same day: $1,031/mo ($931 + $100 arrears) to ABC Construction. SDU account SDU-MD-048291.
+7
+Service
+Attempt 1 (02/18) Personal service — wrong address. Attempt 2 (03/02) Certified Mail — pending. NCP consented to order; no further service issues.
+8
+Finalize
+Supervisor Patricia Moore signed off 03/18/2025. Checklist complete (SOP pending). Case status: Active — Order Established. Auto-transferred to Enforcement 03/18/2025.
+
+
+10. Glossary
+Term
+Definition
+AOP
+Acknowledgment of Paternity — voluntary form signed by both parents to establish paternity without court involvement
+CCPA
+Consumer Credit Protection Act — federal law limiting the percentage of wages that can be withheld for child support
+COMAR
+Code of Maryland Regulations — state administrative rules governing CSEA operations
+CP
+Custodial Party — the parent or caretaker with whom the child primarily resides
+CSEA
+Child Support Enforcement Administration — Maryland state agency administering the IV-D program
+FCR
+Federal Case Registry — federal database of all IV-D child support orders
+IWO
+Income Withholding Order — legal document directing NCP employer to withhold child support from wages
+NDNH
+National Directory of New Hires — federal database for employer and wage data used for locate and enforcement
+NCP
+Non-Custodial Parent — the parent who does not have primary physical custody and who pays support
+SCR
+State Case Registry — Maryland's centralized record of all child support orders
+SDU
+State Disbursement Unit — Maryland's centralized payment processing unit for child support payments
+SVES
+State Verification and Exchange System — SSA system used to verify disability benefits for locate
+Title IV-D
+Federal program under the Social Security Act funding state child support enforcement activities
+UIFSA
+Uniform Interstate Family Support Act — governs interstate child support establishment and enforcement
+
+

@@ -23,7 +23,8 @@ This document illustrates how all CSMS modules are interconnected in the busines
 | 3 | Detailed Locate Module Connection Diagram | §2 | Internal Locate structure, Person tables, consumer modules |
 | 4 | Locate Module Dependencies (Connection Matrix) | §3 | Inputs to and outputs from Locate |
 | 5 | Data Flow - Locate Module | §4 | How data moves across modules over time |
-| — | Workflow Scenarios 1–5 | §5 | Intake, Case Mgmt, Enforcement, Establishment, Finance scenarios |
+| — | Intergovernmental Workflow | §1.1 | Initiating vs. Responding state flow; Case Transmittal |
+| — | Workflow Scenarios 1–6 | §5 | Intake, Case Mgmt, Enforcement, Establishment, Finance, Intergovernmental scenarios |
 | 6.2 | Search Logic Flow | §6.2 | Internal search → Enterprise Search → Match resolution |
 | 6.3 | Data Update Workflow | §6.3 | Validation → Update → Audit → Notify |
 | 6.4 | Enterprise Search Workflow | §6.4 | Request → Submit → Process → User selection |
@@ -72,18 +73,24 @@ This document illustrates how all CSMS modules are interconnected in the busines
         │  • Case Maintenance                │
         │  • Party Information Updates       │
         │  • Document Management             │
-        └───────┬────────────────────┬───────┘
-                │                    │
-                │                    │
-                ▼                    ▼
-    ┌──────────────────┐    ┌──────────────────┐
-    │   4. LOCATE      │    │  5. ESTABLISHMENT│
-    │   • Find NCP/CP  │    │   • Paternity    │
-    │   • Update Info  │    │   • Support Order│
-    └───────┬──────────┘    └───────┬──────────┘
-            │                       │
-            │                       │
-            ▼                       ▼
+        │  • Interstate Case Identification  │
+        └───┬────────────┬────────────┬──────┘
+            │            │            │
+            │            │            │(if interstate)
+            ▼            ▼            ▼
+    ┌──────────────┐ ┌──────────────┐ ┌──────────────────────┐
+    │ 4. LOCATE    │ │ 5. ESTABLISH │ │ 8. INTERGOVERNMENTAL │
+    │ • Find NCP/CP│ │ • Paternity  │ │ • Initiating State   │
+    │ • Update Info│ │ • Support    │ │ • Responding State   │
+    └──────┬───────┘ │   Order      │ │ • Case Transmittal   │
+           │         └──────┬───────┘ │ • UIFSA Compliance   │
+           │                │         └──────────┬───────────┘
+           │                │                    │
+           │                │                    │ Coordinates with
+           │                │                    │ Locate, Establish,
+           │                │                    │ Enforce, Finance
+           └────────────────┼────────────────────┘
+                            ▼
     ┌──────────────────────────────────────┐
     │      6. ENFORCEMENT                  │
     │      • IWO                           │
@@ -102,7 +109,80 @@ This document illustrates how all CSMS modules are interconnected in the busines
 
 **Diagram 1 Description — Overall System Business Flow**
 
-This diagram depicts the end-to-end lifecycle of a child support case from application receipt through financial disbursement. A case begins when an application is received and flows sequentially through **Intake** (application entry, CP/NCP/child data collection), then **Case Registration** (member clearance, MDM ID generation, case registration, work item creation). After registration, **Case Management** maintains the case and can branch to **Locate** (finding and updating NCP/CP location) and **Establishment** (paternity, support order, court proceedings). Both Locate and Establishment feed into **Enforcement** (IWO, license suspension, collections), which in turn feeds **Finance** (payment receipt, disbursement, reporting). The flow is predominantly sequential, with Locate and Establishment as parallel paths from Case Management, and Finance as the final stage.
+This diagram depicts the end-to-end lifecycle of a child support case from applic`ation receipt through financial disbursement. A case begins when an application is received and flows sequentially through **Intake** (application entry, CP/NCP/child data collection), then **Case Registration** (member clearance, MDM ID generation, case registration, work item creation). After registration, **Case Management** maintains the case and can branch to **Locate** (finding and updating NCP/CP location), **Establishment** (paternity, support order, court proceedings), and **Intergovernmental** (interstate cases per UIFSA). For interstate cases, **Intergovernmental** coordinates with Locate, Establishment, Enforcement, and Finance for both Initiating State (Maryland sends request) and Responding State (Maryland receives request) workflows. Locate and Establishment feed into **Enforcement** (IWO, license suspension, collections), which in turn feeds **Finance** (payment receipt, disbursement, reporting). The flow is predominantly sequential, with Locate, Establishment, and Intergovernmental as parallel paths from Case Management, and Finance as the final stage.
+
+---
+
+## 1.1 Intergovernmental Module Workflow
+
+For cases involving NCP or child in another state or jurisdiction, the **Intergovernmental** module manages UIFSA-compliant workflows. Maryland may act as **Initiating State** (sends request) or **Responding State** (receives request).
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│              INTERGOVERNMENTAL MODULE WORKFLOW (UIFSA)                  │
+└─────────────────────────────────────────────────────────────────────────┘
+
+CASE MANAGEMENT (Interstate Case Identified)
+    │
+    ├── NCP/Child in another state? ──► INTERGOVERNMENTAL
+    │
+    └─────────────────────────────────────────────────────────────────────
+                                    │
+                    ┌───────────────┴───────────────┐
+                    │                               │
+                    ▼                               ▼
+        ┌───────────────────────┐       ┌───────────────────────┐
+        │  INITIATING STATE     │       │  RESPONDING STATE     │
+        │  (Maryland sends      │       │  (Maryland receives   │
+        │   request)            │       │   request)            │
+        └───────────┬───────────┘       └───────────┬───────────┘
+                    │                               │
+                    │ • Transmittal ≤20 days        │ • Acknowledge receipt
+                    │ • Provide documentation       │ • Process request
+                    │ • Respond to info requests    │ • Report outcome
+                    │   within 30 days              │ • Send collections
+                    │ • Receive & disburse          │
+                    │   collections                 │
+                    │                               │
+                    └───────────────┬───────────────┘
+                                    │
+                                    ▼
+                    ┌───────────────────────────────────────┐
+                    │       CASE TRANSMITTAL MANAGEMENT     │
+                    │  • Track inbound/outbound             │
+                    │  • Status: Pending→Sent→Received→     │
+                    │    Acknowledged                       │
+                    │  • UIFSA timeliness (20/30 day)       │
+                    └───────────────┬───────────────────────┘
+                                    │
+        ┌───────────────────────────┼───────────────────────────┐
+        │                           │                           │
+        ▼                           ▼                           ▼
+┌───────────────┐         ┌───────────────┐         ┌───────────────┐
+│   LOCATE      │         │ ESTABLISHMENT │         │  ENFORCEMENT  │
+│ (Interstate   │         │ (Interstate   │         │ (Interstate   │
+│  Locate)      │         │  Paternity/   │         │  IWO/         │
+│               │         │  Support)     │         │  Collections) │
+└───────┬───────┘         └───────┬───────┘         └───────┬───────┘
+        │                         │                         │
+        └─────────────────────────┼─────────────────────────┘
+                                  │
+                                  ▼
+                        ┌───────────────────┐
+                        │     FINANCE       │
+                        │ (Interstate       │
+                        │  Payment Receipt, │
+                        │  Distribution)    │
+                        └───────────────────┘ 
+```
+
+**Intergovernmental Workflow Description**
+
+When a case is identified as **interstate** (NCP or child in another state), the Intergovernmental module coordinates:
+- **Initiating State**: Maryland transmits the case to the responding state central registry within 20 days; provides documentation; responds to additional info requests within 30 days; receives and disburses collections.
+- **Responding State**: Maryland receives transmittals, acknowledges receipt, processes establishment/locate/enforcement requests, and sends collections to the initiating state.
+- **Case Transmittal**: Tracks inbound and outbound transmittals with status and timeliness per UIFSA.
+- **Integration**: Intergovernmental uses Locate (interstate locate), Establishment (interstate paternity/support), Enforcement (interstate IWO, collections), and Finance (interstate payment receipt/distribution).
 
 ---
 
@@ -116,21 +196,20 @@ This diagram depicts the end-to-end lifecycle of a child support case from appli
                     │   (Used Throughout Case Lifecycle)          │
                     └──────────────────┬──────────────────────────┘
                                        │
-                    ┌──────────────────┼──────────────────┐
-                    │                  │                  │
-                    ▼                  ▼                  ▼
-        ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐
-        │   INTAKE         │  │  CASE            │  │  ESTABLISHMENT   │
-        │   MODULE         │  │  MANAGEMENT      │  │  MODULE          │
-        │                  │  │                  │  │                  │
-        │ • NCP missing    │  │ • Update NCP     │  │ • Locate NCP for │
-        │   information    │  │   address        │  │   paternity      │
-        │ • Initial locate │  │ • Verify current │  │ • Service of     │
-        │   attempts       │  │   location       │  │   process        │
-        └────────┬─────────┘  └────────┬─────────┘  └────────┬─────────┘
-                 │                     │                      │
-                 │                     │                      │
-                 └─────────────────────┼──────────────────────┘
+       ┌────────────┼────────────┼────────────┼────────────┐
+                    │            │            │            │
+                    ▼            ▼            ▼            ▼
+        ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐
+        │   INTAKE         │  │  CASE            │  │  ESTABLISHMENT   │  │ INTERGOVERNMENTAL│
+        │   MODULE         │  │  MANAGEMENT      │  │  MODULE          │  │  MODULE          │
+        │                  │  │                  │  │                  │  │                  │
+        │ • NCP missing    │  │ • Update NCP     │  │ • Locate NCP for │  │ • Interstate     │
+        │   information    │  │   address        │  │   paternity      │  │   locate         │
+        │ • Initial locate │  │ • Verify current │  │ • Service of     │  │ • Responding     │
+        │   attempts       │  │   location       │  │   process        │  │   state locate   │
+        └────────┬─────────┘  └────────┬─────────┘  └────────┬─────────┘  └────────┬─────────┘
+                 │                     │                     │                     │
+                 └─────────────────────┼─────────────────────┼─────────────────────┘
                                        │
                                        ▼
                     ┌─────────────────────────────────────┐
@@ -152,7 +231,7 @@ This diagram depicts the end-to-end lifecycle of a child support case from appli
 
 **Diagram 2 Description — Locate Module Integration Points**
 
-This diagram shows the Locate module as a **central hub** used across the case lifecycle. Locate connects **upstream** to **Intake** (when NCP information is missing or initial locate is needed), **Case Management** (when NCP address or location must be updated or verified), and **Establishment** (when the NCP must be located for paternity or service of process). It connects **downstream** to **Enforcement** (locating NCP for enforcement, finding employer for IWO, updating address for service) and **Finance** (updating address for payments and verifying location for disbursements). The diagram emphasizes that Locate is not a one-time step but a shared service used by multiple modules at different stages.
+This diagram shows the Locate module as a **central hub** used across the case lifecycle. Locate connects **upstream** to **Intake** (when NCP information is missing or initial locate is needed), **Case Management** (when NCP address or location must be updated or verified), **Establishment** (when the NCP must be located for paternity or service of process), and **Intergovernmental** (interstate locate when Maryland is responding state or when requesting locate from another state). It connects **downstream** to **Enforcement** (locating NCP for enforcement, finding employer for IWO, updating address for service) and **Finance** (updating address for payments and verifying location for disbursements). The diagram emphasizes that Locate is not a one-time step but a shared service used by multiple modules at different stages.
 
 ---
 
@@ -161,20 +240,19 @@ This diagram shows the Locate module as a **central hub** used across the case l
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
 │                         LOCATE MODULE                                │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐              │
-│  │  Cases Tab   │  │  Demographics│  │   Address    │              │
-│  │  (Search)    │  │  Updates     │  │   Updates    │              │
-│  └──────────────┘  └──────────────┘  └──────────────┘              │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐              │
-│  │  Employer    │  │   Contact    │  │  Required    │              │
-│  │  Updates     │  │   Updates    │  │  Actions     │              │
-│  └──────────────┘  └──────────────┘  └──────────────┘              │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                │
+│  │  Cases Tab   │  │  Demographics│  │   Address    │                │
+│  │  (Search)    │  │  Updates     │  │   Updates    │                │
+│  └──────────────┘  └──────────────┘  └──────────────┘                │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                │
+│  │  Employer    │  │   Contact    │  │  Required    │                │
+│  │  Updates     │  │   Updates    │  │  Actions     │                │
+│  └──────────────┘  └──────────────┘  └──────────────┘                │
 └──────────────────────────────────────────────────────────────────────┘
                               │
         ┌─────────────────────┼─────────────────────┐
         │                     │                     │
         ▼                     ▼                     ▼
-
 ┌───────────────┐    ┌───────────────┐    ┌───────────────┐
 │   INTAKE      │    │ CASE REG.     │    │ CASE MGT      │
 │   Uses Locate │    │ Uses Locate   │    │ Uses Locate   │
@@ -235,10 +313,10 @@ This diagram illustrates the **internal structure** of the Locate module (Cases 
 ### Locate Module Dependencies
 
 ```
-┌──────────────────────────────────────────────────────────────────┐
-│                    LOCATE MODULE - CONNECTIONS                   │
-├──────────────────────────────────────────────────────────────────┤
-│                                                                  │
+┌─────────────────────────────────────────────────────────────────┐
+│                    LOCATE MODULE - CONNECTIONS                  │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
 │  ┌────────────────┐                                             │
 │  │  INPUTS FROM   │                                             │
 │  ├────────────────┤                                             │
@@ -250,7 +328,7 @@ This diagram illustrates the **internal structure** of the Locate module (Cases 
 │  │ • Search       │ ← Case Management Module                    │
 │  │   Criteria     │                                             │
 │  └────────────────┘                                             │
-│                                                                  │
+│                                                                 │
 │  ┌────────────────┐                                             │
 │  │  OUTPUTS TO    │                                             │
 │  ├────────────────┤                                             │
@@ -269,8 +347,8 @@ This diagram illustrates the **internal structure** of the Locate module (Cases 
 │  │ • Verified     │ → Finance Module (for disbursement)         │
 │  │   Addresses    │                                             │
 │  └────────────────┘                                             │
-│                                                                  │
-└──────────────────────────────────────────────────────────────────┘
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
 **Diagram 4 Description — Locate Module Dependencies (Connection Matrix)**
@@ -391,15 +469,15 @@ INTake Worker receives application
            │ Updates Person Tables
            │
            ▼
-    ┌─────────────┐
-    │   INTAKE    │
-    │   MODULE    │
-    │             │
-    │ • Completes │
+    ┌───────────── ┐
+    │INTAKE MODULE │
+    │              │
+    │              │
+    │ • Completes  │
     │   application│
-    │ • Creates   │
-    │   work item │
-    └─────────────┘
+    │ • Creates    │
+    │   work item  │
+    └───────────── ┘
 ```
 
 **Scenario 1 Description:** An intake worker receives an application with incomplete NCP information. The worker triggers a locate search from the Intake module. The Locate module searches internal and external databases, finds the NCP, and updates person records. Those updates are written back to the person tables. The intake worker then completes the application and creates a work item for downstream processing. This scenario shows Locate being invoked **during Intake** before case registration.
@@ -585,6 +663,53 @@ Finance Worker needs to disburse payment
 
 ---
 
+## Scenario 6: Intergovernmental (Initiating State – Maryland Sends Request)
+
+```
+Case Worker identifies NCP in another state
+         │
+         ▼
+    ┌─────────────────┐
+    │ CASE MANAGEMENT │
+    │  (Interstate    │
+    │   case)         │
+    └────────┬────────┘
+             │
+             │ Routes to Intergovernmental
+             │
+             ▼
+    ┌─────────────────────────┐
+    │  INTERGOVERNMENTAL      │
+    │  (Initiating State)     │
+    │                         │
+    │ • Create transmittal    │
+    │ • Transmit ≤20 days     │
+    │ • Attach documentation  │
+    └────────┬────────────────┘
+             │
+             │ Transmittal sent to responding state
+             │
+             ▼
+    ┌─────────────────────────┐
+    │  RESPONDING STATE       │
+    │  (processes request)    │
+    └────────┬────────────────┘
+             │
+             │ Uses Locate, Establishment, Enforcement
+             │ Sends collections back
+             │
+             ▼
+    ┌─────────────────────────┐
+    │  FINANCE (Maryland)     │
+    │  • Receives collections │
+    │  • Disburses to CP      │
+    └─────────────────────────┘
+```
+
+**Scenario 6 Description:** A case worker identifies that the NCP resides in another state. The case is routed to the **Intergovernmental** module as an **Initiating State** case. Maryland creates a case transmittal and sends it to the responding state’s central registry within 20 days per UIFSA. The responding state performs locate, establishment, and enforcement; sends collections to Maryland. Maryland’s Finance module receives and disburses those collections to the CP. This scenario shows the **Intergovernmental** module coordinating interstate case processing and ensuring UIFSA compliance for Initiating State workflow.
+
+---
+
 ## Module Connection Summary Table
 
 | Module | Connection to Locate | When Locate is Used | Data Exchanged |
@@ -595,6 +720,7 @@ Finance Worker needs to disburse payment
 | **Establishment** | One-way (Locate → Establishment) | Service of process, court proceedings | Service addresses |
 | **Enforcement** | One-way (Locate → Enforcement) | IWO employer location, service addresses | Employer info, addresses |
 | **Finance** | One-way (Locate → Finance) | Payment disbursement address verification | Verified addresses |
+| **Intergovernmental** | Two-way | Interstate locate; service of process in responding state; employer for IWO | Person location, transmittal status, collections |
 
 ---
 

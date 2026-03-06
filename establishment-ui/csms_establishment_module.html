@@ -1,0 +1,1817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maryland CSMS – Establishment Module</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap');
+
+  :root {
+    --md-blue: #003087;
+    --md-gold: #E5B31B;
+    --md-red: #C8102E;
+    --bg: #F4F5F7;
+    --surface: #FFFFFF;
+    --surface2: #F0F2F5;
+    --border: #D0D5DD;
+    --text: #1A2233;
+    --text-muted: #6B7A99;
+    --success: #1A7F4B;
+    --warning: #C47B00;
+    --info: #0066CC;
+    --role-worker: #00B4D8;
+    --role-super: #FF6B35;
+    --role-attorney: #E91E63;
+    --role-auto: #607D8B;
+    --sidebar-w: 260px;
+    --header-h: 60px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-size: 13px;
+  }
+
+  /* ─── HEADER ─── */
+  .app-header {
+    height: var(--header-h);
+    background: var(--md-blue);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 16px;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  }
+  .header-seal {
+    width: 36px; height: 36px;
+    background: var(--md-gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700; color: var(--md-blue);
+  }
+  .header-title {
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    font-weight: 700; font-size: 16px; color: #fff;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .header-sub { font-size: 11px; color: rgba(255,255,255,0.6); letter-spacing: 0.05em; }
+  .header-spacer { flex: 1; }
+  .header-user {
+    display: flex; align-items: center; gap: 10px;
+    color: rgba(255,255,255,0.85); font-size: 12px;
+  }
+  .user-avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600; color: #fff;
+  }
+  .role-badge {
+    padding: 2px 8px; border-radius: 3px; font-size: 10px;
+    font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .role-worker { background: var(--role-worker); color: #fff; }
+  .role-super { background: var(--role-super); color: #fff; }
+  .role-attorney { background: var(--role-attorney); color: #fff; }
+
+  /* ─── LAYOUT ─── */
+  .app-body {
+    display: flex;
+    margin-top: var(--header-h);
+    min-height: calc(100vh - var(--header-h));
+  }
+
+  /* ─── SIDEBAR ─── */
+  .sidebar {
+    width: var(--sidebar-w);
+    background: var(--md-blue);
+    position: fixed;
+    top: var(--header-h);
+    bottom: 0;
+    left: 0;
+    overflow-y: auto;
+    z-index: 50;
+    padding: 16px 0;
+  }
+  .sidebar-section {
+    padding: 8px 16px 4px;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+  .sidebar-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 16px;
+    cursor: pointer;
+    color: rgba(255,255,255,0.7);
+    font-size: 12.5px;
+    border-left: 3px solid transparent;
+    transition: all 0.15s;
+  }
+  .sidebar-item:hover { background: rgba(255,255,255,0.08); color: #fff; }
+  .sidebar-item.active {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    border-left-color: var(--md-gold);
+  }
+  .sidebar-item.active .step-num { background: var(--md-gold); color: var(--md-blue); }
+  .step-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; flex-shrink: 0;
+    transition: all 0.15s;
+  }
+  .step-check { background: var(--success); color: #fff; }
+  .sidebar-divider { height: 1px; background: rgba(255,255,255,0.08); margin: 8px 16px; }
+
+  /* ─── MAIN ─── */
+  .main {
+    margin-left: var(--sidebar-w);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ─── TAB BAR ─── */
+  .tab-bar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    padding: 0 24px;
+    gap: 2px;
+    position: sticky;
+    top: var(--header-h);
+    z-index: 40;
+  }
+  .tab {
+    padding: 12px 18px;
+    font-size: 12px; font-weight: 500;
+    cursor: pointer;
+    color: var(--text-muted);
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+  .tab.active { color: var(--md-blue); border-bottom-color: var(--md-blue); font-weight: 600; }
+  .tab:hover { color: var(--text); }
+
+  /* ─── CONTENT AREA ─── */
+  .content {
+    padding: 24px;
+    flex: 1;
+  }
+
+  /* Each screen panel */
+  .screen-panel { display: none; }
+  .screen-panel.active { display: block; }
+
+  /* ─── PAGE HEADER ─── */
+  .page-header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .page-title { font-size: 20px; font-weight: 700; color: var(--md-blue); }
+  .page-subtitle { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+  .page-actions { display: flex; gap: 8px; }
+
+  /* ─── CASE BANNER ─── */
+  .case-banner {
+    background: var(--md-blue);
+    color: #fff;
+    border-radius: 6px;
+    padding: 12px 16px;
+    display: flex; gap: 32px; align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .banner-item { display: flex; flex-direction: column; gap: 2px; }
+  .banner-label { font-size: 10px; opacity: 0.6; letter-spacing: 0.06em; text-transform: uppercase; }
+  .banner-value { font-size: 13px; font-weight: 600; font-family: 'IBM Plex Mono', monospace; }
+  .banner-status {
+    margin-left: auto;
+    padding: 4px 12px; border-radius: 20px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.05em;
+    background: rgba(255,255,255,0.15);
+  }
+
+  /* ─── CARDS ─── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .card-header {
+    padding: 10px 16px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 600; font-size: 12.5px; color: var(--md-blue);
+  }
+  .card-header-icon {
+    width: 24px; height: 24px; border-radius: 4px;
+    background: var(--md-blue); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+  }
+  .card-body { padding: 16px; }
+  .card-tag {
+    margin-left: auto;
+    font-size: 10px; font-weight: 600;
+    padding: 2px 8px; border-radius: 3px;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .tag-required { background: #FFF0F0; color: var(--md-red); border: 1px solid #FFCCCC; }
+  .tag-auto { background: #E8F4F8; color: #0066AA; border: 1px solid #B3D9EE; }
+  .tag-conditional { background: #FFF8E6; color: var(--warning); border: 1px solid #FFE09A; }
+
+  /* ─── FORM GRID ─── */
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px 16px;
+  }
+  .form-grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .form-grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .span-2 { grid-column: span 2; }
+  .span-3 { grid-column: span 3; }
+  .span-4 { grid-column: span 4; }
+
+  .field { display: flex; flex-direction: column; gap: 4px; }
+  .field label {
+    font-size: 11px; font-weight: 600; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .field label .req { color: var(--md-red); margin-left: 2px; }
+  .field input, .field select, .field textarea {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 7px 10px;
+    font-size: 12.5px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: var(--text);
+    background: var(--surface);
+    width: 100%;
+    transition: border-color 0.15s;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    outline: none;
+    border-color: var(--md-blue);
+    box-shadow: 0 0 0 2px rgba(0,48,135,0.12);
+  }
+  .field textarea { resize: vertical; min-height: 60px; }
+  .field .hint { font-size: 10.5px; color: var(--text-muted); }
+  .field-inline { flex-direction: row; align-items: center; gap: 8px; }
+  .field-inline label { text-transform: none; font-size: 12.5px; font-weight: 400; color: var(--text); letter-spacing: 0; }
+
+  .input-group { display: flex; gap: 0; }
+  .input-group input { border-radius: 4px 0 0 4px; flex: 1; }
+  .input-group .input-addon {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+    padding: 7px 10px;
+    font-size: 12px; color: var(--text-muted);
+    display: flex; align-items: center;
+  }
+
+  /* ─── BUTTONS ─── */
+  .btn {
+    padding: 8px 18px; border-radius: 4px; border: none;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 12.5px; font-weight: 600;
+    cursor: pointer; transition: all 0.15s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-primary { background: var(--md-blue); color: #fff; }
+  .btn-primary:hover { background: #002070; }
+  .btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { background: var(--surface2); }
+  .btn-danger { background: var(--md-red); color: #fff; }
+  .btn-success { background: var(--success); color: #fff; }
+  .btn-warning { background: var(--md-gold); color: var(--md-blue); }
+  .btn-sm { padding: 5px 12px; font-size: 11.5px; }
+  .btn-ghost { background: transparent; color: var(--md-blue); border: 1px solid var(--md-blue); }
+
+  /* ─── TABLES ─── */
+  .data-table { width: 100%; border-collapse: collapse; }
+  .data-table th {
+    padding: 8px 12px; text-align: left;
+    font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text-muted); background: var(--surface2);
+    border-bottom: 2px solid var(--border);
+  }
+  .data-table td {
+    padding: 9px 12px; font-size: 12.5px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: #F8F9FB; }
+
+  /* ─── STATUS BADGES ─── */
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 9px; border-radius: 20px;
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .badge-success { background: #E3F7EC; color: var(--success); }
+  .badge-warning { background: #FFF3CD; color: var(--warning); }
+  .badge-info { background: #E0F0FF; color: var(--info); }
+  .badge-danger { background: #FFE8EC; color: var(--md-red); }
+  .badge-neutral { background: var(--surface2); color: var(--text-muted); }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  /* ─── ALERTS ─── */
+  .alert {
+    padding: 10px 14px; border-radius: 5px;
+    font-size: 12px; display: flex; align-items: flex-start; gap: 10px;
+    margin-bottom: 16px;
+  }
+  .alert-info { background: #E0F0FF; border-left: 4px solid var(--info); color: #004A99; }
+  .alert-warning { background: #FFF3CD; border-left: 4px solid var(--md-gold); color: #7A5000; }
+  .alert-success { background: #E3F7EC; border-left: 4px solid var(--success); color: #0E5C34; }
+  .alert-danger { background: #FFE8EC; border-left: 4px solid var(--md-red); color: #8B0020; }
+
+  /* ─── WORKFLOW DIAGRAM ─── */
+  .workflow-container {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 24px;
+    overflow-x: auto;
+  }
+  .wf-title { font-size: 14px; font-weight: 700; color: var(--md-blue); margin-bottom: 20px; text-align: center; }
+  .wf-flow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .wf-row {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    justify-content: center;
+    flex-wrap: nowrap;
+  }
+  .wf-node {
+    min-width: 130px;
+    max-width: 150px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    position: relative;
+    line-height: 1.3;
+  }
+  .wf-node:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .wf-node.terminal {
+    background: #2D3A4A; color: #fff;
+    border-radius: 30px; padding: 8px 20px;
+    min-width: 80px; max-width: 100px;
+  }
+  .wf-node.auto { background: var(--role-auto); color: #fff; }
+  .wf-node.worker { background: var(--role-worker); color: #fff; }
+  .wf-node.supervisor { background: var(--role-super); color: #fff; }
+  .wf-node.attorney { background: var(--role-attorney); color: #fff; }
+  .wf-node.decision {
+    background: var(--role-super);
+    color: #fff;
+    border-radius: 0;
+    transform: rotate(45deg);
+    width: 90px; height: 90px;
+    min-width: 90px; max-width: 90px;
+    padding: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .wf-node.decision .node-inner {
+    transform: rotate(-45deg);
+    font-size: 10px; font-weight: 700; text-align: center;
+    padding: 4px;
+  }
+  .wf-node.highlighted { box-shadow: 0 0 0 3px var(--md-gold), 0 4px 16px rgba(0,0,0,0.2); }
+
+  .wf-arrow-v { 
+    width: 2px; height: 28px; 
+    background: var(--border); 
+    position: relative; margin: 0 auto;
+  }
+  .wf-arrow-v::after {
+    content: '▼'; position: absolute; bottom: -8px;
+    left: 50%; transform: translateX(-50%);
+    font-size: 10px; color: var(--text-muted);
+  }
+  .wf-arrow-h {
+    width: 32px; height: 2px;
+    background: var(--border);
+    position: relative; flex-shrink: 0;
+  }
+  .wf-arrow-h::after {
+    content: '▶'; position: absolute; right: -6px;
+    top: 50%; transform: translateY(-50%);
+    font-size: 10px; color: var(--text-muted);
+  }
+  .wf-label {
+    font-size: 10px; color: var(--text-muted);
+    font-style: italic; text-align: center;
+    margin: 2px 0;
+  }
+  .wf-legend {
+    display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+    margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+
+  /* ─── PROGRESS STEPS ─── */
+  .progress-steps {
+    display: flex; align-items: center;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 6px; padding: 12px 16px; margin-bottom: 20px;
+    overflow-x: auto;
+  }
+  .ps-step {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 11px; white-space: nowrap;
+  }
+  .ps-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--border); color: var(--text-muted);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; flex-shrink: 0;
+  }
+  .ps-step.done .ps-num { background: var(--success); color: #fff; }
+  .ps-step.active .ps-num { background: var(--md-blue); color: #fff; }
+  .ps-step.active { font-weight: 600; color: var(--md-blue); }
+  .ps-step.done { color: var(--success); }
+  .ps-connector { flex: 1; height: 1px; background: var(--border); min-width: 20px; margin: 0 8px; }
+  .ps-connector.done { background: var(--success); }
+
+  /* ─── CALCULATION BOX ─── */
+  .calc-box {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 5px; padding: 14px; margin-top: 12px;
+  }
+  .calc-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 5px 0; font-size: 12.5px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .calc-row:last-child { border-bottom: none; }
+  .calc-row.total {
+    font-weight: 700; font-size: 14px; color: var(--md-blue);
+    padding-top: 8px; border-top: 2px solid var(--md-blue);
+    margin-top: 4px;
+  }
+  .calc-amount { font-family: 'IBM Plex Mono', monospace; }
+
+  /* ─── CHECKLIST ─── */
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px; border-bottom: 1px solid var(--border);
+    font-size: 12.5px;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .chk { width: 18px; height: 18px; border-radius: 3px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .chk-done { background: var(--success); color: #fff; font-size: 11px; }
+  .chk-pending { border: 2px solid var(--border); }
+  .chk-warn { background: var(--md-gold); color: var(--md-blue); font-size: 11px; }
+
+  /* ─── ROLE INDICATOR ─── */
+  .role-bar {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 14px; border-radius: 4px;
+    font-size: 11.5px; font-weight: 600; margin-bottom: 16px;
+  }
+  .role-bar.worker { background: rgba(0,180,216,0.12); color: #007a93; border-left: 4px solid var(--role-worker); }
+  .role-bar.supervisor { background: rgba(255,107,53,0.1); color: #b34b25; border-left: 4px solid var(--role-super); }
+  .role-bar.attorney { background: rgba(233,30,99,0.1); color: #a31545; border-left: 4px solid var(--role-attorney); }
+  .role-bar.auto { background: rgba(96,125,139,0.1); color: #37474f; border-left: 4px solid var(--role-auto); }
+
+  /* ─── DIVIDER ─── */
+  .divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+  /* ─── INLINE ICONS ─── */
+  .icon { font-style: normal; }
+
+  /* ─── RADIO GROUP ─── */
+  .radio-group { display: flex; gap: 16px; flex-wrap: wrap; padding-top: 4px; }
+  .radio-opt { display: flex; align-items: center; gap: 6px; cursor: pointer; font-size: 12.5px; }
+  .radio-opt input[type=radio] { accent-color: var(--md-blue); }
+
+  /* ─── DNA / PATERNITY ─── */
+  .dna-result {
+    border: 2px solid; border-radius: 6px; padding: 12px 16px;
+    font-size: 13px; font-weight: 600; text-align: center;
+    margin-top: 12px;
+  }
+  .dna-positive { border-color: var(--success); background: #E3F7EC; color: var(--success); }
+  .dna-negative { border-color: var(--md-red); background: #FFE8EC; color: var(--md-red); }
+
+  /* ─── IWO SUMMARY ─── */
+  .iwo-box {
+    border: 2px solid var(--md-blue); border-radius: 6px;
+    overflow: hidden; margin-top: 12px;
+  }
+  .iwo-header { background: var(--md-blue); color: #fff; padding: 8px 14px; font-weight: 700; font-size: 12px; }
+  .iwo-body { padding: 12px 14px; }
+
+  /* ─── FOOTER ─── */
+  .form-footer {
+    background: var(--surface); border-top: 1px solid var(--border);
+    padding: 12px 24px; display: flex; align-items: center; gap: 10px;
+    position: sticky; bottom: 0; z-index: 30;
+  }
+  .form-footer .spacer { flex: 1; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .form-grid { grid-template-columns: repeat(2,1fr); }
+    .form-grid-4 { grid-template-columns: repeat(2,1fr); }
+    .sidebar { display: none; }
+    .main { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ HEADER ═══════════════════ -->
+<header class="app-header">
+  <div class="header-seal">MD</div>
+  <div>
+    <div class="header-title">Maryland Child Support Management System</div>
+    <div class="header-sub">Establishment Module · CSEA · COMAR 07.07.03</div>
+  </div>
+  <div class="header-spacer"></div>
+  <div class="header-user">
+    <div class="user-avatar">JD</div>
+    <div>
+      <div style="font-size:12px;font-weight:600;">Jane Doe</div>
+      <span class="role-badge role-worker">Case Worker</span>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════ BODY ═══════════════════ -->
+<div class="app-body">
+
+<!-- ─── SIDEBAR ─── -->
+<nav class="sidebar">
+  <div class="sidebar-section">Establishment Module</div>
+  <div class="sidebar-item" onclick="showScreen('wf')">
+    <div class="step-num">⬡</div> Workflow Overview
+  </div>
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-section">Screens</div>
+  <div class="sidebar-item step-done" onclick="showScreen('s1')">
+    <div class="step-num step-check">✓</div> Case Initiation
+  </div>
+  <div class="sidebar-item step-done" onclick="showScreen('s2')">
+    <div class="step-num step-check">✓</div> CP Profile
+  </div>
+  <div class="sidebar-item step-done" onclick="showScreen('s3')">
+    <div class="step-num step-check">✓</div> NCP Profile
+  </div>
+  <div class="sidebar-item step-done" onclick="showScreen('s4')">
+    <div class="step-num step-check">✓</div> Child(ren) Profile
+  </div>
+  <div class="sidebar-item active" onclick="showScreen('s5')">
+    <div class="step-num">5</div> Paternity Establishment
+  </div>
+  <div class="sidebar-item" onclick="showScreen('s6')">
+    <div class="step-num">6</div> Financial Info – CP
+  </div>
+  <div class="sidebar-item" onclick="showScreen('s7')">
+    <div class="step-num">7</div> Financial Info – NCP
+  </div>
+  <div class="sidebar-item" onclick="showScreen('s8')">
+    <div class="step-num">8</div> Support Calculation
+  </div>
+  <div class="sidebar-item" onclick="showScreen('s9')">
+    <div class="step-num">9</div> Order Establishment
+  </div>
+  <div class="sidebar-item" onclick="showScreen('s10')">
+    <div class="step-num">10</div> Service of Process
+  </div>
+  <div class="sidebar-item" onclick="showScreen('s11')">
+    <div class="step-num">11</div> Case Review &amp; Finalize
+  </div>
+</nav>
+
+<!-- ─── MAIN CONTENT ─── -->
+<main class="main">
+
+<!-- TAB BAR -->
+<div class="tab-bar">
+  <div class="tab active" onclick="showScreen('wf')">📊 Workflow</div>
+  <div class="tab" onclick="showScreen('s1')">1. Initiation</div>
+  <div class="tab" onclick="showScreen('s2')">2. CP Profile</div>
+  <div class="tab" onclick="showScreen('s3')">3. NCP Profile</div>
+  <div class="tab" onclick="showScreen('s4')">4. Children</div>
+  <div class="tab" onclick="showScreen('s5')">5. Paternity</div>
+  <div class="tab" onclick="showScreen('s6')">6. Finance-CP</div>
+  <div class="tab" onclick="showScreen('s7')">7. Finance-NCP</div>
+  <div class="tab" onclick="showScreen('s8')">8. Calculation</div>
+  <div class="tab" onclick="showScreen('s9')">9. Order</div>
+  <div class="tab" onclick="showScreen('s10')">10. Service</div>
+  <div class="tab" onclick="showScreen('s11')">11. Finalize</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN: WORKFLOW OVERVIEW
+════════════════════════════════════════════════════════════════ -->
+<div id="screen-wf" class="screen-panel active content">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Establishment Module — Workflow</div>
+      <div class="page-subtitle">End-to-end process flow with role assignments · Maryland CSEA</div>
+    </div>
+  </div>
+
+  <div class="workflow-container">
+    <div class="wf-title">CSMS Establishment Module — Full Process Flow</div>
+
+    <div class="wf-flow">
+
+      <!-- Row 0: Start -->
+      <div class="wf-row">
+        <div class="wf-node terminal" onclick="showScreen('s1')">START</div>
+      </div>
+      <div class="wf-arrow-v"></div>
+
+      <!-- Row 1: Intake -->
+      <div class="wf-row">
+        <div class="wf-node worker" onclick="showScreen('s1')" title="Case Worker">
+          ① Intake<br><small>Submit Application</small>
+        </div>
+      </div>
+      <div class="wf-arrow-v"></div>
+
+      <!-- Row 2: Create Work Item (Auto) -->
+      <div class="wf-row">
+        <div class="wf-node auto" title="System Auto">
+          ② Create Work Item<br><small>System Auto</small>
+        </div>
+      </div>
+      <div class="wf-arrow-v"></div>
+
+      <!-- Row 3: Work Item Assign (Supervisor) -->
+      <div class="wf-row">
+        <div class="wf-node decision" title="Supervisor">
+          <div class="node-inner">③ Work Item<br>Assigning</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:48px;align-items:flex-start;justify-content:center;width:100%">
+        <div style="display:flex;flex-direction:column;align-items:center">
+          <div class="wf-label" style="color:var(--md-red)">✗ Reject</div>
+          <div class="wf-arrow-v" style="height:16px"></div>
+          <div class="wf-node worker" style="background:#B0BEC5;font-size:10px;min-width:100px">
+            Return to Intake
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center">
+          <div class="wf-label" style="color:var(--success)">✓ Approve</div>
+          <div class="wf-arrow-v" style="height:16px"></div>
+          <!-- Row 4: Case Registration -->
+          <div class="wf-node supervisor" onclick="showScreen('s1')" title="Supervisor">
+            ④ Intake for<br>Case Registration
+          </div>
+          <div class="wf-arrow-v"></div>
+          <!-- Row 5: Case Creation (Auto) -->
+          <div class="wf-node auto" title="System Auto">
+            ⑤ Case Creation<br><small>System Auto</small>
+          </div>
+          <div class="wf-arrow-v"></div>
+          <!-- Row 6: Case Management -->
+          <div class="wf-node supervisor" onclick="showScreen('s2')" title="Supervisor/Worker">
+            ⑥ Case Management<br><small>CP/NCP/Child Profiles</small>
+          </div>
+          <!-- Branch row: Locate or Paternity -->
+          <div style="display:flex;gap:32px;align-items:flex-start;margin-top:0">
+            <div style="display:flex;flex-direction:column;align-items:center">
+              <div class="wf-arrow-v" style="height:20px"></div>
+              <div class="wf-label">NCP Not Found</div>
+              <div class="wf-node attorney" onclick="showScreen('s3')" title="Attorney/Worker">
+                ⑦ Locate Parent<br><small>NDNH / DMV / IRS</small>
+              </div>
+              <div class="wf-arrow-v"></div>
+              <div class="wf-label">After Locate</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center">
+              <div class="wf-arrow-v" style="height:20px"></div>
+              <div class="wf-label">NCP Found</div>
+            </div>
+          </div>
+          <!-- Row 7: Paternity Check -->
+          <div class="wf-arrow-v"></div>
+          <div class="wf-node attorney" onclick="showScreen('s5')" title="Attorney">
+            ⑧ Paternity Check<br><small>AOP / DNA Testing</small>
+          </div>
+          <div class="wf-arrow-v"></div>
+          <!-- Row 8: Financial Info -->
+          <div class="wf-node attorney" onclick="showScreen('s6')" title="Attorney/Worker">
+            ⑨ Financial Info<br><small>CP &amp; NCP Income</small>
+          </div>
+          <div class="wf-arrow-v"></div>
+          <!-- Row 9: Calculation -->
+          <div class="wf-node auto" onclick="showScreen('s8')" title="System">
+            ⑩ Support Calculation<br><small>MD Guidelines</small>
+          </div>
+          <div class="wf-arrow-v"></div>
+          <!-- Row 10: Establishment -->
+          <div class="wf-node attorney highlighted" onclick="showScreen('s9')" title="Attorney">
+            ⑪ Establishment<br><small>Service of Process</small>
+          </div>
+          <div class="wf-arrow-v"></div>
+          <!-- Row 11: Support Court Order -->
+          <div class="wf-node attorney" onclick="showScreen('s9')" title="Attorney">
+            ⑫ Support Court Order<br><small>Order Entered</small>
+          </div>
+          <div class="wf-arrow-v"></div>
+          <!-- Row 12: Case Review -->
+          <div class="wf-node supervisor" onclick="showScreen('s11')" title="Supervisor">
+            ⑬ Case Review &amp;<br>Finalization
+          </div>
+          <div class="wf-arrow-v"></div>
+          <!-- Row 13: Enforcement -->
+          <div class="wf-node auto" title="System Auto">
+            Auto → Enforcement<br>Module
+          </div>
+          <div class="wf-arrow-v"></div>
+          <div class="wf-node terminal">END</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Legend -->
+    <div class="wf-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--role-worker)"></div> Case Worker (Blue)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--role-super)"></div> Supervisor (Orange)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--role-attorney)"></div> Attorney / IV-D (Pink)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--role-auto)"></div> System Auto (Grey)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#2D3A4A"></div> Start / End</div>
+    </div>
+  </div>
+
+  <!-- Phase breakdown table -->
+  <div class="card" style="margin-top:20px">
+    <div class="card-header"><div class="card-header-icon">📋</div> Phase Breakdown — Establishment Module</div>
+    <div class="card-body" style="padding:0">
+      <table class="data-table">
+        <thead>
+          <tr><th>Phase</th><th>Screen</th><th>Role</th><th>Action</th><th>Output / Trigger</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="badge badge-info">Intake</span></td><td>Screen 1</td><td><span class="badge" style="background:rgba(0,180,216,0.15);color:#007a93">Case Worker</span></td><td>Submit Application</td><td>Work Item Created</td></tr>
+          <tr><td><span class="badge badge-neutral">Auto</span></td><td>System</td><td>System</td><td>Create Work Item</td><td>Assigned to Supervisor Queue</td></tr>
+          <tr><td><span class="badge badge-warning">Assign</span></td><td>System</td><td><span class="badge" style="background:rgba(255,107,53,0.15);color:#b34b25">Supervisor</span></td><td>Approve / Reject</td><td>Case Registration Queue</td></tr>
+          <tr><td><span class="badge badge-info">Registration</span></td><td>Screen 1</td><td><span class="badge" style="background:rgba(255,107,53,0.15);color:#b34b25">Supervisor</span></td><td>Register Case</td><td>Case Number Assigned</td></tr>
+          <tr><td><span class="badge badge-neutral">Auto</span></td><td>System</td><td>System</td><td>Case Creation</td><td>Case Management Active</td></tr>
+          <tr><td><span class="badge badge-info">Profile</span></td><td>Screens 2–4</td><td><span class="badge" style="background:rgba(255,107,53,0.15);color:#b34b25">Supervisor</span></td><td>CP / NCP / Child Data</td><td>Profile Complete</td></tr>
+          <tr><td><span class="badge badge-warning">Locate</span></td><td>Screen 3</td><td><span class="badge" style="background:rgba(233,30,99,0.15);color:#a31545">Attorney</span></td><td>If NCP not found</td><td>NCP Located or Default</td></tr>
+          <tr><td><span class="badge badge-warning">Paternity</span></td><td>Screen 5</td><td><span class="badge" style="background:rgba(233,30,99,0.15);color:#a31545">Attorney</span></td><td>AOP / DNA / Order</td><td>Paternity Established</td></tr>
+          <tr><td><span class="badge badge-info">Financial</span></td><td>Screens 6–7</td><td><span class="badge" style="background:rgba(233,30,99,0.15);color:#a31545">Attorney</span></td><td>Income / Expenses</td><td>Data for Calculation</td></tr>
+          <tr><td><span class="badge badge-neutral">Auto</span></td><td>Screen 8</td><td>System</td><td>Apply MD Guidelines</td><td>Obligation Amount</td></tr>
+          <tr><td><span class="badge badge-danger">Establishment</span></td><td>Screens 9–10</td><td><span class="badge" style="background:rgba(233,30,99,0.15);color:#a31545">Attorney</span></td><td>Order + Service</td><td>Court Order Entered</td></tr>
+          <tr><td><span class="badge badge-success">Finalize</span></td><td>Screen 11</td><td><span class="badge" style="background:rgba(255,107,53,0.15);color:#b34b25">Supervisor</span></td><td>Sign-Off</td><td>→ Enforcement Module</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN 1: CASE INITIATION
+════════════════════════════════════════════════════════════════ -->
+<div id="screen-s1" class="screen-panel content">
+  <div class="role-bar worker">👤 Role: Case Worker / Supervisor · Phase: Intake → Case Registration</div>
+  <div class="page-header">
+    <div>
+      <div class="page-title">Screen 1 — Case Initiation &amp; Registration</div>
+      <div class="page-subtitle">New establishment case intake and referral source capture</div>
+    </div>
+    <div class="page-actions">
+      <button class="btn btn-secondary btn-sm">💾 Save Draft</button>
+      <button class="btn btn-primary btn-sm">Submit Application →</button>
+    </div>
+  </div>
+
+  <div class="progress-steps">
+    <div class="ps-step active"><div class="ps-num">1</div> Case Initiation</div>
+    <div class="ps-connector"></div>
+    <div class="ps-step"><div class="ps-num">2</div> CP Profile</div>
+    <div class="ps-connector"></div>
+    <div class="ps-step"><div class="ps-num">3</div> NCP Profile</div>
+    <div class="ps-connector"></div>
+    <div class="ps-step"><div class="ps-num">4</div> Children</div>
+    <div class="ps-connector"></div>
+    <div class="ps-step"><div class="ps-num">5</div> Paternity</div>
+    <div class="ps-connector"></div>
+    <div class="ps-step"><div class="ps-num">6-7</div> Financial</div>
+    <div class="ps-connector"></div>
+    <div class="ps-step"><div class="ps-num">8</div> Calculate</div>
+    <div class="ps-connector"></div>
+    <div class="ps-step"><div class="ps-num">9-10</div> Order</div>
+    <div class="ps-connector"></div>
+    <div class="ps-step"><div class="ps-num">11</div> Finalize</div>
+  </div>
+
+  <!-- Case Info -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">📁</div> Case Identification <span class="card-tag tag-auto">AUTO-GENERATED</span></div>
+    <div class="card-body">
+      <div class="form-grid form-grid-4">
+        <div class="field">
+          <label>Case Number <span class="req">*</span></label>
+          <input type="text" value="MD-2025-048291" readonly style="background:#F4F5F7;font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--md-blue)">
+        </div>
+        <div class="field">
+          <label>Application Date <span class="req">*</span></label>
+          <input type="date" value="2025-01-15">
+        </div>
+        <div class="field">
+          <label>Application Receipt Date <span class="req">*</span></label>
+          <input type="date" value="2025-01-15">
+        </div>
+        <div class="field">
+          <label>FIPS Code</label>
+          <input type="text" value="24005" readonly style="background:#F4F5F7;font-family:'IBM Plex Mono',monospace">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Case Classification -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">🏷</div> Case Classification</div>
+    <div class="card-body">
+      <div class="form-grid">
+        <div class="field">
+          <label>Case Type <span class="req">*</span></label>
+          <select>
+            <option>IV-D (Title IV-D)</option>
+            <option>Non IV-D</option>
+            <option>Intergovernmental</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Referral Source <span class="req">*</span></label>
+          <select>
+            <option>TANF Referral</option>
+            <option>Medicaid Referral</option>
+            <option>Voluntary Application</option>
+            <option>Court-Ordered</option>
+            <option>IV-A Agency</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>County of Jurisdiction <span class="req">*</span></label>
+          <select>
+            <option>Anne Arundel County</option>
+            <option>Baltimore City</option>
+            <option>Baltimore County</option>
+            <option>Montgomery County</option>
+            <option>Prince George's County</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Circuit Court Number <span class="req">*</span></label>
+          <input type="text" placeholder="e.g., C-02-FM-2025-001234">
+        </div>
+        <div class="field">
+          <label>Assigned Caseworker <span class="req">*</span></label>
+          <select>
+            <option>Jane Doe (JD-2241)</option>
+            <option>John Smith (JS-1190)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Case Priority</label>
+          <select>
+            <option>Normal</option>
+            <option>Expedited</option>
+            <option>Interstate</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Program & Fee -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">💲</div> Program Participation &amp; Fees</div>
+    <div class="card-body">
+      <div class="form-grid">
+        <div class="field">
+          <label>Application Fee Paid <span class="req">*</span></label>
+          <div class="radio-group">
+            <label class="radio-opt"><input type="radio" name="fee" checked> Yes</label>
+            <label class="radio-opt"><input type="radio" name="fee"> No</label>
+            <label class="radio-opt"><input type="radio" name="fee"> Waived</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>CP as Applicant / State as Applicant <span class="req">*</span></label>
+          <div class="radio-group">
+            <label class="radio-opt"><input type="radio" name="applicant" checked> CP Applicant</label>
+            <label class="radio-opt"><input type="radio" name="applicant"> State Applicant</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Receiving TANF <span class="req">*</span></label>
+          <div class="radio-group">
+            <label class="radio-opt"><input type="radio" name="tanf"> Yes</label>
+            <label class="radio-opt"><input type="radio" name="tanf" checked> No</label>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="form-grid">
+        <div class="field">
+          <label>Interstate/Intergovernmental Case</label>
+          <div class="radio-group">
+            <label class="radio-opt"><input type="checkbox"> Yes — Triggers UIFSA Workflow</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Good Cause Claim</label>
+          <div class="radio-group">
+            <label class="radio-opt"><input type="checkbox"> Good Cause — Triggers GC Workflow</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Domestic Violence Referral</label>
+          <div class="radio-group">
+            <label class="radio-opt"><input type="checkbox"> Refer to DV Unit — Confidential Address</label>
+          </div>
+        </div>
+        <div class="field span-3">
+          <label>Intake Notes</label>
+          <textarea placeholder="Free-form intake notes...">Client walked in at 9:15 AM. TANF referral from Baltimore City DSS. Paternity not yet established. NCP address known.</textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <button class="btn btn-secondary">← Previous</button>
+    <div class="spacer"></div>
+    <span style="font-size:11px;color:var(--text-muted)">Case: MD-2025-048291 · Worker: Jane Doe</span>
+    <button class="btn btn-primary" onclick="showScreen('s2')">Save &amp; Next: CP Profile →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN 2: CP PROFILE
+════════════════════════════════════════════════════════════════ -->
+<div id="screen-s2" class="screen-panel content">
+  <div class="role-bar worker">👤 Role: Case Worker / Supervisor · Phase: Case Management — Custodial Party Profile</div>
+  <div class="case-banner">
+    <div class="banner-item"><div class="banner-label">Case No.</div><div class="banner-value">MD-2025-048291</div></div>
+    <div class="banner-item"><div class="banner-label">County</div><div class="banner-value">Baltimore City</div></div>
+    <div class="banner-item"><div class="banner-label">Case Type</div><div class="banner-value">IV-D</div></div>
+    <div class="banner-status">ACTIVE – In Progress</div>
+  </div>
+  <div class="page-header">
+    <div>
+      <div class="page-title">Screen 2 — Custodial Party (CP) Profile</div>
+      <div class="page-subtitle">Personal, contact, address, and program information for the Custodial Party</div>
+    </div>
+    <div class="page-actions">
+      <button class="btn btn-secondary btn-sm">💾 Save Draft</button>
+    </div>
+  </div>
+
+  <!-- 2A Personal -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">👤</div> 2A — Personal Information</div>
+    <div class="card-body">
+      <div class="form-grid form-grid-4">
+        <div class="field"><label>First Name <span class="req">*</span></label><input type="text" value="Maria"></div>
+        <div class="field"><label>Middle Name</label><input type="text" value="L."></div>
+        <div class="field"><label>Last Name <span class="req">*</span></label><input type="text" value="Johnson"></div>
+        <div class="field"><label>Suffix</label><select><option>—</option><option>Jr.</option><option>Sr.</option></select></div>
+        <div class="field"><label>Previous / Maiden Name</label><input type="text" placeholder="If applicable"></div>
+        <div class="field"><label>Date of Birth <span class="req">*</span></label><input type="date" value="1992-04-18"></div>
+        <div class="field"><label>SSN <span class="req">*</span></label><input type="password" value="123456789" placeholder="XXX-XX-XXXX"></div>
+        <div class="field"><label>SSN Verification</label><select><option>Verified</option><option>Unverified</option><option>Refused</option></select></div>
+        <div class="field"><label>Gender <span class="req">*</span></label><select><option>Female</option><option>Male</option><option>Non-Binary</option><option>Unknown</option></select></div>
+        <div class="field"><label>Marital Status <span class="req">*</span></label><select><option>Single</option><option>Married</option><option>Divorced</option><option>Separated</option></select></div>
+        <div class="field"><label>Primary Language <span class="req">*</span></label><select><option>English</option><option>Spanish</option><option>French</option></select></div>
+        <div class="field"><label>U.S. Citizen <span class="req">*</span></label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="radio" name="cp_cit" checked> Yes</label><label class="radio-opt"><input type="radio" name="cp_cit"> No</label></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2B Contact -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">📍</div> 2B — Address &amp; Contact Information</div>
+    <div class="card-body">
+      <div class="alert alert-warning">⚠ If Domestic Violence flag is set, mark address as Confidential before saving.</div>
+      <div class="form-grid">
+        <div class="field"><label>Address Type <span class="req">*</span></label><select><option>Residential</option><option>Mailing</option><option>Temporary</option></select></div>
+        <div class="field span-2"><label>Street Address Line 1 <span class="req">*</span></label><input type="text" value="1234 North Avenue"></div>
+        <div class="field"><label>Street Address Line 2</label><input type="text" placeholder="Apt, Suite, Unit"></div>
+        <div class="field"><label>City <span class="req">*</span></label><input type="text" value="Baltimore"></div>
+        <div class="field"><label>State <span class="req">*</span></label><select><option>MD</option><option>VA</option><option>DC</option></select></div>
+        <div class="field"><label>ZIP Code <span class="req">*</span></label><input type="text" value="21201"></div>
+        <div class="field"><label>County <span class="req">*</span></label><select><option>Baltimore City</option></select></div>
+        <div class="field"><label>🔒 Address Confidential</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="checkbox"> Mark Confidential (DV Safety)</label></div></div>
+        <div class="field"><label>Primary Phone <span class="req">*</span></label><input type="tel" value="(410) 555-2341"></div>
+        <div class="field"><label>Phone Type <span class="req">*</span></label><select><option>Cell</option><option>Home</option><option>Work</option></select></div>
+        <div class="field"><label>Email Address</label><input type="email" value="maria.johnson@email.com"></div>
+        <div class="field"><label>Best Time to Contact</label><select><option>Morning</option><option>Afternoon</option><option>Evening</option></select></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2C Benefits -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">🏛</div> 2C — Public Benefits &amp; Program Participation</div>
+    <div class="card-body">
+      <div class="form-grid">
+        <div class="field"><label>Receiving TANF <span class="req">*</span></label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="radio" name="tanf2" checked> Yes</label><label class="radio-opt"><input type="radio" name="tanf2"> No</label></div></div>
+        <div class="field"><label>TANF Case Number</label><input type="text" value="TANF-2024-00821"></div>
+        <div class="field"><label>Assignment of Support Rights</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="checkbox" checked> Signed Assignment (Required for TANF)</label></div></div>
+        <div class="field"><label>Receiving Medicaid <span class="req">*</span></label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="radio" name="mcd" checked> Yes</label><label class="radio-opt"><input type="radio" name="mcd"> No</label></div></div>
+        <div class="field"><label>Medicaid Case Number</label><input type="text" value="MCD-2024-119823"></div>
+        <div class="field"><label>Receiving SNAP</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="radio" name="snap"> Yes</label><label class="radio-opt"><input type="radio" name="snap" checked> No</label></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <button class="btn btn-secondary" onclick="showScreen('s1')">← Case Initiation</button>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" onclick="showScreen('s3')">Save &amp; Next: NCP Profile →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN 3: NCP PROFILE
+════════════════════════════════════════════════════════════════ -->
+<div id="screen-s3" class="screen-panel content">
+  <div class="role-bar worker">👤 Role: Case Worker / Attorney (Locate) · Phase: NCP Profile + Locate</div>
+  <div class="case-banner">
+    <div class="banner-item"><div class="banner-label">Case No.</div><div class="banner-value">MD-2025-048291</div></div>
+    <div class="banner-item"><div class="banner-label">CP</div><div class="banner-value">Maria Johnson</div></div>
+    <div class="banner-status">NCP – LOCATE REQUIRED</div>
+  </div>
+  <div class="page-header">
+    <div><div class="page-title">Screen 3 — Non-Custodial Parent (NCP) Profile &amp; Locate</div>
+    <div class="page-subtitle">NCP identification, locator services, employment and asset information</div></div>
+  </div>
+
+  <div class="alert alert-warning">⚠ NCP address not confirmed. Run NDNH and DMV locate before proceeding to Paternity screen.</div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">👤</div> 3A — NCP Personal Information</div>
+    <div class="card-body">
+      <div class="form-grid form-grid-4">
+        <div class="field"><label>First Name <span class="req">*</span></label><input type="text" value="Robert"></div>
+        <div class="field"><label>Middle Name</label><input type="text" value="A."></div>
+        <div class="field"><label>Last Name <span class="req">*</span></label><input type="text" value="Williams"></div>
+        <div class="field"><label>Suffix</label><select><option>—</option><option>Jr.</option><option>Sr.</option></select></div>
+        <div class="field"><label>AKA / Previous Names</label><input type="text" placeholder="Other known names"></div>
+        <div class="field"><label>Date of Birth <span class="req">*</span></label><input type="date" value="1989-08-22"></div>
+        <div class="field"><label>SSN</label><input type="password" placeholder="XXX-XX-XXXX"></div>
+        <div class="field"><label>SSN Status</label><select><option>Unknown</option><option>Verified</option><option>Unverified</option></select></div>
+        <div class="field"><label>Gender <span class="req">*</span></label><select><option>Male</option><option>Female</option></select></div>
+        <div class="field"><label>Military Status <span class="req">*</span></label><select><option>Civilian</option><option>Active Duty</option><option>Reserve</option><option>Veteran</option></select></div>
+        <div class="field"><label>Incarcerated</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="checkbox"> Yes</label></div></div>
+        <div class="field"><label>Deceased</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="checkbox"> Yes</label></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">📍</div> 3B — NCP Address (Last Known)</div>
+    <div class="card-body">
+      <div class="form-grid">
+        <div class="field"><label>Address Known <span class="req">*</span></label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="radio" name="ncpadr"> Yes</label><label class="radio-opt"><input type="radio" name="ncpadr" checked> No — Run Locate</label></div></div>
+        <div class="field"><label>Address Source</label><select><option>Unknown</option><option>CP Provided</option><option>NDNH</option><option>DMV</option><option>IRS</option><option>SVES</option></select></div>
+        <div class="field span-2"><label>Street Address Line 1</label><input type="text" placeholder="If known..."></div>
+        <div class="field"><label>City</label><input type="text" placeholder="—"></div>
+        <div class="field"><label>State</label><select><option>MD</option><option>VA</option><option>DC</option></select></div>
+        <div class="field"><label>ZIP Code</label><input type="text" placeholder="—"></div>
+        <div class="field"><label>Primary Phone</label><input type="tel" placeholder="If known"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">💼</div> 3C — Employment &amp; Asset Information</div>
+    <div class="card-body">
+      <div class="form-grid">
+        <div class="field"><label>Employment Status <span class="req">*</span></label><select><option>Unknown</option><option>Employed</option><option>Self-Employed</option><option>Unemployed</option></select></div>
+        <div class="field"><label>Employer Name</label><input type="text" placeholder="If known"></div>
+        <div class="field"><label>Employer EIN</label><input type="text" placeholder="Federal EIN"></div>
+        <div class="field"><label>Employer Phone</label><input type="tel" placeholder="—"></div>
+        <div class="field"><label>Driver's License #</label><input type="text" placeholder="—"></div>
+        <div class="field"><label>DL State</label><select><option>MD</option><option>VA</option></select></div>
+        <div class="field span-2"><label>Known Assets</label><input type="text" placeholder="Real estate, vehicles, bank accounts..."></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Locate Actions -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">🔍</div> 3D — Federal/State Locate Requests <span class="card-tag tag-conditional">ATTORNEY</span></div>
+    <div class="card-body">
+      <div class="form-grid form-grid-4">
+        <div class="field"><label>NDNH Request Sent</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="checkbox" checked> Yes</label></div></div>
+        <div class="field"><label>NDNH Request Date</label><input type="date" value="2025-01-16"></div>
+        <div class="field"><label>NDNH Response Date</label><input type="date" placeholder="—"></div>
+        <div class="field"><label>NDNH Result</label><select><option>Pending</option><option>Located</option><option>Not Found</option></select></div>
+        <div class="field"><label>DMV Locate Sent</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="checkbox"> Yes</label></div></div>
+        <div class="field"><label>SVES Locate Sent</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="checkbox"> Yes</label></div></div>
+        <div class="field"><label>IRS Locate Sent</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="checkbox"> Yes</label></div></div>
+        <div class="field"><label>Locate Status</label><select><option>Pending</option><option>Located</option><option>Not Located</option></select></div>
+      </div>
+      <div style="margin-top:14px;display:flex;gap:10px">
+        <button class="btn btn-warning btn-sm">🔍 Submit NDNH Locate</button>
+        <button class="btn btn-secondary btn-sm">🚗 Submit DMV Locate</button>
+        <button class="btn btn-secondary btn-sm">🏛 Submit IRS Locate</button>
+        <button class="btn btn-ghost btn-sm">📄 View Locate Results</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <button class="btn btn-secondary" onclick="showScreen('s2')">← CP Profile</button>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" onclick="showScreen('s4')">Save &amp; Next: Child Profile →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN 4: CHILDREN PROFILE
+════════════════════════════════════════════════════════════════ -->
+<div id="screen-s4" class="screen-panel content">
+  <div class="role-bar worker">👤 Role: Case Worker / Supervisor · Phase: Case Management — Children</div>
+  <div class="case-banner">
+    <div class="banner-item"><div class="banner-label">Case No.</div><div class="banner-value">MD-2025-048291</div></div>
+    <div class="banner-item"><div class="banner-label">CP</div><div class="banner-value">Maria Johnson</div></div>
+    <div class="banner-item"><div class="banner-label">NCP</div><div class="banner-value">Robert Williams</div></div>
+    <div class="banner-status">1 Child Added</div>
+  </div>
+  <div class="page-header">
+    <div><div class="page-title">Screen 4 — Child(ren) Profile</div>
+    <div class="page-subtitle">Add all children to be covered under the support order</div></div>
+    <div class="page-actions"><button class="btn btn-success btn-sm">+ Add Another Child</button></div>
+  </div>
+
+  <!-- Child Record -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">👶</div> Child 1 of 1</div>
+    <div class="card-body">
+      <div class="form-grid form-grid-4">
+        <div class="field"><label>First Name <span class="req">*</span></label><input type="text" value="Aiden"></div>
+        <div class="field"><label>Middle Name</label><input type="text" value="James"></div>
+        <div class="field"><label>Last Name <span class="req">*</span></label><input type="text" value="Williams"></div>
+        <div class="field"><label>Date of Birth <span class="req">*</span></label><input type="date" value="2022-11-05"></div>
+        <div class="field"><label>SSN</label><input type="password" placeholder="If available"></div>
+        <div class="field"><label>Gender <span class="req">*</span></label><select><option>Male</option><option>Female</option></select></div>
+        <div class="field"><label>Birth State <span class="req">*</span></label><select><option>MD</option><option>VA</option><option>DC</option></select></div>
+        <div class="field"><label>Birth Certificate on File</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="checkbox" checked> Yes</label></div></div>
+        <div class="field"><label>Relationship to CP <span class="req">*</span></label><select><option>Biological Child</option><option>Adopted</option><option>Step-Child</option></select></div>
+        <div class="field"><label>Relationship to NCP <span class="req">*</span></label><select><option>Alleged Biological Child</option><option>Biological Child (Established)</option></select></div>
+        <div class="field"><label>Paternity Established <span class="req">*</span></label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="radio" name="pat1"> Yes</label><label class="radio-opt"><input type="radio" name="pat1"> No</label><label class="radio-opt"><input type="radio" name="pat1" checked> Unknown</label></div></div>
+        <div class="field"><label>Child Residing With <span class="req">*</span></label><select><option>Custodial Party (CP)</option><option>Non-Custodial Parent</option><option>Third Party</option><option>Foster Care</option></select></div>
+        <div class="field"><label>Child on Medicaid</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="radio" name="cmcd" checked> Yes</label><label class="radio-opt"><input type="radio" name="cmcd"> No</label></div></div>
+        <div class="field"><label>Medicaid ID</label><input type="text" value="MCD-CH-2022-4491"></div>
+        <div class="field"><label>Disability / Special Needs</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="checkbox"> Yes</label></div></div>
+        <div class="field"><label>Include in Order <span class="req">*</span></label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="checkbox" checked> ✓ Include this child in support order</label></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <button class="btn btn-secondary" onclick="showScreen('s3')">← NCP Profile</button>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" onclick="showScreen('s5')">Save &amp; Next: Paternity →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN 5: PATERNITY ESTABLISHMENT
+════════════════════════════════════════════════════════════════ -->
+<div id="screen-s5" class="screen-panel content">
+  <div class="role-bar attorney">⚖️ Role: Attorney / IV-D Staff · Phase: Paternity Establishment</div>
+  <div class="case-banner">
+    <div class="banner-item"><div class="banner-label">Case No.</div><div class="banner-value">MD-2025-048291</div></div>
+    <div class="banner-item"><div class="banner-label">Child</div><div class="banner-value">Aiden Williams, 2</div></div>
+    <div class="banner-item"><div class="banner-label">NCP</div><div class="banner-value">Robert Williams</div></div>
+    <div class="banner-status" style="background:rgba(233,30,99,0.25)">PATERNITY PENDING</div>
+  </div>
+  <div class="page-header">
+    <div><div class="page-title">Screen 5 — Paternity Establishment</div>
+    <div class="page-subtitle">Establish legal paternity via AOP, court order, or genetic testing · FL §5-1001</div></div>
+  </div>
+
+  <!-- 5A Status -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">📋</div> 5A — Paternity Status &amp; Method</div>
+    <div class="card-body">
+      <div class="form-grid">
+        <div class="field">
+          <label>Paternity Already Established <span class="req">*</span></label>
+          <div class="radio-group"><label class="radio-opt"><input type="radio" name="pesta"> Yes</label><label class="radio-opt"><input type="radio" name="pesta" checked> No</label></div>
+        </div>
+        <div class="field">
+          <label>Establishment Method <span class="req">*</span></label>
+          <select>
+            <option>Select Method...</option>
+            <option>Voluntary Acknowledgment (AOP)</option>
+            <option>Court Order</option>
+            <option>Presumed – Marriage</option>
+            <option>Genetic Testing</option>
+            <option selected>Default Judgment</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Paternity Contested</label>
+          <div class="radio-group"><label class="radio-opt"><input type="checkbox"> NCP Contests Paternity</label></div>
+        </div>
+        <div class="field"><label>AOP Number</label><input type="text" placeholder="If Voluntary AOP"></div>
+        <div class="field"><label>AOP Date Signed</label><input type="date" placeholder="—"></div>
+        <div class="field"><label>AOP Filing Location</label><select><option>—</option><option>Hospital</option><option>LBVS</option><option>CSEA Office</option></select></div>
+        <div class="field"><label>Rescission Period Expired (60-day)</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="checkbox"> Yes</label></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5B Genetic -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">🧬</div> 5B — Genetic Testing <span class="card-tag tag-conditional">CONDITIONAL</span></div>
+    <div class="card-body">
+      <div class="alert alert-info">ℹ️ Genetic testing required when paternity is contested or AOP is not available. MD probability threshold: ≥99%.</div>
+      <div class="form-grid form-grid-4">
+        <div class="field"><label>Genetic Testing Required <span class="req">*</span></label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="radio" name="dna" checked> Yes</label><label class="radio-opt"><input type="radio" name="dna"> No</label></div></div>
+        <div class="field"><label>Testing Lab</label><select><option>LabCorp Baltimore</option><option>Quest Diagnostics</option><option>DNA Diagnostics Center</option></select></div>
+        <div class="field"><label>Court Order Date</label><input type="date" value="2025-01-20"></div>
+        <div class="field"><label>Chain of Custody Verified</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="checkbox" checked> Yes</label></div></div>
+        <div class="field"><label>CP Sample Date</label><input type="date" value="2025-01-28"></div>
+        <div class="field"><label>NCP Sample Date</label><input type="date" value="2025-01-28"></div>
+        <div class="field"><label>Child Sample Date</label><input type="date" value="2025-01-28"></div>
+        <div class="field"><label>Results Received Date</label><input type="date" value="2025-02-05"></div>
+        <div class="field"><label>Probability of Paternity (%)</label><input type="number" value="99.97" max="100" step="0.01"></div>
+        <div class="field"><label>Test Result</label><select><option selected>Positive (≥99%)</option><option>Negative</option><option>Inconclusive</option></select></div>
+        <div class="field"><label>NCP Refused Testing</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="checkbox"> Yes</label></div></div>
+        <div class="field"><label>Lab Report Document ID</label><input type="text" placeholder="DOC-2025-0891"></div>
+      </div>
+      <div class="dna-positive">🧬 PATERNITY CONFIRMED — 99.97% Probability · Robert Williams is the legal father of Aiden Williams</div>
+    </div>
+  </div>
+
+  <!-- 5C Outcome -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">✅</div> 5C — Paternity Outcome</div>
+    <div class="card-body">
+      <div class="form-grid">
+        <div class="field"><label>Paternity Established <span class="req">*</span></label><select><option selected>Yes — Established</option><option>No</option><option>Pending</option><option>Dismissed</option></select></div>
+        <div class="field"><label>Establishment Date <span class="req">*</span></label><input type="date" value="2025-02-10"></div>
+        <div class="field"><label>Legal Father Name</label><input type="text" value="Robert A. Williams"></div>
+        <div class="field"><label>Attorney Assigned</label><select><option>David Kim, Esq. (DK-0412)</option></select></div>
+      </div>
+      <div class="alert alert-success" style="margin-top:12px">✅ Paternity Established on 02/10/2025. Case is now eligible to proceed to Support Order Establishment.</div>
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <button class="btn btn-secondary" onclick="showScreen('s4')">← Children</button>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" onclick="showScreen('s6')">Save &amp; Next: Financial Info (CP) →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN 6: FINANCIAL INFO – CP
+════════════════════════════════════════════════════════════════ -->
+<div id="screen-s6" class="screen-panel content">
+  <div class="role-bar attorney">⚖️ Role: Attorney / IV-D Staff · Phase: Financial Information — Custodial Party</div>
+  <div class="case-banner">
+    <div class="banner-item"><div class="banner-label">Party</div><div class="banner-value">CP — Maria Johnson</div></div>
+    <div class="banner-item"><div class="banner-label">Case No.</div><div class="banner-value">MD-2025-048291</div></div>
+    <div class="banner-status">FL §12-201 · Income Shares Model</div>
+  </div>
+  <div class="page-header">
+    <div><div class="page-title">Screen 6 — Financial Information: Custodial Party (CP)</div>
+    <div class="page-subtitle">Income, deductions, and child-related expenses per Maryland Child Support Guidelines</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">💵</div> 6A — Income Information</div>
+    <div class="card-body">
+      <div class="form-grid form-grid-4">
+        <div class="field"><label>Employment Type <span class="req">*</span></label><select><option>W-2 Employee</option><option>Self-Employed</option><option>Unemployed</option></select></div>
+        <div class="field"><label>Gross Monthly Salary <span class="req">*</span></label><div class="input-group"><div class="input-addon">$</div><input type="number" value="2800"></div></div>
+        <div class="field"><label>Overtime Income</label><div class="input-group"><div class="input-addon">$</div><input type="number" value="0"></div></div>
+        <div class="field"><label>Bonus / Commission</label><div class="input-group"><div class="input-addon">$</div><input type="number" value="0"></div></div>
+        <div class="field"><label>Social Security Benefits</label><div class="input-group"><div class="input-addon">$</div><input type="number" value="0"></div></div>
+        <div class="field"><label>Unemployment Benefits</label><div class="input-group"><div class="input-addon">$</div><input type="number" value="0"></div></div>
+        <div class="field"><label>Other Income</label><div class="input-group"><div class="input-addon">$</div><input type="number" value="200"></div></div>
+        <div class="field"><label>Imputed Income Applied</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="checkbox"> Yes</label></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">➖</div> 6B — Allowable Deductions</div>
+    <div class="card-body">
+      <div class="form-grid form-grid-4">
+        <div class="field"><label>Federal Income Tax <span class="req">*</span></label><div class="input-group"><div class="input-addon">$</div><input type="number" value="280"></div></div>
+        <div class="field"><label>MD State Income Tax <span class="req">*</span></label><div class="input-group"><div class="input-addon">$</div><input type="number" value="140"></div></div>
+        <div class="field"><label>FICA / SS Tax <span class="req">*</span></label><div class="input-group"><div class="input-addon">$</div><input type="number" value="174"></div></div>
+        <div class="field"><label>Medicare Tax <span class="req">*</span></label><div class="input-group"><div class="input-addon">$</div><input type="number" value="41"></div></div>
+        <div class="field"><label>Mandatory Retirement</label><div class="input-group"><div class="input-addon">$</div><input type="number" value="0"></div></div>
+        <div class="field"><label>Union Dues</label><div class="input-group"><div class="input-addon">$</div><input type="number" value="0"></div></div>
+        <div class="field"><label>Health Ins. Premium (Self)</label><div class="input-group"><div class="input-addon">$</div><input type="number" value="120"></div></div>
+        <div class="field"><label>Total Deductions</label><div class="input-group"><div class="input-addon">$</div><input type="number" value="755" readonly style="background:#F4F5F7;font-weight:600"></div></div>
+      </div>
+      <div class="calc-box">
+        <div class="calc-row"><span>Gross Monthly Income</span><span class="calc-amount">$3,000.00</span></div>
+        <div class="calc-row"><span>Less: Total Deductions</span><span class="calc-amount">- $755.00</span></div>
+        <div class="calc-row total"><span>CP Actual Monthly Net Income</span><span class="calc-amount">$2,245.00</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">👶</div> 6C — Child-Related Expenses</div>
+    <div class="card-body">
+      <div class="form-grid form-grid-4">
+        <div class="field"><label>Health Ins. for Child(ren)</label><div class="input-group"><div class="input-addon">$</div><input type="number" value="85"></div></div>
+        <div class="field"><label>Insurance Provider</label><input type="text" value="BlueCross BlueShield"></div>
+        <div class="field"><label>Child Care Costs (Monthly)</label><div class="input-group"><div class="input-addon">$</div><input type="number" value="650"></div></div>
+        <div class="field"><label>Extraordinary Medical</label><div class="input-group"><div class="input-addon">$</div><input type="number" value="0"></div></div>
+        <div class="field"><label>Special Educational Exp.</label><div class="input-group"><div class="input-addon">$</div><input type="number" value="0"></div></div>
+        <div class="field"><label>Existing Orders (Other Cases)</label><div class="input-group"><div class="input-addon">$</div><input type="number" value="0"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <button class="btn btn-secondary" onclick="showScreen('s5')">← Paternity</button>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" onclick="showScreen('s7')">Save &amp; Next: NCP Financial Info →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN 7: FINANCIAL INFO – NCP
+════════════════════════════════════════════════════════════════ -->
+<div id="screen-s7" class="screen-panel content">
+  <div class="role-bar attorney">⚖️ Role: Attorney / IV-D Staff · Phase: Financial Information — Non-Custodial Parent</div>
+  <div class="case-banner">
+    <div class="banner-item"><div class="banner-label">Party</div><div class="banner-value">NCP — Robert Williams</div></div>
+    <div class="banner-item"><div class="banner-label">Case No.</div><div class="banner-value">MD-2025-048291</div></div>
+    <div class="banner-status">FL §12-201 · Income Shares Model</div>
+  </div>
+  <div class="page-header">
+    <div><div class="page-title">Screen 7 — Financial Information: Non-Custodial Parent (NCP)</div>
+    <div class="page-subtitle">Mirror of Screen 6 — Income, deductions, and obligations for NCP per MD Guidelines</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">💵</div> 7A — NCP Income</div>
+    <div class="card-body">
+      <div class="form-grid form-grid-4">
+        <div class="field"><label>Employment Type <span class="req">*</span></label><select><option selected>W-2 Employee</option><option>Self-Employed</option><option>Unemployed</option></select></div>
+        <div class="field"><label>Gross Monthly Salary <span class="req">*</span></label><div class="input-group"><div class="input-addon">$</div><input type="number" value="4200"></div></div>
+        <div class="field"><label>Overtime Income</label><div class="input-group"><div class="input-addon">$</div><input type="number" value="300"></div></div>
+        <div class="field"><label>Bonus (annualized/12)</label><div class="input-group"><div class="input-addon">$</div><input type="number" value="0"></div></div>
+        <div class="field"><label>Other Income</label><div class="input-group"><div class="input-addon">$</div><input type="number" value="0"></div></div>
+        <div class="field"><label>Imputed Income Applied</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="checkbox"> Yes (Voluntarily Underemployed)</label></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">➖</div> 7B — NCP Deductions</div>
+    <div class="card-body">
+      <div class="form-grid form-grid-4">
+        <div class="field"><label>Federal Income Tax <span class="req">*</span></label><div class="input-group"><div class="input-addon">$</div><input type="number" value="504"></div></div>
+        <div class="field"><label>MD State Tax <span class="req">*</span></label><div class="input-group"><div class="input-addon">$</div><input type="number" value="220"></div></div>
+        <div class="field"><label>FICA <span class="req">*</span></label><div class="input-group"><div class="input-addon">$</div><input type="number" value="280"></div></div>
+        <div class="field"><label>Medicare <span class="req">*</span></label><div class="input-group"><div class="input-addon">$</div><input type="number" value="65"></div></div>
+        <div class="field"><label>Health Ins. (Self Only)</label><div class="input-group"><div class="input-addon">$</div><input type="number" value="150"></div></div>
+        <div class="field"><label>Existing CS Orders</label><div class="input-group"><div class="input-addon">$</div><input type="number" value="0"></div></div>
+      </div>
+      <div class="calc-box">
+        <div class="calc-row"><span>Gross Monthly Income</span><span class="calc-amount">$4,500.00</span></div>
+        <div class="calc-row"><span>Less: Total Deductions</span><span class="calc-amount">- $1,219.00</span></div>
+        <div class="calc-row total"><span>NCP Actual Monthly Net Income</span><span class="calc-amount">$3,281.00</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <button class="btn btn-secondary" onclick="showScreen('s6')">← CP Financial</button>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" onclick="showScreen('s8')">Save &amp; Next: Calculate Support →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN 8: SUPPORT CALCULATION
+════════════════════════════════════════════════════════════════ -->
+<div id="screen-s8" class="screen-panel content">
+  <div class="role-bar auto">⚙️ System Generated — MD Child Support Guidelines Calculation · FL §12-201 to §12-204</div>
+  <div class="case-banner">
+    <div class="banner-item"><div class="banner-label">Case No.</div><div class="banner-value">MD-2025-048291</div></div>
+    <div class="banner-item"><div class="banner-label">Children</div><div class="banner-value">1</div></div>
+    <div class="banner-item"><div class="banner-label">Method</div><div class="banner-value">Income Shares</div></div>
+    <div class="banner-status">CALCULATED — PENDING REVIEW</div>
+  </div>
+  <div class="page-header">
+    <div><div class="page-title">Screen 8 — Support Obligation Calculation</div>
+    <div class="page-subtitle">Maryland Child Support Guidelines — Income Shares Model · System Auto-Calculated</div></div>
+    <div class="page-actions"><button class="btn btn-warning btn-sm">📊 Recalculate</button></div>
+  </div>
+
+  <div class="form-grid form-grid-2" style="margin-bottom:16px">
+    <!-- Combined Income -->
+    <div class="card" style="margin-bottom:0">
+      <div class="card-header"><div class="card-header-icon">🧮</div> Income Summary</div>
+      <div class="card-body">
+        <div class="calc-box">
+          <div class="calc-row"><span>CP Net Monthly Income</span><span class="calc-amount">$2,245.00</span></div>
+          <div class="calc-row"><span>NCP Net Monthly Income</span><span class="calc-amount">$3,281.00</span></div>
+          <div class="calc-row total"><span>Combined Adjusted Income</span><span class="calc-amount">$5,526.00</span></div>
+        </div>
+        <div style="margin-top:14px">
+          <div class="calc-row"><span>CP Income Share (%)</span><span class="calc-amount">40.6%</span></div>
+          <div class="calc-row"><span>NCP Income Share (%)</span><span class="calc-amount">59.4%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Guideline Calculation -->
+    <div class="card" style="margin-bottom:0">
+      <div class="card-header"><div class="card-header-icon">📋</div> Guidelines Calculation</div>
+      <div class="card-body">
+        <div class="form-grid form-grid-2" style="margin-bottom:12px">
+          <div class="field"><label>MD Guidelines Schedule</label><select><option>2022 MD Schedule</option></select></div>
+          <div class="field"><label>Number of Children</label><input type="number" value="1" readonly style="background:#F4F5F7"></div>
+        </div>
+        <div class="calc-box">
+          <div class="calc-row"><span>Basic Support Obligation (Table)</span><span class="calc-amount">$832.00</span></div>
+          <div class="calc-row"><span>NCP Share (59.4%)</span><span class="calc-amount">$494.21</span></div>
+          <div class="calc-row"><span>+ Work-Related Child Care</span><span class="calc-amount">$386.35</span></div>
+          <div class="calc-row"><span>+ Health Insurance (Child)</span><span class="calc-amount">$50.43</span></div>
+          <div class="calc-row"><span>+ Extraordinary Medical</span><span class="calc-amount">$0.00</span></div>
+          <div class="calc-row total"><span>Total Obligation</span><span class="calc-amount">$931.00</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Adjustments -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">⚖️</div> Adjustments &amp; Deviations</div>
+    <div class="card-body">
+      <div class="form-grid form-grid-4">
+        <div class="field"><label>Parenting Time Adjustment</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="radio" name="pta"> Yes</label><label class="radio-opt"><input type="radio" name="pta" checked> No</label></div></div>
+        <div class="field"><label>NCP Overnights/Year</label><input type="number" value="36" placeholder="Need ≥128 for adjustment"></div>
+        <div class="field"><label>Deviation Requested</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="radio" name="dev"> Yes</label><label class="radio-opt"><input type="radio" name="dev" checked> No</label></div></div>
+        <div class="field"><label>Deviation Type</label><select disabled><option>N/A</option><option>Agreement of Parties</option><option>Extraordinary Circumstances</option></select></div>
+        <div class="field"><label>Retroactive Support <span class="req">*</span></label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="radio" name="retro" checked> Yes</label><label class="radio-opt"><input type="radio" name="retro"> No</label></div></div>
+        <div class="field"><label>Retroactive Start Date</label><input type="date" value="2024-11-05"></div>
+        <div class="field"><label>Retroactive Amount</label><div class="input-group"><div class="input-addon">$</div><input type="number" value="2793" readonly style="background:#F4F5F7;font-weight:600"></div></div>
+        <div class="field"><label>Medical Support Order <span class="req">*</span></label><select><option>Included in Order</option><option>Cash Medical</option><option>None</option></select></div>
+      </div>
+
+      <div class="calc-box" style="border:2px solid var(--md-blue);background:rgba(0,48,135,0.04)">
+        <div class="calc-row"><span>Monthly Child Support (Current)</span><span class="calc-amount" style="color:var(--md-blue);font-weight:700">$931.00</span></div>
+        <div class="calc-row"><span>Retroactive / Arrears (3 months)</span><span class="calc-amount">$2,793.00</span></div>
+        <div class="calc-row total"><span>💰 PROPOSED MONTHLY SUPPORT ORDER</span><span class="calc-amount" style="font-size:16px">$931.00/mo</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <button class="btn btn-secondary" onclick="showScreen('s7')">← NCP Financial</button>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" onclick="showScreen('s9')">Save &amp; Next: Order Establishment →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN 9: ORDER ESTABLISHMENT
+════════════════════════════════════════════════════════════════ -->
+<div id="screen-s9" class="screen-panel content">
+  <div class="role-bar attorney">⚖️ Role: Attorney / IV-D · Phase: Support Court Order Establishment</div>
+  <div class="case-banner">
+    <div class="banner-item"><div class="banner-label">Case No.</div><div class="banner-value">MD-2025-048291</div></div>
+    <div class="banner-item"><div class="banner-label">Proposed Order</div><div class="banner-value">$931.00 / mo</div></div>
+    <div class="banner-item"><div class="banner-label">Arrears</div><div class="banner-value">$2,793.00</div></div>
+    <div class="banner-status" style="background:rgba(233,30,99,0.25)">ORDER PENDING ENTRY</div>
+  </div>
+  <div class="page-header">
+    <div><div class="page-title">Screen 9 — Order Establishment</div>
+    <div class="page-subtitle">Legal support order details, obligations, and Income Withholding Order (IWO)</div></div>
+  </div>
+
+  <!-- 9A Order Info -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">📜</div> 9A — Order Information</div>
+    <div class="card-body">
+      <div class="form-grid form-grid-4">
+        <div class="field"><label>Order Number <span class="req">*</span></label><input type="text" placeholder="C-02-FM-2025-001234"></div>
+        <div class="field"><label>Order Type <span class="req">*</span></label><select><option>Consent Order</option><option>Default Order</option><option>Contested Order</option><option>Administrative Order</option></select></div>
+        <div class="field"><label>Order Date <span class="req">*</span></label><input type="date" value="2025-03-15"></div>
+        <div class="field"><label>Effective Date <span class="req">*</span></label><input type="date" value="2025-03-01"></div>
+        <div class="field span-2"><label>Court Name <span class="req">*</span></label><select><option>Circuit Court for Baltimore City</option><option>Circuit Court for Anne Arundel County</option></select></div>
+        <div class="field"><label>Judge / Hearing Officer</label><input type="text" placeholder="Hon. ___"></div>
+        <div class="field"><label>Case Disposition <span class="req">*</span></label><select><option selected>Order Entered</option><option>Dismissed</option><option>Withdrawn</option><option>Continued</option></select></div>
+        <div class="field"><label>Attorney for CP</label><input type="text" placeholder="Name or Pro Se"></div>
+        <div class="field"><label>Attorney for NCP</label><input type="text" placeholder="Name or Pro Se"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9B Obligations -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">💲</div> 9B — Order Obligations</div>
+    <div class="card-body">
+      <div class="form-grid form-grid-4">
+        <div class="field"><label>Monthly Child Support <span class="req">*</span></label><div class="input-group"><div class="input-addon">$</div><input type="number" value="931"></div></div>
+        <div class="field"><label>Payment Frequency <span class="req">*</span></label><select><option>Monthly</option><option>Semi-Monthly</option><option>Bi-Weekly</option><option>Weekly</option></select></div>
+        <div class="field"><label>Payment Due Date <span class="req">*</span></label><input type="text" value="1st of each month"></div>
+        <div class="field"><label>Retroactive / Arrears Amount</label><div class="input-group"><div class="input-addon">$</div><input type="number" value="2793"></div></div>
+        <div class="field"><label>Health Insurance — Responsible Party <span class="req">*</span></label><select><option>NCP Responsible</option><option>CP Responsible</option><option>Both</option><option>Neither</option></select></div>
+        <div class="field"><label>Health Insurance Deadline</label><input type="date" value="2025-04-01"></div>
+        <div class="field"><label>Cash Medical Support</label><div class="input-group"><div class="input-addon">$</div><input type="number" value="0"></div></div>
+        <div class="field"><label>Unreimbursed Medical — NCP %</label><div class="input-group"><input type="number" value="50"><div class="input-addon">%</div></div></div>
+        <div class="field"><label>Unreimbursed Medical — CP %</label><div class="input-group"><input type="number" value="50"><div class="input-addon">%</div></div></div>
+        <div class="field"><label>Child Care in Order</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="checkbox"> Include Child Care Amount</label></div></div>
+        <div class="field span-2"><label>Emancipation Terms</label><input type="text" value="Order terminates when child turns 18 or graduates HS, whichever is later"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9C IWO -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">🏦</div> 9C — Income Withholding Order (IWO)</div>
+    <div class="card-body">
+      <div class="alert alert-info">ℹ️ IWO is mandatory under MD Family Law §10-120 and CCPA. Withholding limits apply based on support obligation percentage.</div>
+      <div class="form-grid form-grid-4">
+        <div class="field"><label>IWO Required <span class="req">*</span></label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="radio" name="iwo" checked> Yes — Mandatory</label><label class="radio-opt"><input type="radio" name="iwo"> No</label></div></div>
+        <div class="field"><label>IWO Issue Date</label><input type="date" value="2025-03-15"></div>
+        <div class="field"><label>IWO Sent to Employer</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="checkbox" checked> Yes</label></div></div>
+        <div class="field"><label>CCPA Limit Applied</label><select><option>60% (No Family, No Arrears)</option><option>65% (No Family, Arrears)</option><option>50% (Family, No Arrears)</option><option>55% (Family, Arrears)</option></select></div>
+        <div class="field span-2"><label>Employer Name</label><input type="text" value="ABC Construction LLC"></div>
+        <div class="field"><label>Employer EIN</label><input type="text" value="52-1234567"></div>
+        <div class="field"><label>Employer Phone</label><input type="tel" value="(410) 555-9900"></div>
+      </div>
+      <div class="iwo-box" style="margin-top:14px">
+        <div class="iwo-header">📋 IWO Summary — MD-2025-048291</div>
+        <div class="iwo-body">
+          <div class="form-grid form-grid-4">
+            <div class="calc-row"><span>Current Support Withholding</span><span class="calc-amount">$931.00/mo</span></div>
+            <div class="calc-row"><span>Arrears Withholding</span><span class="calc-amount">$100.00/mo</span></div>
+            <div class="calc-row" style="border-top:2px solid var(--md-blue);font-weight:700"><span>Total IWO Amount</span><span class="calc-amount" style="color:var(--md-blue)">$1,031.00/mo</span></div>
+          </div>
+          <div style="margin-top:10px;display:flex;gap:8px">
+            <button class="btn btn-primary btn-sm">📄 Generate IWO Form</button>
+            <button class="btn btn-secondary btn-sm">📧 Send to Employer</button>
+            <button class="btn btn-secondary btn-sm">🖨 Print IWO</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <button class="btn btn-secondary" onclick="showScreen('s8')">← Calculation</button>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" onclick="showScreen('s10')">Save &amp; Next: Service of Process →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN 10: SERVICE OF PROCESS
+════════════════════════════════════════════════════════════════ -->
+<div id="screen-s10" class="screen-panel content">
+  <div class="role-bar attorney">⚖️ Role: Attorney / Process Server · Phase: Establishment — Service of Process</div>
+  <div class="case-banner">
+    <div class="banner-item"><div class="banner-label">Case No.</div><div class="banner-value">MD-2025-048291</div></div>
+    <div class="banner-item"><div class="banner-label">NCP</div><div class="banner-value">Robert Williams</div></div>
+    <div class="banner-item"><div class="banner-label">Deadline</div><div class="banner-value">30 Days from Service</div></div>
+    <div class="banner-status" style="background:rgba(229,179,27,0.3);color:#7A5000">SERVICE PENDING</div>
+  </div>
+  <div class="page-header">
+    <div><div class="page-title">Screen 10 — Service of Process</div>
+    <div class="page-subtitle">Track all attempts to legally serve NCP with court documents</div></div>
+    <div class="page-actions"><button class="btn btn-success btn-sm">+ Log Service Attempt</button></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">📬</div> Service Attempt Log</div>
+    <div class="card-body" style="padding:0">
+      <table class="data-table">
+        <thead><tr><th>#</th><th>Date</th><th>Method</th><th>Address</th><th>Served By</th><th>Result</th><th>Affidavit</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>02/18/2025</td>
+            <td>Personal Service</td>
+            <td>812 Greenmount Ave, Baltimore MD</td>
+            <td>Sgt. T. Brown, BCPD</td>
+            <td><span class="badge badge-danger">Failed — Wrong Address</span></td>
+            <td><span class="badge badge-neutral">N/A</span></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>03/02/2025</td>
+            <td>Certified Mail</td>
+            <td>2200 Kirk Ave, Baltimore MD</td>
+            <td>USPS / Agency</td>
+            <td><span class="badge badge-warning">Pending</span></td>
+            <td><span class="badge badge-neutral">Awaiting</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- New Attempt Form -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">📝</div> Log New Service Attempt</div>
+    <div class="card-body">
+      <div class="form-grid form-grid-4">
+        <div class="field"><label>Document Type <span class="req">*</span></label><select><option>Summons &amp; Complaint</option><option>Petition</option><option>Administrative Notice</option></select></div>
+        <div class="field"><label>Service Method <span class="req">*</span></label><select><option>Personal Service</option><option>Certified Mail</option><option>Substituted Service</option><option>Posting</option><option>Publication</option></select></div>
+        <div class="field"><label>Attempt Date <span class="req">*</span></label><input type="date"></div>
+        <div class="field"><label>Served By <span class="req">*</span></label><input type="text" placeholder="Process server / Deputy Sheriff"></div>
+        <div class="field span-2"><label>Service Address <span class="req">*</span></label><input type="text" placeholder="Address where service was attempted"></div>
+        <div class="field"><label>Service Successful <span class="req">*</span></label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="radio" name="svc"> Yes</label><label class="radio-opt"><input type="radio" name="svc"> No</label></div></div>
+        <div class="field"><label>Failed Reason</label><select><option>—</option><option>Address Unknown</option><option>Evading Service</option><option>Wrong Address</option><option>Other</option></select></div>
+        <div class="field"><label>Affidavit Received</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="checkbox"> Yes</label></div></div>
+        <div class="field"><label>Affidavit Date</label><input type="date"></div>
+        <div class="field"><label>NCP Response Deadline</label><input type="date" placeholder="Auto: +30 days from service"></div>
+        <div class="field"><label>NCP Response Received</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="checkbox"> Yes</label></div></div>
+      </div>
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button class="btn btn-primary btn-sm">💾 Save Service Record</button>
+        <button class="btn btn-warning btn-sm">⚡ Request Alternative Service</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">🚨</div> Alternative Service (If Multiple Failures)</div>
+    <div class="card-body">
+      <div class="alert alert-warning">⚠ After 2+ failed attempts, alternative service may be requested by motion. Judge approval required.</div>
+      <div class="form-grid form-grid-4">
+        <div class="field"><label>Alt. Service Requested</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="checkbox"> Yes</label></div></div>
+        <div class="field"><label>Alt. Service Method</label><select><option>Publication</option><option>Posting at Last Known Address</option></select></div>
+        <div class="field"><label>Newspaper for Publication</label><input type="text" placeholder="Baltimore Sun, etc."></div>
+        <div class="field"><label>Publication Date(s)</label><input type="date"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-footer">
+    <button class="btn btn-secondary" onclick="showScreen('s9')">← Order Establishment</button>
+    <div class="spacer"></div>
+    <button class="btn btn-primary" onclick="showScreen('s11')">Save &amp; Next: Case Review →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SCREEN 11: CASE REVIEW & FINALIZATION
+════════════════════════════════════════════════════════════════ -->
+<div id="screen-s11" class="screen-panel content">
+  <div class="role-bar supervisor">🔑 Role: Supervisor · Phase: Case Review &amp; Finalization</div>
+  <div class="case-banner">
+    <div class="banner-item"><div class="banner-label">Case No.</div><div class="banner-value">MD-2025-048291</div></div>
+    <div class="banner-item"><div class="banner-label">Order Amount</div><div class="banner-value">$931.00/mo</div></div>
+    <div class="banner-item"><div class="banner-label">Establishment Date</div><div class="banner-value">03/15/2025</div></div>
+    <div class="banner-status" style="background:rgba(26,127,75,0.25);color:#0E5C34">PENDING SUPERVISOR SIGN-OFF</div>
+  </div>
+  <div class="page-header">
+    <div><div class="page-title">Screen 11 — Case Review &amp; Finalization</div>
+    <div class="page-subtitle">Supervisor sign-off, checklist verification, and transition to Enforcement Module</div></div>
+  </div>
+
+  <!-- Checklist -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">✅</div> 11A — Establishment Completion Checklist</div>
+    <div class="card-body" style="padding:0">
+      <ul class="checklist">
+        <li><div class="chk chk-done">✓</div> <div><strong>Case Initiated</strong> — Application received, Case No. MD-2025-048291 assigned</div><span class="badge badge-success" style="margin-left:auto">Done</span></li>
+        <li><div class="chk chk-done">✓</div> <div><strong>CP Profile Complete</strong> — Maria Johnson · TANF · Baltimore City</div><span class="badge badge-success" style="margin-left:auto">Done</span></li>
+        <li><div class="chk chk-done">✓</div> <div><strong>NCP Profile Complete</strong> — Robert Williams · Located via NDNH</div><span class="badge badge-success" style="margin-left:auto">Done</span></li>
+        <li><div class="chk chk-done">✓</div> <div><strong>Child(ren) Profiled</strong> — Aiden Williams, DOB 11/05/2022</div><span class="badge badge-success" style="margin-left:auto">Done</span></li>
+        <li><div class="chk chk-done">✓</div> <div><strong>Paternity Established</strong> — Genetic testing, 99.97% probability, 02/10/2025</div><span class="badge badge-success" style="margin-left:auto">Done</span></li>
+        <li><div class="chk chk-done">✓</div> <div><strong>Financial Info Complete</strong> — CP: $2,245/mo net · NCP: $3,281/mo net</div><span class="badge badge-success" style="margin-left:auto">Done</span></li>
+        <li><div class="chk chk-done">✓</div> <div><strong>Guidelines Calculation</strong> — $931/mo + $2,793 retroactive</div><span class="badge badge-success" style="margin-left:auto">Done</span></li>
+        <li><div class="chk chk-done">✓</div> <div><strong>Order Entered</strong> — Consent Order, Circuit Court for Baltimore City, 03/15/2025</div><span class="badge badge-success" style="margin-left:auto">Done</span></li>
+        <li><div class="chk chk-done">✓</div> <div><strong>IWO Issued</strong> — $1,031/mo to ABC Construction LLC</div><span class="badge badge-success" style="margin-left:auto">Done</span></li>
+        <li><div class="chk chk-warn">!</div> <div><strong>Service of Process</strong> — 2 attempts, 2nd attempt pending confirmation</div><span class="badge badge-warning" style="margin-left:auto">Pending</span></li>
+        <li><div class="chk chk-done">✓</div> <div><strong>FCR Updated</strong> — Federal Case Registry notification sent</div><span class="badge badge-success" style="margin-left:auto">Done</span></li>
+        <li><div class="chk chk-done">✓</div> <div><strong>State Case Registry</strong> — MD SCR record updated</div><span class="badge badge-success" style="margin-left:auto">Done</span></li>
+        <li><div class="chk chk-pending"></div> <div><strong>Supervisor Sign-Off</strong> — Awaiting review</div><span class="badge badge-neutral" style="margin-left:auto">Required</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Case Summary -->
+  <div class="card">
+    <div class="card-header"><div class="card-header-icon">📋</div> 11B — Case Summary &amp; Status</div>
+    <div class="card-body">
+      <div class="form-grid form-grid-4">
+        <div class="field"><label>Establishment Completion Date</label><input type="date" value="2025-03-15" readonly style="background:#F4F5F7"></div>
+        <div class="field"><label>Final Case Status <span class="req">*</span></label><select><option selected>Active – Order Established</option><option>Closed – No Order</option><option>Transferred</option><option>Intergovernmental</option></select></div>
+        <div class="field"><label>Referral to Enforcement</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="checkbox" checked> ✓ Auto-Referred to Enforcement Module</label></div></div>
+        <div class="field"><label>Modification Needed Immediately</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="checkbox"> Refer to Modification Module</label></div></div>
+        <div class="field span-4"><label>Case Summary Notes</label><textarea style="min-height:80px">Paternity established via genetic testing (99.97%) on 02/10/2025. Consent order entered 03/15/2025 in Circuit Court for Baltimore City. NCP employed at ABC Construction LLC — IWO issued same day for $1,031/mo. CP receiving TANF; assignment of rights executed. Case forwarded to Enforcement for monitoring and collection.</textarea></div>
+      </div>
+      <div class="divider"></div>
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:14px">
+        <div style="font-size:12px;font-weight:700;color:var(--md-blue);margin-bottom:10px">🔑 Supervisor Review &amp; Sign-Off</div>
+        <div class="form-grid form-grid-4">
+          <div class="field"><label>Supervisor Name <span class="req">*</span></label><select><option>Patricia Moore (PM-0018)</option><option>Thomas Green (TG-0041)</option></select></div>
+          <div class="field"><label>Sign-Off Date</label><input type="date" value="2025-03-18"></div>
+          <div class="field"><label>Deviation / Contested Review</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="checkbox"> Yes — Required for Non-Guideline Orders</label></div></div>
+          <div class="field"><label>Quality Assurance Review</label><div class="radio-group" style="padding-top:8px"><label class="radio-opt"><input type="checkbox" checked> QA Checklist Passed</label></div></div>
+        </div>
+        <div style="margin-top:14px;display:flex;gap:10px">
+          <button class="btn btn-success">✅ Approve &amp; Finalize Case</button>
+          <button class="btn btn-danger btn-sm">✗ Return for Correction</button>
+          <button class="btn btn-secondary btn-sm">📄 Print Case Summary</button>
+          <button class="btn btn-secondary btn-sm">📧 Notify Parties</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert alert-success">
+    ✅ Upon Supervisor approval, this case will be automatically transferred to the <strong>Enforcement Module</strong> for ongoing monitoring, payment tracking, and enforcement actions.
+  </div>
+
+  <div class="form-footer">
+    <button class="btn btn-secondary" onclick="showScreen('s10')">← Service of Process</button>
+    <div class="spacer"></div>
+    <button class="btn btn-success">✅ Finalize &amp; Send to Enforcement →</button>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+  function showScreen(id) {
+    // Hide all panels
+    document.querySelectorAll('.screen-panel').forEach(p => p.classList.remove('active'));
+    // Show target
+    const target = document.getElementById('screen-' + id);
+    if (target) target.classList.add('active');
+
+    // Update tabs
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    const tabMap = {
+      'wf': 0, 's1': 1, 's2': 2, 's3': 3, 's4': 4,
+      's5': 5, 's6': 6, 's7': 7, 's8': 8, 's9': 9, 's10': 10, 's11': 11
+    };
+    const tabs = document.querySelectorAll('.tab');
+    if (tabMap[id] !== undefined && tabs[tabMap[id]]) tabs[tabMap[id]].classList.add('active');
+
+    // Update sidebar
+    document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+    const sideMap = {
+      'wf': 0, 's1': 1, 's2': 2, 's3': 3, 's4': 4,
+      's5': 5, 's6': 6, 's7': 7, 's8': 8, 's9': 9, 's10': 10, 's11': 11
+    };
+    const items = document.querySelectorAll('.sidebar-item');
+    if (sideMap[id] !== undefined && items[sideMap[id]]) items[sideMap[id]].classList.add('active');
+
+    window.scrollTo(0, 0);
+  }
+</script>
+
+</body>
+</html>

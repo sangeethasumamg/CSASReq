@@ -9,17 +9,22 @@ This index provides links to all module requirement documents for the Child Supp
 
 ### Main Requirements Documents
 
-1. **CSMS_Developer_Requirements_with_Acceptance_Criteria.md**
-   - Contains: **INTAKE MODULE** (Complete) and **CASE REGISTRATION MODULE** (Complete)
-   - Format: Detailed user stories with acceptance criteria
-   - Status: ✅ Complete with all acceptance criteria
+1. **CSMS_Module_1_Intake_Requirements.md**
+   - Contains: **INTAKE MODULE**
+   - Format: User stories with acceptance criteria
+   - Status: ✅ Complete
 
-2. **CSMS_Module_3_Case_Management_Requirements.md**
+2. **CSMS_Module_2_Case_Registration_Requirements.md**
+   - Contains: **CASE REGISTRATION MODULE**
+   - Format: User stories with acceptance criteria
+   - Status: ✅ Complete
+
+3. **CSMS_Module_3_Case_Management_Requirements.md**
    - Contains: **CASE MANAGEMENT MODULE**
    - Format: User stories with acceptance criteria
-   - Status: 🔄 In Progress (Main screen/view case details included)
+   - Status: ✅ Complete
 
-3. **CSMS_Module_4_Locate_Requirements.md**
+4. **CSMS_Module_4_Locate_Requirements.md**
    - Contains: **LOCATE MODULE**
    - Format: User stories with acceptance criteria
    - Status: ✅ Complete
@@ -39,7 +44,12 @@ This index provides links to all module requirement documents for the Child Supp
    - Format: User stories with acceptance criteria
    - Status: ✅ High-level requirements complete
 
-7. **Child_Support_Application_Complete_Requirements.md**
+7. **CSMS_Module_8_Intergovernmental_Requirements.md**
+   - Contains: **INTERGOVERNMENTAL MODULE**
+   - Format: User stories with acceptance criteria
+   - Status: ✅ High-level requirements complete
+
+8. **Child_Support_Application_Complete_Requirements.md**
    - Contains: Complete system requirements including architecture, database design, and technical specifications
    - Format: Comprehensive requirements document
    - Status: ✅ Complete
@@ -49,7 +59,7 @@ This index provides links to all module requirement documents for the Child Supp
 ## Module Summary
 
 ### Module 1: INTAKE MODULE
-**Document**: CSMS_Developer_Requirements_with_Acceptance_Criteria.md (Section 1)  
+**Document**: CSMS_Module_1_Intake_Requirements.md  
 **User Stories**: 7 user stories  
 **Key Features**:
 - Menu items and navigation
@@ -61,7 +71,7 @@ This index provides links to all module requirement documents for the Child Supp
 - Application in progress/resume
 
 ### Module 2: CASE REGISTRATION MODULE
-**Document**: CSMS_Developer_Requirements_with_Acceptance_Criteria.md (Section 2)  
+**Document**: CSMS_Module_2_Case_Registration_Requirements.md  
 **User Stories**: 14 user stories  
 **Key Features**:
 - Case registration home page
@@ -137,6 +147,18 @@ This index provides links to all module requirement documents for the Child Supp
 - Bank reconciliation
 - URPA management
 
+### Module 8: INTERGOVERNMENTAL MODULE
+**Document**: CSMS_Module_8_Intergovernmental_Requirements.md  
+**Key Features**:
+- Initiating State workflow (Maryland sends request)
+- Responding State workflow (Maryland receives request)
+- Case transmittal management
+- Interstate establishment
+- Interstate locate
+- Interstate enforcement
+- Interstate financial/payment processing
+- UIFSA compliance and tracking
+
 ---
 
 ## Additional Documents
@@ -149,6 +171,9 @@ This index provides links to all module requirement documents for the Child Supp
 - Integration requirements
 - Security and compliance
 - Implementation roadmap
+
+### Consolidated Document (Reference)
+- `CSMS_Developer_Requirements_with_Acceptance_Criteria.md` - Contains Intake, Case Registration, Case Management, Locate, Establishment, Enforcement, Finance in one document (see standalone module docs for focused requirements)
 
 ### Source Files (Reference)
 - `Userstory_CSMSIntake.txt` - Original intake user stories
